@@ -1,3 +1,3 @@
 import connector
 
-yhteys = connector.sqlyhteys()
+yhteys = connector.sqlyhteys("admin")
