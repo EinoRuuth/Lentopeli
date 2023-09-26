@@ -56,7 +56,7 @@ def delete():
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
-    print(kursori.rowcount, "record inserted.")
+    print(kursori.rowcount, "rows cleared.")
 
 yhteys = connector.sqlyhteys(sqlpassword)
 itemsandairports = airports_items(itemamount, airportamount)
