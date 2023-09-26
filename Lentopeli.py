@@ -1,4 +1,5 @@
 import connector
+import gamecreator
 import random as rd
 import sys
 
@@ -15,42 +16,6 @@ itemnames = ["apple", "stick", "chair", "ball", "clock"]
 clargs = (sys.argv)
 clargs.pop(0)
 
-def hakija(limit):
-    sql = "SELECT name FROM airport"
-    sql += " WHERE iso_country='"+gamecountry+"'"
-    sql += " ORDER BY RAND ( )"
-    sql += " LIMIT "+str(limit)
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    return tulos
-
-def airports_items(items, airports):
-    airports = hakija(airports)
-    allitems = []
-    for number in range(items):
-        itemcolor = rd.randint(0,4)
-        itemname = rd.randint(0,4)
-        itemfullname = itemcolors[itemcolor]+" "+itemnames[itemname]
-        allitems.append(itemfullname)
-    return (allitems, airports)
-
-def sqlinsert(items, airports):
-    for airportname in airports:
-        sql = "INSERT INTO game (airport_name) VALUES (%s)"
-        val = (airportname)
-        kursori = yhteys.cursor()
-        kursori.execute(sql, val)
-    for itemname in items:
-        itemairport = rd.randint(0,len(airports)-1)
-        itemairport = airports[itemairport]
-        for x in itemairport:
-            itemairport=x
-        sql = "UPDATE game SET treasure='"+itemname+"' WHERE airport_name='"+itemairport+"'"
-        kursori = yhteys.cursor()
-        kursori.execute(sql)
-    return
-
 def delete():
     sql = "delete from game"
     kursori = yhteys.cursor()
@@ -59,8 +24,8 @@ def delete():
     print(kursori.rowcount, "rows cleared.")
 
 yhteys = connector.sqlyhteys(sqlpassword)
-itemsandairports = airports_items(itemamount, airportamount)
+itemsandairports = gamecreator.airports_items(itemamount, airportamount, itemcolors, itemnames, gamecountry)
 if len(clargs) > 0 and clargs[0] == "del":
     delete()
 else:
-    sqlinsert(itemsandairports[0], itemsandairports[1])
+    gamecreator.sqlinsert(itemsandairports[0], itemsandairports[1])
