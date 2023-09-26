@@ -5,6 +5,7 @@ import sys
 #config starts
 #laita tähän alle oma sql salasanasi
 sqlpassword="admin"
+pelinmaa = "FI"
 itemamount = 2
 airportamount = 20
 itemcolors = ["green", "blue", "red", "yellow", "white"]
@@ -16,6 +17,7 @@ clargs.pop(0)
 
 def hakija(limit):
     sql = "SELECT name FROM airport"
+    sql += " WHERE iso_country='"+pelinmaa+"'"
     sql += " ORDER BY RAND ( )"
     sql += " LIMIT "+str(limit)
     kursori = yhteys.cursor()
