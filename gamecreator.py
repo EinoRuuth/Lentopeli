@@ -1,8 +1,6 @@
 import random as rd
-import connector
-yhteys = connector.sqlyhteys()
 
-def hakija(limit, gamecountry):
+def hakija(limit, gamecountry, yhteys):
     sql = "SELECT name FROM airport"
     sql += " WHERE iso_country='"+gamecountry+"'"
     sql += " ORDER BY RAND ( )"
@@ -12,8 +10,8 @@ def hakija(limit, gamecountry):
     tulos = kursori.fetchall()
     return tulos
 
-def airports_items(items, airports, itemcolors, itemnames, gamecountry):
-    airports = hakija(airports, gamecountry)
+def airports_items(items, airports, itemcolors, itemnames, gamecountry, yhteys):
+    airports = hakija(airports, gamecountry, yhteys)
     allitems = []
     for number in range(items):
         itemcolor = rd.randint(0,4)
@@ -22,7 +20,7 @@ def airports_items(items, airports, itemcolors, itemnames, gamecountry):
         allitems.append(itemfullname)
     return (allitems, airports)
 
-def sqlinsert(items, airports):
+def sqlinsert(items, airports, yhteys):
     for airportname in airports:
         sql = "INSERT INTO game (airport_name) VALUES (%s)"
         val = (airportname)

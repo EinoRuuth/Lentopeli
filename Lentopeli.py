@@ -20,12 +20,11 @@ def delete():
     sql = "delete from game"
     kursori = yhteys.cursor()
     kursori.execute(sql)
-    tulos = kursori.fetchall()
     print(kursori.rowcount, "rows cleared.")
 
 yhteys = connector.sqlyhteys(sqlpassword)
-itemsandairports = gamecreator.airports_items(itemamount, airportamount, itemcolors, itemnames, gamecountry)
+itemsandairports = gamecreator.airports_items(itemamount, airportamount, itemcolors, itemnames, gamecountry, yhteys)
 if len(clargs) > 0 and clargs[0] == "del":
     delete()
 else:
-    gamecreator.sqlinsert(itemsandairports[0], itemsandairports[1])
+    gamecreator.sqlinsert(itemsandairports[0], itemsandairports[1], yhteys)
