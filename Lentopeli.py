@@ -49,13 +49,16 @@ def sqlinsert(items, airports):
         kursori.execute(sql)
     return
 
-yhteys = connector.sqlyhteys(sqlpassword)
-itemsandairports = airports_items(itemamount, airportamount)
-if len(clargs) > 0 and clargs[0] == "del":
+def delete():
     sql = "delete from game"
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
     print(kursori.rowcount, "record inserted.")
+
+yhteys = connector.sqlyhteys(sqlpassword)
+itemsandairports = airports_items(itemamount, airportamount)
+if len(clargs) > 0 and clargs[0] == "del":
+    delete()
 else:
     sqlinsert(itemsandairports[0], itemsandairports[1])
