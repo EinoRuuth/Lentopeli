@@ -21,6 +21,7 @@ def airports_items(items, airports, itemtons, itemnames, gamecountry, yhteys):
     return (allitems, airports)
 
 def sqlinsert(items, airports, yhteys):
+    takenairports = []
     for airportname in airports:
         sql = "INSERT INTO game (airport_name) VALUES (%s)"
         val = (airportname)
@@ -28,6 +29,9 @@ def sqlinsert(items, airports, yhteys):
         kursori.execute(sql, val)
     for itemname in items:
         itemairport = rd.randint(0,len(airports)-1)
+        while itemairport in takenairports and itemairport<len(airports):
+            itemairport=itemairport+1
+        takenairports.append(itemairport)
         itemairport = airports[itemairport]
         for x in itemairport:
             itemairport=x
