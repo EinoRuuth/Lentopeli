@@ -23,8 +23,8 @@ def airports_items(items, airports, itemtons, itemnames, gamecountry, yhteys):
 def sqlinsert(items, airports, yhteys):
     takenairports = []
     for airportname in airports:
-        sql = "INSERT INTO game (airport_name) VALUES (%s)"
-        val = (airportname)
+        sql = "INSERT INTO game (airport_name, has_visited, homebase) VALUES (%s, %s, %s)"
+        val = (airportname[0], 0, 0)
         kursori = yhteys.cursor()
         kursori.execute(sql, val)
     for itemname in items:
@@ -38,4 +38,11 @@ def sqlinsert(items, airports, yhteys):
         sql = "UPDATE game SET treasure='"+itemname+"' WHERE airport_name='"+itemairport+"'"
         kursori = yhteys.cursor()
         kursori.execute(sql)
+    homebaseairport = rd.randint(0,len(airports)-1)
+    while homebaseairport in takenairports and homebaseairport<len(airports):
+            homebaseairport=homebaseairport+1
+    homebase = airports[homebaseairport]
+    sql = "UPDATE game SET homebase='"+"1"+"' WHERE airport_name='"+homebase[0]+"'"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
     return
