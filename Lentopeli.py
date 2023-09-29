@@ -23,7 +23,7 @@ def delete():
     print(kursori.rowcount, "rows cleared.")
 
 yhteys = connector.sqlyhteys(sqlpassword)
-itemsandairports = gamecreator.airports_items(itemamount, airportamount, itemcolors, itemnames, gamecountry, yhteys)
+itemsandairports = gamecreator.airports_items(itemamount, airportamount, itemtons, itemnames, gamecountry, yhteys)
 if len(clargs) > 0 and clargs[0] == "del":
     delete()
 else:
