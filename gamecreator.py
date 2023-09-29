@@ -10,13 +10,13 @@ def hakija(limit, gamecountry, yhteys):
     tulos = kursori.fetchall()
     return tulos
 
-def airports_items(items, airports, itemcolors, itemnames, gamecountry, yhteys):
+def airports_items(items, airports, itemtons, itemnames, gamecountry, yhteys):
     airports = hakija(airports, gamecountry, yhteys)
     allitems = []
     for number in range(items):
         itemcolor = rd.randint(0,4)
         itemname = rd.randint(0,4)
-        itemfullname = itemcolors[itemcolor]+" "+itemnames[itemname]
+        itemfullname = itemtons[itemcolor]+" "+itemnames[itemname]
         allitems.append(itemfullname)
     return (allitems, airports)
 
