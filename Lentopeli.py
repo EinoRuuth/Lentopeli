@@ -9,8 +9,8 @@ sqlpassword="admin"
 gamecountry = "FI"
 itemamount = 2
 airportamount = 20
-itemcolors = ["green", "blue", "red", "yellow", "white"]
-itemnames = ["apple", "stick", "chair", "ball", "clock"]
+itemtons = ["8 tonnia ", "11.5 tonnia ", "13 tonnia ", "15 tonnia ", "16 tonnia "]
+itemnames = ["aurinkopaneeleita", "stick", "chair", "ball", "clock"]
 #config ends
 
 clargs = (sys.argv)
