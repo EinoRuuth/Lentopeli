@@ -14,7 +14,7 @@ gamecountry = "FI"
 itemamount = 2
 airportamount = 20
 itemtons = ["8 tonnia ", "11.5 tonnia ", "13 tonnia ", "15 tonnia ", "16 tonnia "]
-itemnames = ["aurinkopaneeleita", "stick", "chair", "ball", "clock"]
+itemnames = ["aurinkopaneeleita", "puutavaraa", "teräslevyjä", "litiumakkuja", "tekstiileitä"]
 #config ends
 
 def delete():
