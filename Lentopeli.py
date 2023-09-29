@@ -22,7 +22,7 @@ def delete():
     kursori = yhteys.cursor()
     kursori.execute(sql)
     print(kursori.rowcount, "rows cleared.")
-    sql = "delete from player"
+    sql = "delete from players"
     kursori = yhteys.cursor()
     kursori.execute(sql)
     print(kursori.rowcount, "rows cleared.")
