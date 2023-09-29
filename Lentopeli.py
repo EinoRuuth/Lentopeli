@@ -6,11 +6,10 @@ import sys
 clargs = (sys.argv)
 clargs.pop(0)
 
-if len(clargs) > 0:
-    sqlpassword=clargs[0]
 
 #config starts
 #laita tähän alle oma sql salasanasi
+sqlpassword="admin"
 gamecountry = "FI"
 itemamount = 2
 airportamount = 20
@@ -26,7 +25,7 @@ def delete():
 
 yhteys = connector.sqlyhteys(sqlpassword)
 itemsandairports = gamecreator.airports_items(itemamount, airportamount, itemtons, itemnames, gamecountry, yhteys)
-if len(clargs) > 1 and clargs[1] == "del":
+if len(clargs) > 0 and clargs[0] == "del":
     delete()
 else:
     gamecreator.sqlinsert(itemsandairports[0], itemsandairports[1], yhteys)
