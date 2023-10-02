@@ -28,12 +28,14 @@ def airports_items(items, airports, itemtons, itemnames, gamecountry, yhteys):
 #tämä lisää tavarat sql tietokantaan
 def sqlinsert(items, airports, yhteys):
     takenairports = []
+    airportid = 1
     for airportname in airports:
         #tämä täyttää nimen, has visited ja homebase hommat nimillä ja nollilla
-        sql = "INSERT INTO game (airport_name, has_visited, homebase) VALUES (%s, %s, %s)"
-        val = (airportname[0], 0, 0)
+        sql = "INSERT INTO game (id, airport_name, has_visited, homebase) VALUES (%s, %s, %s, %s)"
+        val = (airportid, airportname[0], 0, 0)
         kursori = yhteys.cursor()
         kursori.execute(sql, val)
+        airportid += 1
     for itemname in items:
         #tämä arpoo tavaroiden kenttien numerot ja tarkistaa että ei ole duplicateja
         itemairport = rd.randint(0,len(airports)-1)
