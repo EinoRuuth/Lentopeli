@@ -4,6 +4,7 @@ import sys
 import Lentopeli
 
 clargs = (sys.argv)
+clargs.pop(0)
 
 yhteys = connector.sqlyhteys("admin")
 
