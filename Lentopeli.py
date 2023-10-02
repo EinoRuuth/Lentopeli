@@ -11,7 +11,7 @@ clargs.pop(0)
 #laita tähän alle oma sql salasanasi
 sqlpassword="admin"
 gamecountry = "FI"
-difficulty = ("helppo")
+difficulty = "helppo"
 if difficulty == "helppo":
     itemamount = 2
     airportamount = 20
