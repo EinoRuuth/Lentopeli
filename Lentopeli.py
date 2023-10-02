@@ -39,5 +39,3 @@ if len(clargs) > 0 and clargs[0] == "del":
 else:
     itemsandairports = gamecreator.airports_items(itemamount, airportamount, itemtons, itemnames, gamecountry, yhteys)
     gamecreator.sqlinsert(itemsandairports[0], itemsandairports[1], yhteys)
-    player = gamecreator.player_info(id, fuel_budget, screen_name, fuel_left, treasures, yhteys)
-    gamecreator.sqlinsert(player[0], player[1], yhteys)
