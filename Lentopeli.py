@@ -13,8 +13,8 @@ sqlpassword="admin"
 gamecountry = "FI"
 itemamount = 2
 airportamount = 20
-itemtons = ["8 tonnia ", "10 tonnia ", "11 tonnia ", "12 tonnia ", "14 tonnia ", "16 tonnia ", " 18 tonnia", "19 tonnia ", "20 tonnia ", " 23 tonnia " ]
-itemnames = ["aurinkopaneeleita", "puutavaraa", "teräslevyjä", "litiumakkuja", "tekstiileitä", ""]
+itemtons = ["8 tonnia ", "10 tonnia ", "11 tonnia ", "12 tonnia ", "14 tonnia ", "16 tonnia ", "18 tonnia ", "19 tonnia ", "20 tonnia ", " 23 tonnia "]
+itemnames = ["aurinkopaneeleita", "puutavaraa", "teräslevyjä", "sähkölaitteita", "tekstiileitä", "säilykkeitä", "työkaluja", "postia", "rakennustarvikkeita", "koneiden varaosia"]
 #Playerin tiedot
 id = 1 
 fuel_budget = 1000
