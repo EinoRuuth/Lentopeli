@@ -15,6 +15,12 @@ itemamount = 2
 airportamount = 20
 itemtons = ["8 tonnia ", "10 tonnia ", "11 tonnia ", "12 tonnia ", "14 tonnia ", "16 tonnia ", " 18 tonnia", "19 tonnia ", "20 tonnia ", " 23 tonnia " ]
 itemnames = ["aurinkopaneeleita", "puutavaraa", "teräslevyjä", "litiumakkuja", "tekstiileitä", ""]
+#Playerin tiedot
+id = 1 
+fuel_budget = 1000
+screen_name = "player"
+fuel_left = 1000
+treasures = 0
 #config ends
 
 def delete():
