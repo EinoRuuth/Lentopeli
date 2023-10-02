@@ -4,9 +4,8 @@ import sys
 import Lentopeli
 
 clargs = (sys.argv)
-clargs.pop(0)
-
-yhteys = connector.sqlyhteys("admin")
+print(clargs)
+yhteys = connector.sqlyhteys("1234")
 
 id = 1 
 fuel_budget = 1000
@@ -16,7 +15,7 @@ treasures = 0
 
 def homebase_haku(yhteys):
     sql = "SELECT airport_name FROM game"
-    sql += "WHERE homebase='"+1+"'"
+    sql += "WHERE homebase='1'"
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
@@ -25,7 +24,7 @@ def homebase_haku(yhteys):
 def player_info(id, fuel_budget, screen_name, fuel_left, yhteys):
     homebase = homebase_haku(yhteys)
     sql = "INSERT INTO players (id, fuel_budget, Location, screen_name, fuel_left) VALUES (%s, %s, %s, %s, %s)"
-    val = (screen_name)
+    val = (id, fuel_budget, screen_name, homebase, fuel_left)
     kursori = yhteys.cursor()
     kursori.execute(sql, val)
     return
