@@ -14,8 +14,7 @@ fuel_left = 1000
 treasures = 0
 
 def homebase_haku(yhteys):
-    sql = "SELECT airport_name FROM game"
-    sql += "WHERE homebase='1'"
+    sql = "SELECT airport_name FROM game WHERE homebase=1"
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
