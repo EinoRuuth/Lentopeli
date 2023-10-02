@@ -11,8 +11,16 @@ clargs.pop(0)
 #laita tähän alle oma sql salasanasi
 sqlpassword="admin"
 gamecountry = "FI"
-itemamount = 2
-airportamount = 20
+difficulty = ("helppo")
+if difficulty == "helppo":
+    itemamount = 2
+    airportamount = 20
+elif difficulty == "vaativa":
+    itemamount = 5
+    airportamount = 50
+else:
+    itemamount = 10
+    airportamount = 100
 itemtons = ["8 tonnia ", "10 tonnia ", "11 tonnia ", "12 tonnia ", "14 tonnia ", "16 tonnia ", "18 tonnia ", "19 tonnia ", "20 tonnia ", " 23 tonnia "]
 itemnames = ["aurinkopaneeleita", "puutavaraa", "teräslevyjä", "sähkölaitteita", "tekstiileitä", "säilykkeitä", "työkaluja", "postia", "rakennustarvikkeita", "koneiden varaosia"]
 #Playerin tiedot
