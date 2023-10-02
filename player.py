@@ -1,11 +1,11 @@
 import random as rd
 import connector
 import sys
-import Lentopeli
 
 clargs = (sys.argv)
-print(clargs)
-yhteys = connector.sqlyhteys("1234")
+clargs.pop(0)
+
+yhteys = connector.sqlyhteys("admin")
 
 id = 1 
 fuel_budget = 1000
@@ -30,6 +30,13 @@ def player_info(id, fuel_budget, screen_name, fuel_left, yhteys):
     return
 
 if len(clargs) > 0 and clargs[0] == "del":
-    Lentopeli.delete()
+    sql = "delete from game"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    print(kursori.rowcount, "rows cleared.")
+    sql = "delete from players"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    print(kursori.rowcount, "rows cleared.")
 else:
     player_info(id, fuel_budget, screen_name, fuel_left, yhteys)
