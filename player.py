@@ -12,8 +12,9 @@ def homebase_haku(yhteys):
     return tulos
 
 def player_info(players ,yhteys):
+    homebase = homebase_haku()
     for playername in players:
-        sql = "INSERT INTO players (id, fuel_budget, fuel_left, treasures, location, screen_name) VALUES (%s, %s, %s, %s, %s, %s)"
+        sql = "INSERT INTO players (id, fuel_budget, Location ,screen_name ,fuel_left ,treasures) VALUES (%s, %s, %s, %s, %s, %s)", (homebase)
         val = (playername[0], 0, 0)
         kursori = yhteys.cursor()
         kursori.execute(sql, val)
