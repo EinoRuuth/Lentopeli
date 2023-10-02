@@ -3,9 +3,9 @@ import connector
 
 yhteys = connector.sqlyhteys("admin")
 
-def hakija(yhteys):
+def homebase_haku(yhteys):
     sql = "SELECT airport_name FROM game"
-    sql += " ORDER BY RAND ( )"
+    sql += "WHERE homebase='"+1+"'"
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
