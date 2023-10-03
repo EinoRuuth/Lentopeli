@@ -3,7 +3,7 @@ import random as rd
 #hakija hakee sql tietokannasta annetun määrän (limit) lentokenttiä
 def hakija(limit, gamecountry, yhteys):
     sql = "SELECT name FROM airport"
-    sql += " WHERE iso_country='"+gamecountry+"'"
+    sql += " WHERE (iso_country='"+gamecountry+"') AND (type='small_airport' OR type='medium_airport' OR type='large_airport')"
     #randomi order että ei ole aakkosjärjestys
     sql += " ORDER BY RAND ( )"
     #limitoi etsinnät 20
