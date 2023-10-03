@@ -2,14 +2,33 @@ import connector
 
 yhteys = connector.sqlyhteys("admin")
 
-mycursor = mydb.cursor()
-sql = "UPDATE players SET fuel_left = '' WHERE address = ''"
-mycursor.execute(sql)
-mydb.commit()
-print(mycursor.rowcount, "record(s) affected")
 
-if fuel_left == 0:
-    exit
+def hakija( yhteys):
+    sql = "SELECT name FROM game"
+    # randomi order että ei ole aakkosjärjestys
+    sql += " ORDER BY RAND ( )"
+    # limitoi etsinnät 1
+    sql += " LIMIT "+1
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    return tulos
+
+
+# tehtävä:
+# tee move funktioon sille että se laittaa siihen location ton airport muuttujan
+# ja katsoo polttoaineen. se returnaa true jos on polttoainetta vielä mutta jos ei ole se returnaa false
+def move(airport, yhteys):
+    return
+
+polttoaineloppu = True
+while polttoaineloppu:
+    lentokenttä = hakija(yhteys)
+    liikkuminen = move(lentokenttä, yhteys)
+    if not liikkuminen:
+        polttoaineloppu = False
+exit("GAMER OVER!\nYou ran out of fuel.")
+
 #move hommma tarvii:
 # lokaation päivitys player tietokantaan
 # polttoaineen chekki jos ei riitä niin peli loppuu ja päivitys player tietokantaan
