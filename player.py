@@ -18,21 +18,17 @@ def homebase_haku(yhteys):
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
-    return tulos
+    return tulos[0][0]
 
 def player_info(id, fuel_budget, screen_name, fuel_left, yhteys):
     homebase = homebase_haku(yhteys)
     sql = "INSERT INTO players (id, fuel_budget, Location, screen_name, fuel_left) VALUES (%s, %s, %s, %s, %s)"
-    val = (id, fuel_budget, screen_name, homebase, fuel_left)
+    val = (id, fuel_budget, homebase[0], screen_name, fuel_left)
     kursori = yhteys.cursor()
     kursori.execute(sql, val)
     return
 
 if len(clargs) > 0 and clargs[0] == "del":
-    sql = "delete from game"
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    print(kursori.rowcount, "rows cleared.")
     sql = "delete from players"
     kursori = yhteys.cursor()
     kursori.execute(sql)
