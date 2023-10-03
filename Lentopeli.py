@@ -1,6 +1,5 @@
 import connector
 import gamecreator
-import player
 import random as rd
 import sys
 
@@ -10,7 +9,7 @@ clargs.pop(0)
 
 #config starts
 #laita tähän alle oma sql salasanasi
-sqlpassword="admin"
+sqlpassword="1234"
 gamecountry = "FI"
 difficulty = "helppo"
 if difficulty == "helppo":
@@ -48,4 +47,4 @@ if len(clargs) > 0 and clargs[0] == "del":
 else:
     itemsandairports = gamecreator.airports_items(itemamount, airportamount, itemtons, itemnames, gamecountry, yhteys)
     gamecreator.sqlinsert(itemsandairports[0], itemsandairports[1], yhteys)
-    player.player_info(id, fuel_budget, screen_name, fuel_left, yhteys)
+    gamecreator.player_info(id, fuel_budget, screen_name, fuel_left, yhteys)
