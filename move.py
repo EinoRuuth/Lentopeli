@@ -21,12 +21,22 @@ def hakija( yhteys):
 def move(airport, yhteys):
     return
 
+
+# tehtävä2:
+# tehtävä on kattoo onko lentokentällä arretta, jos siel on niin se laittaa sen player tietokanna treasure kohtaan
+# ja poistaa sen sieltä game taulusta sekä returnaa on true
+# jos ei ole niin se returnaa false
+def treasure(airport, yhteys):
+    return
+
+
 polttoaineloppu = True
 while polttoaineloppu:
     lentokenttä = hakija(yhteys)
     liikkuminen = move(lentokenttä, yhteys)
     if not liikkuminen:
         polttoaineloppu = False
+    treasure(lentokenttä, yhteys)
 exit("GAMER OVER!\nYou ran out of fuel.")
 
 #move hommma tarvii:
