@@ -2,6 +2,14 @@ import connector
 
 yhteys = connector.sqlyhteys("admin")
 
+mycursor = mydb.cursor()
+sql = "UPDATE players SET fuel_left = '' WHERE address = ''"
+mycursor.execute(sql)
+mydb.commit()
+print(mycursor.rowcount, "record(s) affected")
+
+if fuel_left == 0:
+    exit
 #move hommma tarvii:
 # lokaation päivitys player tietokantaan
 # polttoaineen chekki jos ei riitä niin peli loppuu ja päivitys player tietokantaan
