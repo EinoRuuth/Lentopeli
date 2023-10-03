@@ -1,16 +1,16 @@
 import connector
 import gamecreator
-import random as rd
 import sys
 
 clargs = (sys.argv)
 clargs.pop(0)
 
-
 # config starts
 # laita tähän alle oma sql salasanasi
 sqlpassword = "1234"
+# lentokenttien maa
 gamecountry = "FI"
+# pelin vaikeustason config
 difficulty = "helppo"
 if difficulty == "helppo":
     itemamount = 2
@@ -21,6 +21,7 @@ elif difficulty == "vaativa":
 else:
     itemamount = 10
     airportamount = 100
+# tavaroitten määrät ja nimet
 itemtons = ["8 tonnia ", "10 tonnia ", "11 tonnia ", "12 tonnia ",
             "14 tonnia ", "16 tonnia ", "18 tonnia ", "19 tonnia ",
             "20 tonnia ", " 23 tonnia "]
