@@ -22,13 +22,10 @@ def move(airport, yhteys):
     return
 
 
-polttoaineloppu = True
-while polttoaineloppu:
-    lentokenttä = hakija(yhteys)
-    liikkuminen = move(lentokenttä, yhteys)
-    if not liikkuminen:
-        polttoaineloppu = False
-exit("GAMER OVER!\nYou ran out of fuel.")
+lentokenttä = hakija(yhteys)
+liikkuminen = move(lentokenttä, yhteys)
+if not liikkuminen:
+    exit("GAMER OVER!\nYou ran out of fuel.")
 
 #move hommma tarvii:
 # lokaation päivitys player tietokantaan
