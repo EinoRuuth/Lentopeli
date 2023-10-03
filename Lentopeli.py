@@ -7,9 +7,9 @@ clargs = (sys.argv)
 clargs.pop(0)
 
 
-#config starts
-#laita tähän alle oma sql salasanasi
-sqlpassword="1234"
+# config starts
+# laita tähän alle oma sql salasanasi
+sqlpassword = "1234"
 gamecountry = "FI"
 difficulty = "helppo"
 if difficulty == "helppo":
@@ -21,15 +21,21 @@ elif difficulty == "vaativa":
 else:
     itemamount = 10
     airportamount = 100
-itemtons = ["8 tonnia ", "10 tonnia ", "11 tonnia ", "12 tonnia ", "14 tonnia ", "16 tonnia ", "18 tonnia ", "19 tonnia ", "20 tonnia ", " 23 tonnia "]
-itemnames = ["aurinkopaneeleita", "puutavaraa", "teräslevyjä", "sähkölaitteita", "tekstiileitä", "säilykkeitä", "työkaluja", "postia", "rakennustarvikkeita", "koneiden varaosia"]
-#Playerin tiedot
-id = 1 
+itemtons = ["8 tonnia ", "10 tonnia ", "11 tonnia ", "12 tonnia ",
+            "14 tonnia ", "16 tonnia ", "18 tonnia ", "19 tonnia ",
+            "20 tonnia ", " 23 tonnia "]
+itemnames = ["aurinkopaneeleita", "puutavaraa", "teräslevyjä",
+             "sähkölaitteita", "tekstiileitä", "säilykkeitä",
+             "työkaluja", "postia", "rakennustarvikkeita",
+             "koneiden varaosia"]
+# Playerin tiedot
+id = 1
 fuel_budget = 1000
 screen_name = "player"
 fuel_left = 1000
 treasures = 0
-#config ends
+# config ends
+
 
 def delete():
     sql = "delete from game"
@@ -41,10 +47,13 @@ def delete():
     kursori.execute(sql)
     print(kursori.rowcount, "rows cleared.")
 
+
 yhteys = connector.sqlyhteys(sqlpassword)
 if len(clargs) > 0 and clargs[0] == "del":
     delete()
 else:
-    itemsandairports = gamecreator.airports_items(itemamount, airportamount, itemtons, itemnames, gamecountry, yhteys)
+    itemsandairports = gamecreator.airports_items(itemamount, airportamount,
+                                                  itemtons, itemnames,
+                                                  gamecountry, yhteys)
     gamecreator.sqlinsert(itemsandairports[0], itemsandairports[1], yhteys)
     gamecreator.player_info(id, fuel_budget, screen_name, fuel_left, yhteys)
