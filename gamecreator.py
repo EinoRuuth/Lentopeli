@@ -60,6 +60,7 @@ def sqlinsert(items, airports, yhteys):
     kursori.execute(sql)
     return
 
+#Tämä funktio hakee game taulusta lentokentän jonka homebase arvo on 1
 def homebase_haku(yhteys):
     sql = "SELECT airport_name FROM game WHERE homebase=1"
     kursori = yhteys.cursor()
@@ -67,8 +68,11 @@ def homebase_haku(yhteys):
     tulos = kursori.fetchall()
     return tulos[0][0]
 
+#Tämä funktio lisää pelaajan players tietokantaan.
 def player_info(id, fuel_budget, screen_name, fuel_left, yhteys):
+    #Kutsutaan homebase_haku funktiota jotta saadaan homebasen nimi tallenettia muuttujaan homebase
     homebase = homebase_haku(yhteys)
+    #Lisätään pelaajan tiedot players tauluun
     sql = "INSERT INTO players (id, fuel_budget, Location, screen_name, fuel_left) VALUES (%s, %s, %s, %s, %s)"
     val = (id, fuel_budget, homebase, screen_name, fuel_left)
     kursori = yhteys.cursor()
