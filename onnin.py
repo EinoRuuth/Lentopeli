@@ -19,7 +19,11 @@ def hakija( yhteys):
 # tee move funktioon sille että se laittaa siihen location ton airport muuttujan
 # ja katsoo polttoaineen. se returnaa true jos on polttoainetta vielä mutta jos ei ole se returnaa false
 def move(airport, yhteys):
-    sql = "SELECT name FROM game"
+    sql = "SELECT fuel_left FROM players"
+    kursori.execute(sql)
+    treasure= kursori.fetchall()
+    treasure = treasure[0][0]
+
     return
 
 
