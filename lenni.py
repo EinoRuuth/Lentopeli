@@ -1,6 +1,6 @@
 import connector
 
-yhteys = connector.sqlyhteys("admin")
+yhteys = connector.sqlyhteys("1234")
 
 
 def hakija(limit, yhteys):
@@ -31,11 +31,15 @@ aarre = treasure_haku(lentokenttä, yhteys)
 
 def treasure_check(aarre, tavarat, yhteys):
     lentokentan_nimi = tavarat[0][0]
+    aarteen_nimi = aarre[0][0]
     merkkijono = ""
     if aarre[0][0]:
-        sql = "UPDATE players SET treasures='"+aarre[0][0]+"' WHERE id='"+"1"+"'"
+        sql1 = "UPDATE players SET treasures='"+aarre[0][0]+"' WHERE id='"+"1"+"'"
+        sql2 = "UPDATE game SET treasure='"+"(NULL)"+"' WHERE treasure='"+str(aarteen_nimi)+"'"
         kursori = yhteys.cursor()
-        kursori.execute(sql)
+        kursori.execute(sql1)
+        kursori = yhteys.cursor()
+        kursori.execute(sql2)
         merkkijono = (f"{lentokentan_nimi}ssä on aarre. Aarre lisätty ruumaan")
     else:
         merkkijono = (f"{lentokentan_nimi}ssä ei ole aarretta")
