@@ -1,18 +1,18 @@
 import connector
 
-yhteys = connector.sqlyhteys("admin")
+yhteys = connector.sqlyhteys("menat44")
 
 
 def hakija( yhteys):
-    sql = "SELECT name FROM game"
+    sql = "SELECT airport_name FROM game"
     # randomi order että ei ole aakkosjärjestys
     sql += " ORDER BY RAND ( )"
     # limitoi etsinnät 1
-    sql += " LIMIT "+1
+    sql += " LIMIT 1 "
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
-    return tulos
+    return tulos[0][0]
 
 
 # tehtävä:
@@ -28,8 +28,10 @@ def move(airport, yhteys):
         fuelleft = fuel-100
         sql = "UPDATE players SET location=" + airport + "'"
         sql1 = "UPDATE players SET fuel_left=" , str(fuelleft) + "'"
-        sql2 = "UPDATE players SET =" + "'"
-        sql3 = "UPDATE players SET =" + "'"
+        sql2 = "UPDATE game SET has_visited=%s WHERE airport_name="+ airport + "'"
+        val = (1,)
+
+        
         
 
     return
