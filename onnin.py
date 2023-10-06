@@ -20,9 +20,17 @@ def hakija( yhteys):
 # ja katsoo polttoaineen. se returnaa true jos on polttoainetta vielä mutta jos ei ole se returnaa false
 def move(airport, yhteys):
     sql = "SELECT fuel_left FROM players"
+    kursori = yhteys.cursor()
     kursori.execute(sql)
-    treasure= kursori.fetchall()
-    treasure = treasure[0][0]
+    fuel= kursori.fetchall()
+    fuel = fuel[0][0]
+    if fuel -100 >= 100:
+        fuelleft = fuel-100
+        sql = "UPDATE players SET location=" + airport + "'"
+        sql1 = "UPDATE players SET fuel_left=" , str(fuelleft) + "'"
+        sql2 = "UPDATE players SET =" + "'"
+        sql3 = "UPDATE players SET =" + "'"
+        
 
     return
 
