@@ -3,27 +3,28 @@ import connector
 yhteys = connector.sqlyhteys("admin")
 
 
-def hakija( yhteys):
-    sql = "SELECT name FROM game"
+def hakija(yhteys):
+    sql = "SELECT airport_name FROM game"
     # randomi order että ei ole aakkosjärjestys
+    sql += " WHERE homebase='1'"
     sql += " ORDER BY RAND ( )"
     # limitoi etsinnät 1
-    sql += " LIMIT "+1
+    sql += " LIMIT 1"
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
     return tulos
 
-# tehtävä2:
-# tehtävä on kattoo onko lentokentällä arretta, jos siel on niin se laittaa sen player tietokanna treasure kohtaan
-# ja poistaa sen sieltä game taulusta sekä returnaa on true
-# jos ei ole niin se returnaa false
-def treasure(airport, yhteys):
+# tehtävä:
+# tehtävä on tehdä homebase chekki eli jos henkilö on liikkunut lentokentälle joka on homebase pitää katsoa jos pelaajalla on aarre
+# jos pelaajalla on aarre otetaan se siltä pois ja annetaan täydet polttoaineet
+# ja sit JOS ON MAHDOLLISTA JA OSAAT tee semmonen chekki joka katsoo jos aarteita on vielä jäljellä, ja jos ei ole se lopettaa pelin. (JOS et osaa niin joko eino tai lenni tekee)
+def homebasecheck(airport, yhteys):
     return
 
 
 lentokenttä = hakija(yhteys)
-treasure(lentokenttä, yhteys)
+homebasecheck(lentokenttä, yhteys)
 
 
 #move hommma tarvii:
