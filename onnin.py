@@ -24,17 +24,18 @@ def move(airport, yhteys):
     kursori.execute(sql)
     fuel= kursori.fetchall()
     fuel = fuel[0][0]
-    if fuel -100 >= 100:
+    if fuel >= 100:
         fuelleft = fuel-100
-        sql = "UPDATE players SET location=" + airport + "'"
-        sql1 = "UPDATE players SET fuel_left=" , str(fuelleft) + "'"
-        sql2 = "UPDATE game SET has_visited=%s WHERE airport_name="+ airport + "'"
-        val = (1,)
-
-        
-        
-
-    return
+        sql1 = "UPDATE players SET location='" + airport + "'"
+        sql2 = "UPDATE players SET fuel_left='" + str(fuelleft) + "'"
+        sql3 = "UPDATE game SET has_visited=%s WHERE airport_name='"+ airport + "'"
+        val3 = (1,)
+        kursori.execute(sql1)
+        kursori.execute(sql2)
+        kursori.execute(sql3,val3)
+        return True
+    else:
+        return False
 
 
 lentokenttä = hakija(yhteys)
