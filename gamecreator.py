@@ -47,7 +47,7 @@ def sqlinsert(items, airports, yhteys):
         # tarkistaa että ei ole duplicateja
         itemairport = rd.randint(0, len(airports)-1)
         while itemairport in takenairports and itemairport < len(airports):
-            itemairport = itemairport + 1
+            itemairport = itemairport - 1
         takenairports.append(itemairport)
         itemairport = airports[itemairport]
         for x in itemairport:
@@ -60,7 +60,7 @@ def sqlinsert(items, airports, yhteys):
     # tämä arpoo homebasen samalla tavalla kun items ja
     # katsoo että homebasella ei ole tavaraa
     while homebaseairport in takenairports and homebaseairport < len(airports):
-        homebaseairport = homebaseairport + 1
+        homebaseairport = homebaseairport - 1
     homebase = airports[homebaseairport]
     # homebase lisätään tauluun joka laittaa sen kohdan byten 1
     sql = "UPDATE game SET homebase='"+"1"+"' WHERE airport_name='"+homebase[0]+"'"
