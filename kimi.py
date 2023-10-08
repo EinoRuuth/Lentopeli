@@ -1,6 +1,6 @@
 import connector
 
-yhteys = connector.sqlyhteys("admin")
+yhteys = connector.sqlyhteys("admin!")
 
 
 def hakija(yhteys):
@@ -13,13 +13,30 @@ def hakija(yhteys):
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
-    return tulos
+    return tulos[0][0]
 
 # tehtävä:
 # tehtävä on tehdä homebase chekki eli jos henkilö on liikkunut lentokentälle joka on homebase pitää katsoa jos pelaajalla on aarre
 # jos pelaajalla on aarre otetaan se siltä pois ja annetaan täydet polttoaineet
 # ja sit JOS ON MAHDOLLISTA JA OSAAT tee semmonen chekki joka katsoo jos aarteita on vielä jäljellä, ja jos ei ole se lopettaa pelin. (JOS et osaa niin joko eino tai lenni tekee)
 def homebasecheck(airport, yhteys):
+    sql = "SELECT homebase FROM game"
+    sql += " WHERE (airport_name='"+airport+"')"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    homebase = kursori.fetchall()
+    if len(homebase) != 0:
+        sql1 = "SELECT treasures FROM players"
+        kursori = yhteys.cursor()
+        kursori.execute(sql1)
+        treasure = kursori.fetchall()
+        if treasure != "(NULL)":
+            sql2 = "UPDATE players SET treasures = '(NULL)'"
+            kursori = yhteys.cursor()
+            kursori.execute(sql2)
+            sql3 = "UPDATE players SET fuel_left= 1000"
+            kursori = yhteys.cursor()
+            kursori.execute(sql3)
     return
 
 
