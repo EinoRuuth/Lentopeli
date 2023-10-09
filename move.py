@@ -1,19 +1,3 @@
-import connector
-
-yhteys = connector.sqlyhteys("admin")
-
-
-def hakija( yhteys):
-    sql = "SELECT airport_name FROM game"
-    # randomi order että ei ole aakkosjärjestys
-    sql += " ORDER BY RAND ( )"
-    # limitoi etsinnät 1
-    sql += " LIMIT 1 "
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    return tulos[0][0]
-
 def treasure_check(aarre, tavarat, yhteys):
     lentokentan_nimi = tavarat
     aarteen_nimi = aarre[0][0]
@@ -39,7 +23,7 @@ def treasure_haku(tavarat, yhteys):
     kursori.execute(sql)
     aarre = kursori.fetchall()
     if len(aarre) != 0:
-        print(treasure_check(aarre, lentokenttä, yhteys))
+        print(treasure_check(aarre, lentokentan_nimi, yhteys))
     else:
         print("ei löytynyt aarteita")
     return
@@ -60,33 +44,32 @@ def move(airport, yhteys):
         kursori.execute(sql1)
         kursori.execute(sql2)
         kursori.execute(sql3,val3)
-        treasure_haku(lentokenttä, yhteys)
-        return True
+        print(f"olet liikkunut {airport}ille")
+        if homebasecheck(airport, yhteys):
+            return
+        treasure_haku(airport, yhteys)
+        return
     else:
-        return False
+        print("GAMER OVER!\nYou ran out of fuel.")
+        return
+
 
 def homebasecheck(airport, yhteys):
-    sql = "SELECT homebase FROM game WHERE homebase = 1"
+    sql = "SELECT airport_name FROM game WHERE homebase='1'"
     kursori = yhteys.cursor()
     kursori.execute(sql)
-    homebase = kursori.fetchall()
-    if len(homebase) != 0:
+    homebase = kursori.fetchall()[0][0]
+    if airport == homebase:
+        print("olet nyt homebasessa")
         sql1 = "SELECT treasures FROM players"
-        kursori = yhteys.cursor()
         kursori.execute(sql1)
-        treasure = kursori.fetchall()
-        if treasure != "(NULL)":
-            sql2 = "UPDATE players SET treasures = '(NULL)'"
-            kursori = yhteys.cursor()
+        treasure = kursori.fetchall()[0][0]
+        if treasure != "":
+            print("sinulla on aarre, polttoaine täytetty")
+            sql2 = "UPDATE players SET treasures = ''"
             kursori.execute(sql2)
             sql3 = "UPDATE players SET fuel_left= 1000"
-            kursori = yhteys.cursor()
             kursori.execute(sql3)
         return True
     else:
         return False
-
-lentokenttä = hakija(yhteys)
-liikkuminen = move(lentokenttä, yhteys)
-if not liikkuminen:
-    exit("GAMER OVER!\nYou ran out of fuel.")

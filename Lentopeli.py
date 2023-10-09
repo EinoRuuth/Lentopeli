@@ -1,5 +1,7 @@
 import connector
 import gamecreator
+import move
+import pikkufunktiot
 import sys
 
 clargs = (sys.argv)
@@ -7,7 +9,7 @@ clargs.pop(0)
 
 # config starts
 # laita tähän alle oma sql salasanasi
-sqlpassword = "1234"
+sqlpassword = "admin"
 # lentokenttien maa
 gamecountry = "FI"
 # pelin vaikeustason config
@@ -38,23 +40,21 @@ treasures = 0
 # config ends
 
 
-def delete():
-    sql = "delete from game"
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    print(kursori.rowcount, "rows cleared.")
-    sql = "delete from players"
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    print(kursori.rowcount, "rows cleared.")
-
-
 yhteys = connector.sqlyhteys(sqlpassword)
+kursori = yhteys.cursor()
 if len(clargs) > 0 and clargs[0] == "del":
-    delete()
+    pikkufunktiot.delete(kursori)
 else:
     itemsandairports = gamecreator.airports_items(itemamount, airportamount,
                                                   itemtons, itemnames,
                                                   gamecountry, yhteys)
     gamecreator.sqlinsert(itemsandairports[0], itemsandairports[1], yhteys)
     gamecreator.player_info(id, fuel_budget, screen_name, fuel_left, yhteys)
+
+    while True:
+        lentokenttä = input("Syötä lentokenttä: ")
+        if lentokenttä == "quit":
+            pikkufunktiot.delete(kursori)
+            exit()
+        lentokenttä = pikkufunktiot.fullairportname(lentokenttä, kursori)
+        move.move(lentokenttä, yhteys)
