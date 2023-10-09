@@ -1,3 +1,6 @@
+import pikkufunktiot
+
+
 def treasure_check(aarre, tavarat, yhteys):
     lentokentan_nimi = tavarat
     aarteen_nimi = aarre[0][0]
@@ -13,6 +16,20 @@ def treasure_check(aarre, tavarat, yhteys):
     else:
         merkkijono = (f"{lentokentan_nimi}ssä ei ole aarretta")
     return merkkijono
+
+
+def gotalltreasure(kursori):
+    sql = "SELECT treasure FROM game"
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    luku = 0
+    for x in tulos:
+        if x[0] != "" and x[0] != None:
+            luku += 1
+    if luku == 0:
+        return True
+    else:
+        return False
 
 
 def treasure_haku(tavarat, yhteys):
@@ -70,6 +87,9 @@ def homebasecheck(airport, yhteys):
             kursori.execute(sql2)
             sql3 = "UPDATE players SET fuel_left= 1000"
             kursori.execute(sql3)
+            if gotalltreasure(kursori):
+                pikkufunktiot.cleardatabase(kursori)
+                exit("VOITIT PELIN! Löysit kaikki aarteet")
         return True
     else:
         return False

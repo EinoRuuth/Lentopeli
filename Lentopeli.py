@@ -43,7 +43,7 @@ treasures = 0
 yhteys = connector.sqlyhteys(sqlpassword)
 kursori = yhteys.cursor()
 if len(clargs) > 0 and clargs[0] == "del":
-    pikkufunktiot.delete(kursori)
+    pikkufunktiot.cleardatabase(kursori)
 else:
     itemsandairports = gamecreator.airports_items(itemamount, airportamount,
                                                   itemtons, itemnames,
@@ -54,7 +54,7 @@ else:
     while True:
         lentokenttä = input("Syötä lentokenttä: ")
         if lentokenttä == "quit":
-            pikkufunktiot.delete(kursori)
+            pikkufunktiot.cleardatabase(kursori)
             exit()
         lentokenttä = pikkufunktiot.fullairportname(lentokenttä, kursori)
         move.move(lentokenttä, yhteys)

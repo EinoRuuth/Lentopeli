@@ -9,7 +9,7 @@ def fullairportname(name, kursori):
     return airport
 
 
-def delete(kursori):
+def cleardatabase(kursori):
     sql = "delete from game"
     kursori.execute(sql)
     print(kursori.rowcount, "rows cleared.")
