@@ -65,6 +65,26 @@ def move(airport, yhteys):
     else:
         return False
 
+def homebasecheck(airport, yhteys):
+    sql = "SELECT homebase FROM game WHERE homebase = 1"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    homebase = kursori.fetchall()
+    if len(homebase) != 0:
+        sql1 = "SELECT treasures FROM players"
+        kursori = yhteys.cursor()
+        kursori.execute(sql1)
+        treasure = kursori.fetchall()
+        if treasure != "(NULL)":
+            sql2 = "UPDATE players SET treasures = '(NULL)'"
+            kursori = yhteys.cursor()
+            kursori.execute(sql2)
+            sql3 = "UPDATE players SET fuel_left= 1000"
+            kursori = yhteys.cursor()
+            kursori.execute(sql3)
+        return True
+    else:
+        return False
 
 lentokenttä = hakija(yhteys)
 liikkuminen = move(lentokenttä, yhteys)
