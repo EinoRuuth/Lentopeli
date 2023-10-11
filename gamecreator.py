@@ -105,4 +105,6 @@ def rareitem(kursori, items):
     airport = kursori.fetchall()[0][0]
     itemname = "kultainen "+items[rd.randint(0, len(items-1))]
     sql += "UPDATE game SET treasure='" + itemname + "' WHERE airport_name='" + airport + "'"
+    kursori.execute(sql)
+    return
 
