@@ -96,3 +96,10 @@ else:
         if lentokenttä in notvisitedairport:
             notvisitedairport.remove(lentokenttä)
         print()
+rareitem = ["RPG"]
+if gotrareitem(kursori):
+                pikkufunktiot.cleardatabase(kursori)
+                exit("VOITIT PELIN! Löysit harvinaisen aarteen")
+        return True
+    else:
+        return False
