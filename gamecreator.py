@@ -70,9 +70,8 @@ def sqlinsert(items, airports, yhteys):
 
 
 # Tämä funktio hakee game taulusta lentokentän jonka homebase arvo on 1
-def homebase_haku(yhteys):
+def homebase_haku(kursori):
     sql = "SELECT airport_name FROM game WHERE homebase=1"
-    kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
     return tulos[0][0]
@@ -89,3 +88,10 @@ def player_info(id, fuel_budget, screen_name, fuel_left, yhteys):
     kursori = yhteys.cursor()
     kursori.execute(sql, val)
     return
+
+
+def airportsearch(kursori):
+    sql = "Select airport_name FROM game WHERE has_visited='0'"
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    return tulos

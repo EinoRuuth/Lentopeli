@@ -17,18 +17,25 @@ def cleardatabase(kursori):
     kursori.execute(sql)
     print(kursori.rowcount, "rows cleared.")
 
-# pikkufunktioita jotka tarvitsen vähintään keskiviikkona saa tehä jos haluaa lisää osaa projektiin
 
-# treasureamount funktio joka katsoo kuinka monta aarretta game taulussa lentokentissä vielä on
+def treasureamount(kursori):
+    sql = "SELECT treasure FROM game"
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    luku = 0
+    for x in tulos:
+        if x[0] != "" and x[0] != None:
+            luku += 1
+    return luku
 
-# fuelamount joka ottaa tietokannasta kuinka paljon polttoainetta on jäljellä
+
 def fuelamount(kursori):
     sql = "SELECT fuel_left FROM players"
     kursori.execute(sql)
     fuelleft = kursori.fetchall()[0][0]
     return fuelleft
 
-# pelaajanlokaatio eli funktio joka antaa pelaajan sen hetkisen lokaation players taulusta
+
 def playerlocation(kursori):
     sql = "SELECT location FROM players"
     kursori.execute(sql)

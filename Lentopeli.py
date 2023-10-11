@@ -51,10 +51,36 @@ else:
     gamecreator.sqlinsert(itemsandairports[0], itemsandairports[1], yhteys)
     gamecreator.player_info(id, fuel_budget, screen_name, fuel_left, yhteys)
 
+    homebasename = gamecreator.homebase_haku(kursori)
+    treasureamountleft = pikkufunktiot.treasureamount(kursori)
+    notvisitedairport = gamecreator.airportsearch(kursori)
+    for airportname in range(len(notvisitedairport)):
+        notvisitedairport[airportname] = notvisitedairport[airportname][0]
+    notvisitedairport.remove(homebasename)
+    notvisitedairport.sort()
+
     while True:
-        lentokenttä = input("Syötä lentokenttä: ")
-        if lentokenttä == "quit":
+        fuelamountleft = pikkufunktiot.fuelamount(kursori)
+        lokaatio = pikkufunktiot.playerlocation(kursori)
+        if fuelamountleft == 0:
+            print(f"GAME OVER! Polttoaineesi loppu")
             pikkufunktiot.cleardatabase(kursori)
             exit()
+        print(f"Tämänhetkinen lokaato: {lokaatio}")
+        print(f"Jäljellä olevia aarteita: {treasureamountleft}")
+        print(f"Polttoainetta jäljellä: {fuelamountleft}")
+        print(f"Kotikenttäsi nimi on: {homebasename}")
+        print(f"Lentokenttiä joilla et ole vielä käynyt: {notvisitedairport}")
+        lentokenttä = input("mihin lentokenttään haluaisi liikkua?(quit lopettaa): ")
+        if lentokenttä == "quit":
+            pikkufunktiot.cleardatabase(kursori)
+            exit("Lopetit pelin")
         lentokenttä = pikkufunktiot.fullairportname(lentokenttä, kursori)
-        move.move(lentokenttä, yhteys)
+        if lentokenttä not in notvisitedairport and lentokenttä != homebasename:
+            print("Lentokenttää ei tunnistettu")
+            print()
+            continue
+        move.move(lentokenttä, kursori)
+        if lentokenttä in notvisitedairport:
+            notvisitedairport.remove(lentokenttä)
+        print()

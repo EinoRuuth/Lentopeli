@@ -67,7 +67,8 @@ def move(airport, yhteys):
         treasure_haku(airport, yhteys)
         return
     else:
-        print("GAMER OVER!\nYou ran out of fuel.")
+        pikkufunktiot.cleardatabase(kursori)
+        exit("GAMER OVER!\nYou ran out of fuel.")
         return
 
 
