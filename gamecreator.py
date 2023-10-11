@@ -81,11 +81,11 @@ def homebase_haku(kursori):
 def player_info(id, fuel_budget, screen_name, fuel_left, yhteys):
     # Kutsutaan homebase_haku funktiota jotta saadaan
     # homebasen nimi tallenettia muuttujaan homebase
-    homebase = homebase_haku(yhteys)
+    kursori = yhteys.cursor()
+    homebase = homebase_haku(kursori)
     # Lisätään pelaajan tiedot players tauluun
     sql = "INSERT INTO players (id, fuel_budget, Location, screen_name, fuel_left) VALUES (%s, %s, %s, %s, %s)"
     val = (id, fuel_budget, homebase, screen_name, fuel_left)
-    kursori = yhteys.cursor()
     kursori.execute(sql, val)
     return
 

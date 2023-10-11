@@ -1,9 +1,11 @@
 import pikkufunktiot
+import time
 
 
 def treasure_check(aarre, tavarat, yhteys):
     lentokentan_nimi = tavarat
     aarteen_nimi = aarre[0][0]
+    print(aarteen_nimi)
     merkkijono = ""
     if aarteen_nimi:
         sql1 = "UPDATE players SET treasures='"+aarteen_nimi+"' WHERE id='"+"1"+"'"
@@ -12,9 +14,10 @@ def treasure_check(aarre, tavarat, yhteys):
         kursori.execute(sql1)
         kursori = yhteys.cursor()
         kursori.execute(sql2)
-        merkkijono = (f"{lentokentan_nimi}ssä on aarre. Aarre lisätty ruumaan")
+        merkkijono = (f"{lentokentan_nimi}ssä on rahtia. {aarteen_nimi} lisätty ruumaan")
+        time.sleep(0.5)
     else:
-        merkkijono = (f"{lentokentan_nimi}ssä ei ole aarretta")
+        merkkijono = (f"{lentokentan_nimi}ssä ei ole rahtia")
     return merkkijono
 
 
@@ -24,7 +27,7 @@ def gotalltreasure(kursori):
     tulos = kursori.fetchall()
     luku = 0
     for x in tulos:
-        if x[0] != "" and x[0] != None:
+        if x[0] != "(NULL)" and x[0] != None:
             luku += 1
     if luku == 0:
         return True

@@ -12,10 +12,9 @@ def fullairportname(name, kursori):
 def cleardatabase(kursori):
     sql = "delete from game"
     kursori.execute(sql)
-    print(kursori.rowcount, "rows cleared.")
     sql = "delete from players"
     kursori.execute(sql)
-    print(kursori.rowcount, "rows cleared.")
+    print("Database cleared")
 
 
 def treasureamount(kursori):
@@ -24,7 +23,7 @@ def treasureamount(kursori):
     tulos = kursori.fetchall()
     luku = 0
     for x in tulos:
-        if x[0] != "" and x[0] != None:
+        if x[0] != "(NULL)" and x[0] != None:
             luku += 1
     return luku
 

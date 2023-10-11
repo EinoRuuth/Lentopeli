@@ -3,6 +3,7 @@ import gamecreator
 import move
 import pikkufunktiot
 import sys
+import time
 
 clargs = (sys.argv)
 clargs.pop(0)
@@ -24,9 +25,9 @@ else:
     itemamount = 10
     airportamount = 100
 # tavaroitten määrät ja nimet
-itemtons = ["8 tonnia ", "10 tonnia ", "11 tonnia ", "12 tonnia ",
-            "14 tonnia ", "16 tonnia ", "18 tonnia ", "19 tonnia ",
-            "20 tonnia ", " 23 tonnia "]
+itemtons = ["8 tonnia", "10 tonnia", "11 tonnia", "12 tonnia",
+            "14 tonnia", "16 tonnia", "18 tonnia", "19 tonnia",
+            "20 tonnia", "23 tonnia"]
 itemnames = ["aurinkopaneeleita", "puutavaraa", "teräslevyjä",
              "sähkölaitteita", "tekstiileitä", "säilykkeitä",
              "työkaluja", "postia", "rakennustarvikkeita",
@@ -45,6 +46,16 @@ kursori = yhteys.cursor()
 if len(clargs) > 0 and clargs[0] == "del":
     pikkufunktiot.cleardatabase(kursori)
 else:
+    difficulty = input("Mikä vaikeustaso?(helppo)(keskitaso)(vaikea): ")
+    if difficulty == "keskitaso":
+        itemamount = 5
+        airportamount = 50
+    elif difficulty == "vaikea":
+        itemamount = 10
+        airportamount = 100
+    else:
+        itemamount = 2
+        airportamount = 20
     itemsandairports = gamecreator.airports_items(itemamount, airportamount,
                                                   itemtons, itemnames,
                                                   gamecountry, yhteys)
@@ -52,7 +63,6 @@ else:
     gamecreator.player_info(id, fuel_budget, screen_name, fuel_left, yhteys)
 
     homebasename = gamecreator.homebase_haku(kursori)
-    treasureamountleft = pikkufunktiot.treasureamount(kursori)
     notvisitedairport = gamecreator.airportsearch(kursori)
     for airportname in range(len(notvisitedairport)):
         notvisitedairport[airportname] = notvisitedairport[airportname][0]
@@ -60,6 +70,7 @@ else:
     notvisitedairport.sort()
 
     while True:
+        treasureamountleft = pikkufunktiot.treasureamount(kursori)
         fuelamountleft = pikkufunktiot.fuelamount(kursori)
         lokaatio = pikkufunktiot.playerlocation(kursori)
         if fuelamountleft == 0:
@@ -67,7 +78,7 @@ else:
             pikkufunktiot.cleardatabase(kursori)
             exit()
         print(f"Tämänhetkinen lokaato: {lokaatio}")
-        print(f"Jäljellä olevia aarteita: {treasureamountleft}")
+        print(f"Jäljellä olevaa rahtia: {treasureamountleft}")
         print(f"Polttoainetta jäljellä: {fuelamountleft}")
         print(f"Kotikenttäsi nimi on: {homebasename}")
         print(f"Lentokenttiä joilla et ole vielä käynyt: {notvisitedairport}")
@@ -78,9 +89,10 @@ else:
         lentokenttä = pikkufunktiot.fullairportname(lentokenttä, kursori)
         if lentokenttä not in notvisitedairport and lentokenttä != homebasename:
             print("Lentokenttää ei tunnistettu")
+            time.sleep(0.5)
             print()
             continue
-        move.move(lentokenttä, kursori)
+        move.move(lentokenttä, yhteys)
         if lentokenttä in notvisitedairport:
             notvisitedairport.remove(lentokenttä)
         print()
