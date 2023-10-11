@@ -96,7 +96,11 @@ def airportsearch(kursori):
     tulos = kursori.fetchall()
     return tulos
 
-def rareitem(kursori):
+def rareitem(kursori, items):
     sql = "Select airport_name FROM game"
-    sql += "WHERE homebase='0' AND treasure IS NULL"
-    sql += "ORDER BY RAND () LIMIT 1"
+    sql += " WHERE homebase='0' AND treasure IS NULL"
+    sql += " ORDER BY RAND ()"
+    sql += " LIMIT 1"
+    kursori.execute(sql)
+    airport = kursori.fetchall()[0][0]
+    itemname = "golden"+items[rd.randint(0, len(items-1))]
