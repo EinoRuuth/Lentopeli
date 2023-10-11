@@ -4,6 +4,7 @@ import move
 import pikkufunktiot
 import sys
 import time
+import random as rd
 
 clargs = (sys.argv)
 clargs.pop(0)
@@ -61,6 +62,9 @@ else:
                                                   gamecountry, yhteys)
     gamecreator.sqlinsert(itemsandairports[0], itemsandairports[1], yhteys)
     gamecreator.player_info(id, fuel_budget, screen_name, fuel_left, yhteys)
+    if rd.randint(1, 100) == 1:
+        print("Peliin on lisätty harvinainen aarre. Etsi se ja voita peli heti!")
+        gamecreator.rareitem(kursori, itemnames)
 
     homebasename = gamecreator.homebase_haku(kursori)
     notvisitedairport = gamecreator.airportsearch(kursori)

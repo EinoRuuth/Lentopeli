@@ -5,7 +5,6 @@ import time
 def treasure_check(aarre, tavarat, yhteys):
     lentokentan_nimi = tavarat
     aarteen_nimi = aarre[0][0]
-    print(aarteen_nimi)
     merkkijono = ""
     if aarteen_nimi:
         sql1 = "UPDATE players SET treasures='"+aarteen_nimi+"' WHERE id='"+"1"+"'"
@@ -85,6 +84,9 @@ def homebasecheck(airport, yhteys):
         sql1 = "SELECT treasures FROM players"
         kursori.execute(sql1)
         treasure = kursori.fetchall()[0][0]
+        if treasure.split(" ")[0] == "kultaisia":
+            pikkufunktiot.cleardatabase(kursori)
+            exit("VOITIT PELIN! Löysit harvinaisen rahdin")
         if treasure != "":
             print("sinulla on aarre, polttoaine täytetty")
             sql2 = "UPDATE players SET treasures = ''"
@@ -93,7 +95,7 @@ def homebasecheck(airport, yhteys):
             kursori.execute(sql3)
             if gotalltreasure(kursori):
                 pikkufunktiot.cleardatabase(kursori)
-                exit("VOITIT PELIN! Löysit kaikki aarteet")
+                exit("VOITIT PELIN! Löysit kaikki rahdit")
         return True
     else:
         return False
