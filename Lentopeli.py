@@ -11,7 +11,7 @@ clargs.pop(0)
 
 # config starts
 # laita tähän alle oma sql salasanasi
-sqlpassword = "Admin"
+sqlpassword = "admin"
 # lentokenttien maa
 gamecountry = "FI"
 # pelin vaikeustason config

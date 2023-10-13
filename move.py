@@ -84,10 +84,10 @@ def homebasecheck(airport, yhteys):
         sql1 = "SELECT treasures FROM players"
         kursori.execute(sql1)
         treasure = kursori.fetchall()[0][0]
-        if treasure.split(" ")[0] == "kultaisia":
-            pikkufunktiot.cleardatabase(kursori)
-            exit("VOITIT PELIN! Löysit harvinaisen rahdin")
         if treasure != "":
+            if treasure.split(" ")[0] == "kultaisia":
+                pikkufunktiot.cleardatabase(kursori)
+                exit("VOITIT PELIN! Löysit harvinaisen rahdin")
             print("Sinulla on rahtia, polttoaine täytetty")
             sql2 = "UPDATE players SET treasures = ''"
             kursori.execute(sql2)
