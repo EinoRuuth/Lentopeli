@@ -69,8 +69,9 @@ def move(airport, yhteys):
         treasure_haku(airport, yhteys)
         return
     else:
+        print("Peli ohi! Polttoaineesi loppui.")
         pikkufunktiot.cleardatabase(kursori)
-        exit("Peli ohi!\nPolttoaineesi loppui.")
+        exit()
 
 
 def homebasecheck(airport, yhteys):
@@ -93,8 +94,9 @@ def homebasecheck(airport, yhteys):
             sql3 = "UPDATE players SET fuel_left= 1000"
             kursori.execute(sql3)
             if gotalltreasure(kursori):
+                print("VOITIT PELIN! Löysit kaikki rahdit")
                 pikkufunktiot.cleardatabase(kursori)
-                exit("VOITIT PELIN! Löysit kaikki rahdit")
+                exit()
         return True
     else:
         return False

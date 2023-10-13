@@ -14,17 +14,6 @@ clargs.pop(0)
 sqlpassword = "admin"
 # lentokenttien maa
 gamecountry = "FI"
-# pelin vaikeustason config
-difficulty = "helppo"
-if difficulty == "helppo":
-    itemamount = 2
-    airportamount = 20
-elif difficulty == "vaativa":
-    itemamount = 5
-    airportamount = 50
-else:
-    itemamount = 10
-    airportamount = 100
 # tavaroitten määrät ja nimet
 itemtons = ["8 tonnia", "10 tonnia", "11 tonnia", "12 tonnia",
             "14 tonnia", "16 tonnia", "18 tonnia", "19 tonnia",
@@ -78,7 +67,7 @@ else:
         fuelamountleft = pikkufunktiot.fuelamount(kursori)
         lokaatio = pikkufunktiot.playerlocation(kursori)
         if fuelamountleft == 0:
-            print(f"PELI OHI! Polttoaineesi loppui")
+            print("PELI OHI! Polttoaineesi loppui")
             pikkufunktiot.cleardatabase(kursori)
             exit()
         print(f"Tämänhetkinen sijainti: {lokaatio}")
@@ -88,8 +77,9 @@ else:
         print(f"Lentokenttiä joilla et ole vielä käynyt: {notvisitedairport}")
         lentokenttä = input("Mihin lentokenttään haluaisi liikkua?(quit lopettaa): ")
         if lentokenttä == "quit":
+            print("Lopetit pelin")
             pikkufunktiot.cleardatabase(kursori)
-            exit("Lopetit pelin")
+            exit()
         lentokenttä = pikkufunktiot.fullairportname(lentokenttä, kursori)
         if lentokenttä not in notvisitedairport and lentokenttä != homebasename:
             print("Lentokenttää ei tunnistettu")
