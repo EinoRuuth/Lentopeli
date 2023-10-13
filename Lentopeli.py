@@ -11,7 +11,7 @@ clargs.pop(0)
 
 # config starts
 # laita tähän alle oma sql salasanasi
-sqlpassword = "admin"
+sqlpassword = "Servermaster20!"
 # lentokenttien maa
 gamecountry = "FI"
 # pelin vaikeustason config
@@ -81,12 +81,12 @@ else:
             print(f"GAME OVER! Polttoaineesi loppu")
             pikkufunktiot.cleardatabase(kursori)
             exit()
-        print(f"Tämänhetkinen lokaato: {lokaatio}")
+        print(f"Tämänhetkinen lokaatio: {lokaatio}")
         print(f"Jäljellä olevaa rahtia: {treasureamountleft}")
         print(f"Polttoainetta jäljellä: {fuelamountleft}")
         print(f"Kotikenttäsi nimi on: {homebasename}")
         print(f"Lentokenttiä joilla et ole vielä käynyt: {notvisitedairport}")
-        lentokenttä = input("mihin lentokenttään haluaisi liikkua?(quit lopettaa): ")
+        lentokenttä = input("Mihin lentokenttään haluaisi liikkua?(quit lopettaa): ")
         if lentokenttä == "quit":
             pikkufunktiot.cleardatabase(kursori)
             exit("Lopetit pelin")
