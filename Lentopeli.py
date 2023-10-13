@@ -62,7 +62,7 @@ else:
                                                   gamecountry, yhteys)
     gamecreator.sqlinsert(itemsandairports[0], itemsandairports[1], yhteys)
     gamecreator.player_info(id, fuel_budget, screen_name, fuel_left, yhteys)
-    if rd.randint(1, 100) == 1:
+    if rd.randint(1, 100) == 1 or len(clargs) > 0 and clargs[0] == "rare":
         print("Peliin on lisätty harvinainen rahti. Etsi se ja voita peli heti!")
         gamecreator.rareitem(kursori, itemnames)
 
