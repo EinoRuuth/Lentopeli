@@ -71,7 +71,6 @@ def move(airport, yhteys):
     else:
         pikkufunktiot.cleardatabase(kursori)
         exit("Peli ohi!\nPolttoaineesi loppui.")
-        return
 
 
 def homebasecheck(airport, yhteys):
