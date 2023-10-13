@@ -11,7 +11,7 @@ clargs.pop(0)
 
 # config starts
 # laita tähän alle oma sql salasanasi
-sqlpassword = "Servermaster20!"
+sqlpassword = "Admin"
 # lentokenttien maa
 gamecountry = "FI"
 # pelin vaikeustason config
@@ -63,7 +63,7 @@ else:
     gamecreator.sqlinsert(itemsandairports[0], itemsandairports[1], yhteys)
     gamecreator.player_info(id, fuel_budget, screen_name, fuel_left, yhteys)
     if rd.randint(1, 100) == 1:
-        print("Peliin on lisätty harvinainen aarre. Etsi se ja voita peli heti!")
+        print("Peliin on lisätty harvinainen rahti. Etsi se ja voita peli heti!")
         gamecreator.rareitem(kursori, itemnames)
 
     homebasename = gamecreator.homebase_haku(kursori)
@@ -78,10 +78,10 @@ else:
         fuelamountleft = pikkufunktiot.fuelamount(kursori)
         lokaatio = pikkufunktiot.playerlocation(kursori)
         if fuelamountleft == 0:
-            print(f"GAME OVER! Polttoaineesi loppu")
+            print(f"PELI OHI! Polttoaineesi loppui")
             pikkufunktiot.cleardatabase(kursori)
             exit()
-        print(f"Tämänhetkinen lokaatio: {lokaatio}")
+        print(f"Tämänhetkinen sijainti: {lokaatio}")
         print(f"Jäljellä olevaa rahtia: {treasureamountleft}")
         print(f"Polttoainetta jäljellä: {fuelamountleft}")
         print(f"Kotikenttäsi nimi on: {homebasename}")

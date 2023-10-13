@@ -14,7 +14,7 @@ def cleardatabase(kursori):
     kursori.execute(sql)
     sql = "delete from players"
     kursori.execute(sql)
-    print("Database cleared")
+    print("Tietokanta tyhjennetty")
 
 
 def treasureamount(kursori):

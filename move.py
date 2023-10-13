@@ -13,10 +13,10 @@ def treasure_check(aarre, tavarat, yhteys):
         kursori.execute(sql1)
         kursori = yhteys.cursor()
         kursori.execute(sql2)
-        merkkijono = (f"{lentokentan_nimi}ssä on rahtia. {aarteen_nimi} lisätty ruumaan")
+        merkkijono = (f"{lentokentan_nimi}issä on rahtia. {aarteen_nimi} lisätty ruumaan")
         time.sleep(0.5)
     else:
-        merkkijono = (f"{lentokentan_nimi}ssä ei ole rahtia")
+        merkkijono = (f"{lentokentan_nimi}issä ei ole rahtia")
     return merkkijono
 
 
@@ -44,7 +44,7 @@ def treasure_haku(tavarat, yhteys):
     if len(aarre) != 0:
         print(treasure_check(aarre, lentokentan_nimi, yhteys))
     else:
-        print("ei löytynyt aarteita")
+        print("Ei löytynyt rahtia")
     return
 
 
@@ -70,7 +70,7 @@ def move(airport, yhteys):
         return
     else:
         pikkufunktiot.cleardatabase(kursori)
-        exit("GAME OVER!\nYou ran out of fuel.")
+        exit("Peli ohi!\nPolttoaineesi loppui.")
         return
 
 
@@ -88,7 +88,7 @@ def homebasecheck(airport, yhteys):
             pikkufunktiot.cleardatabase(kursori)
             exit("VOITIT PELIN! Löysit harvinaisen rahdin")
         if treasure != "":
-            print("sinulla on aarre, polttoaine täytetty")
+            print("Sinulla on rahtia, polttoaine täytetty")
             sql2 = "UPDATE players SET treasures = ''"
             kursori.execute(sql2)
             sql3 = "UPDATE players SET fuel_left= 1000"
