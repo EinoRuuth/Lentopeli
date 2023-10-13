@@ -63,14 +63,14 @@ def move(airport, yhteys):
         kursori.execute(sql1)
         kursori.execute(sql2)
         kursori.execute(sql3,val3)
-        print(f"olet liikkunut {airport}ille")
+        print(f"Olet liikkunut {airport}ille")
         if homebasecheck(airport, yhteys):
             return
         treasure_haku(airport, yhteys)
         return
     else:
         pikkufunktiot.cleardatabase(kursori)
-        exit("GAMER OVER!\nYou ran out of fuel.")
+        exit("GAME OVER!\nYou ran out of fuel.")
         return
 
 
@@ -80,7 +80,7 @@ def homebasecheck(airport, yhteys):
     kursori.execute(sql)
     homebase = kursori.fetchall()[0][0]
     if airport == homebase:
-        print("olet nyt homebasessa")
+        print("Olet nyt kotikentällä")
         sql1 = "SELECT treasures FROM players"
         kursori.execute(sql1)
         treasure = kursori.fetchall()[0][0]
