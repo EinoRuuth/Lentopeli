@@ -65,7 +65,7 @@ if len(clargs) > 0 and clargs[0] == "run":
         yhteys = connector.sqlyhteys("admin")
         kursori = yhteys.cursor()
         try:
-            createdgame = gamemaker(kursori, limit, distance)
+            createdgame = gamemaker(kursori, int(limit), int(distance))
         except Exception as e:
             return {'code':500, 'message':f'error "{e}" occured when creating game'}
         return {'code':200, 'message':'game successfully created', 'data':createdgame}
