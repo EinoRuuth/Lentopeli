@@ -67,7 +67,7 @@ if len(clargs) > 0 and clargs[0] == "run":
         try:
             createdgame = gamemaker(kursori, limit, distance)
         except Exception as e:
-            return {'code':500, 'message':f'error {e} creating game'}
+            return {'code':500, 'message':f'error "{e}" occured when creating game'}
         return {'code':200, 'message':'game successfully created', 'data':createdgame}
     if __name__ == '__main__':
         app.run(use_reloader=True, host='127.0.0.1', port=3000)
