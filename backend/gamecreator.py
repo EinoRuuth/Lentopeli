@@ -53,6 +53,7 @@ def gamemaker(kursori, limit=20, distancebetween=200):
     print(allaports)
     print(len(allaports))
     sqlinsert(allaports, kursori)
+    return allaports
 
 if len(clargs) > 0 and clargs[0] == "run":
     app = Flask(__name__)
@@ -61,10 +62,10 @@ if len(clargs) > 0 and clargs[0] == "run":
         yhteys = connector.sqlyhteys("admin")
         kursori = yhteys.cursor()
         try:
-            gamemaker(kursori, limit, distance)
+            createdgame = gamemaker(kursori, limit, distance)
         except:
             return {'code':500, 'message':'error creating game'}
-        return {'code':200, 'message':'game successfully created'}
+        return {'code':200, 'message':'game successfully created', 'data':createdgame}
     if __name__ == '__main__':
         app.run(use_reloader=True, host='127.0.0.1', port=3000)
 else: 
