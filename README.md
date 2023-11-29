@@ -16,13 +16,9 @@ ALTER TABLE game RENAME players;
 
 CREATE TABLE game (
     airport_name VARCHAR(255),
-    treasure VARCHAR(255),
-    has_visited BOOLEAN
+    treasure_chance VARCHAR(255),
+    has_visited BIT(1)
 );
-
-Alter TABLE game MODIFY COLUMN has_visited BIT(1);
-
-ALTER TABLE game ADD homebase BOOLEAN;
 
 ALTER TABLE game ADD id INT(11) FIRST; 
 
