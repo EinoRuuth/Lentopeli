@@ -40,3 +40,18 @@ def playerlocation(kursori):
     kursori.execute(sql)
     currentlocation = kursori.fetchall()[0][0]
     return currentlocation
+
+
+# Funktio ottaa prosentin ja laskee mahdollisuuden että löytyykö itemi vai ei.
+# Jos itemi löytyy, lasketaan myös löytyykö harvinainen itemi vai ei.
+
+#import random as rd
+def itemchance(percentage):
+    rareitempercentage = 1
+    if rd.randint(0, 100) < percentage:
+        if rd.randint(0, 100) < rareitempercentage:
+            return "rareitemTrue"
+        else:
+            return True
+    else:
+        return False
