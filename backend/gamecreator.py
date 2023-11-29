@@ -1,110 +1,75 @@
 import random as rd
+import connector
+from geopy import distance
+import sys
+import pikkufunktiot
+
+clargs = (sys.argv)
+clargs.pop(0)
 
 
-# hakija hakee sql tietokannasta annetun määrän (limit) lentokenttiä
-def hakija(limit, gamecountry, yhteys):
-    sql = "SELECT name FROM airport"
+#hakee yhden lentokentän ja antaa sen nimen sekä koordinaatit
+def yhdenhakija(gamecountry, kursori):
+    sql = "SELECT name, latitude_deg, longitude_deg FROM airport"
     sql += " WHERE (iso_country='"+gamecountry+"') AND (type='small_airport' OR type='medium_airport' OR type='large_airport')"
     # randomi order että ei ole aakkosjärjestys
     sql += " ORDER BY RAND ( )"
-    # limitoi etsinnät 20
-    sql += " LIMIT "+str(limit)
-    kursori = yhteys.cursor()
+    sql += " LIMIT 1"
     kursori.execute(sql)
-    tulos = kursori.fetchall()
+    tulos = kursori.fetchall()[0]
     return tulos
 
-
-# arpoo itemit niiden määrän mukaan ja alussa callaa hakijaa
-def airports_items(items, airports, itemtons,
-                   itemnames, gamecountry, yhteys):
-    airports = hakija(airports, gamecountry, yhteys)
-    allitems = []
-    for number in range(items):
-        itemton = rd.randint(0, len(itemtons)-1)
-        itemname = rd.randint(0, len(itemnames)-1)
-        # ylhäällä arpoo numerot item listoista ja
-        # alla se yhdistää ne ja lisää yhteyseen listaan
-        itemfullname = itemtons[itemton]+" "+itemnames[itemname]
-        allitems.append(itemfullname)
-    return (allitems, airports)
-
-
 # tämä lisää tavarat sql tietokantaan
-def sqlinsert(items, airports, yhteys):
-    takenairports = []
+def sqlinsert(airports, kursori):
     airportid = 1
-    for airportname in airports:
+    for airportdata in airports:
         # tämä täyttää nimen, has visited ja
-        # homebase hommat nimillä ja nollilla
-        sql = "INSERT INTO game (id, airport_name, has_visited, homebase) VALUES (%s, %s, %s, %s)"
-        val = (airportid, airportname[0], 0, 0)
-        kursori = yhteys.cursor()
+        # treasure chancen sekä koordinatit
+        # tietokantaan
+        sql = "INSERT INTO game (id, airport_name, treasure_chance, has_visited, coordinates) VALUES (%s, %s, %s, %s, %s)"
+        val = (airportid, airportdata[0], airportdata[3], 0, f"({airportdata[1]}, {airportdata[2]})")
         kursori.execute(sql, val)
         airportid += 1
-    for itemname in items:
-        # tämä arpoo tavaroiden kenttien numerot ja
-        # tarkistaa että ei ole duplicateja
-        itemairport = rd.randint(0, len(airports)-1)
-        while itemairport in takenairports and itemairport < len(airports):
-            itemairport = itemairport - 1
-        takenairports.append(itemairport)
-        itemairport = airports[itemairport]
-        for x in itemairport:
-            itemairport = x
-        # tässä tavarat lisätään tietokantaan oikeisiin kohtiin
-        sql = "UPDATE game SET treasure='" + itemname + "' WHERE airport_name='" + itemairport + "'"
-        kursori = yhteys.cursor()
-        kursori.execute(sql)
-    homebaseairport = rd.randint(0, len(airports)-1)
-    # tämä arpoo homebasen samalla tavalla kun items ja
-    # katsoo että homebasella ei ole tavaraa
-    while homebaseairport in takenairports and homebaseairport < len(airports):
-        homebaseairport = homebaseairport - 1
-    homebase = airports[homebaseairport]
-    # homebase lisätään tauluun joka laittaa sen kohdan byten 1
-    sql = "UPDATE game SET homebase='"+"1"+"' WHERE airport_name='"+homebase[0]+"'"
+
+#tämä hakee annetun määränn lentokenttiä joiden etäisyys aloituspointista on annettu määrä.
+#ekana haetaan alotuskenttä jonka avulla verrataan jos lentälentät ovat halutun kuplan sisällä
+#loppulistassa jokaisella lentokoentällä on oma tuple, jossa ekana on nimi, sitten lat, lon ja vika on item prosentti
+def gamemaker(kursori):
+    limit = 20
+    distancebetween = 200
+    country = "FI"
+    firstairport = yhdenhakija(country, kursori)
+    firstairport = firstairport + ((rd.randint(20, 80)),)
+    allaports = [firstairport]
+    koordinaatit1 = firstairport[1:3]
+    while len(allaports) < limit:
+        fetchedairport = yhdenhakija(country, kursori)
+        if fetchedairport not in allaports:
+            koordinaatit2 = fetchedairport[1:3]
+            pituus = (distance.distance(koordinaatit1, koordinaatit2).km)
+            if pituus <= distancebetween:
+                print(f"difference between {fetchedairport[0]} and {firstairport[0]} is smaller than 100km (distance: {pituus})")
+                fetchedairport = fetchedairport + ((rd.randint(20, 80)),)
+                allaports.append(fetchedairport)
+    print(allaports)
+    print(len(allaports))
+    sqlinsert(allaports, kursori)
+
+if __name__ == '__main__':
+    yhteys = connector.sqlyhteys("admin")
     kursori = yhteys.cursor()
-    kursori.execute(sql)
-    return
-
-
-# Tämä funktio hakee game taulusta lentokentän jonka homebase arvo on 1
-def homebase_haku(kursori):
-    sql = "SELECT airport_name FROM game WHERE homebase=1"
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    return tulos[0][0]
-
+    if len(clargs) > 0 and clargs[0] == "del":
+        pikkufunktiot.cleardatabase(kursori)
+    else:
+        gamemaker(kursori)
 
 # Tämä funktio lisää pelaajan players tietokantaan.
 def player_info(id, fuel_budget, screen_name, fuel_left, yhteys):
     # Kutsutaan homebase_haku funktiota jotta saadaan
     # homebasen nimi tallenettia muuttujaan homebase
     kursori = yhteys.cursor()
-    homebase = homebase_haku(kursori)
     # Lisätään pelaajan tiedot players tauluun
-    sql = "INSERT INTO players (id, fuel_budget, Location, screen_name, fuel_left) VALUES (%s, %s, %s, %s, %s)"
-    val = (id, fuel_budget, homebase, screen_name, fuel_left)
+    sql = "INSERT INTO players (id, fuel_budget, screen_name, fuel_left) VALUES (%s, %s, %s, %s, %s)"
+    val = (id, fuel_budget, screen_name, fuel_left)
     kursori.execute(sql, val)
     return
-
-
-def airportsearch(kursori):
-    sql = "Select airport_name FROM game WHERE has_visited='0'"
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    return tulos
-
-def rareitem(kursori, items):
-    sql = "Select airport_name FROM game"
-    sql += " WHERE homebase='0' AND treasure IS NULL"
-    sql += " ORDER BY RAND ()"
-    sql += " LIMIT 1"
-    kursori.execute(sql)
-    airport = kursori.fetchall()[0][0]
-    itemname = "kultaisia "+items[rd.randint(0, len(items)-1)]
-    sql = "UPDATE game SET treasure='" + itemname + "' WHERE airport_name='" + airport + "'"
-    kursori.execute(sql)
-    return
-
