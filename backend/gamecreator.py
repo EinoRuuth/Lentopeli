@@ -3,6 +3,7 @@ import connector
 from geopy import distance
 import sys
 import pikkufunktiot
+from flask import Flask, request
 
 clargs = (sys.argv)
 clargs.pop(0)
@@ -34,9 +35,7 @@ def sqlinsert(airports, kursori):
 #tämä hakee annetun määränn lentokenttiä joiden etäisyys aloituspointista on annettu määrä.
 #ekana haetaan alotuskenttä jonka avulla verrataan jos lentälentät ovat halutun kuplan sisällä
 #loppulistassa jokaisella lentokoentällä on oma tuple, jossa ekana on nimi, sitten lat, lon ja vika on item prosentti
-def gamemaker(kursori):
-    limit = 20
-    distancebetween = 200
+def gamemaker(kursori, limit=20, distancebetween=200):
     country = "FI"
     firstairport = yhdenhakija(country, kursori)
     firstairport = firstairport + ((rd.randint(20, 80)),)
@@ -55,13 +54,27 @@ def gamemaker(kursori):
     print(len(allaports))
     sqlinsert(allaports, kursori)
 
-if __name__ == '__main__':
-    yhteys = connector.sqlyhteys("admin")
-    kursori = yhteys.cursor()
-    if len(clargs) > 0 and clargs[0] == "del":
-        pikkufunktiot.cleardatabase(kursori)
-    else:
-        gamemaker(kursori)
+if len(clargs) > 0 and clargs[0] == "run":
+    app = Flask(__name__)
+    @app.route('/creategame/<limit>/<distance>')
+    def creategame(limit, distance):
+        yhteys = connector.sqlyhteys("admin")
+        kursori = yhteys.cursor()
+        try:
+            gamemaker(kursori, limit, distance)
+        except:
+            return {'code':500, 'message':'error creating game'}
+        return {'code':200, 'message':'game successfully created'}
+    if __name__ == '__main__':
+        app.run(use_reloader=True, host='127.0.0.1', port=3000)
+else: 
+    if __name__ == '__main__':
+        yhteys = connector.sqlyhteys("admin")
+        kursori = yhteys.cursor()
+        if len(clargs) > 0 and clargs[0] == "del":
+            pikkufunktiot.cleardatabase(kursori)
+        else:
+            gamemaker(kursori)
 
 # Tämä funktio lisää pelaajan players tietokantaan.
 def player_info(id, fuel_budget, screen_name, fuel_left, yhteys):
