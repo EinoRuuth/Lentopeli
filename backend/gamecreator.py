@@ -53,7 +53,10 @@ def gamemaker(kursori, limit=20, distancebetween=200):
     print(allaports)
     print(len(allaports))
     sqlinsert(allaports, kursori)
-    return allaports
+    allairportdata = []
+    for airportdata in allaports:
+        allairportdata.append({'name':airportdata[0], 'latitude':airportdata[1], 'longitude':airportdata[2], 'treasurechance':airportdata[3]})
+    return allairportdata
 
 if len(clargs) > 0 and clargs[0] == "run":
     app = Flask(__name__)

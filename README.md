@@ -16,11 +16,13 @@ ALTER TABLE game RENAME players;
 
 CREATE TABLE game (
     airport_name VARCHAR(255),
-    treasure_chance VARCHAR(255),
+    treasure_chance int(2),
     has_visited BIT(1)
 );
 
 ALTER TABLE game ADD id INT(11) FIRST; 
+
+ALTER TABLE game ADD coordinates varchar(255);
 
 ALTER TABLE game MODIFY COLUMN id INT(11) unsigned PRIMARY KEY AUTO_INCREMENT;
 
