@@ -4,6 +4,11 @@ from geopy import distance
 import sys
 import pikkufunktiot
 from flask import Flask, request
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+sqlpass = os.getenv('sqlpass')
 
 clargs = (sys.argv)
 clargs.pop(0)
@@ -62,12 +67,12 @@ if len(clargs) > 0 and clargs[0] == "run":
     app = Flask(__name__)
     @app.route('/creategame/<limit>/<distance>')
     def creategame(limit, distance):
-        yhteys = connector.sqlyhteys("admin")
+        yhteys = connector.sqlyhteys(sqlpass)
         kursori = yhteys.cursor()
         try:
-            createdgame = gamemaker(kursori, limit, distance)
-        except:
-            return {'code':500, 'message':'error creating game'}
+            createdgame = gamemaker(kursori, int(limit), int(distance))
+        except Exception as e:
+            return {'code':500, 'message':f'error "{e}" occured when creating game'}
         return {'code':200, 'message':'game successfully created', 'data':createdgame}
     if __name__ == '__main__':
         app.run(use_reloader=True, host='127.0.0.1', port=3000)

@@ -1,3 +1,6 @@
+import random
+
+
 def fullairportname(name, kursori):
     sql = "SELECT airport_name from game WHERE airport_name LIKE '" + name + "%'"
     kursori.execute(sql)
@@ -41,15 +44,22 @@ def playerlocation(kursori):
     currentlocation = kursori.fetchall()[0][0]
     return currentlocation
 
+
 # Funktio ottaa prosentin ja laskee mahdollisuuden että löytyykö itemi vai ei.
 # Jos itemi löytyy, lasketaan myös löytyykö harvinainen itemi vai ei.
-#import random as rd
+
 def itemchance(percentage):
     rareitempercentage = 1
+    itemname = None
+    found = False
     if rd.randint(0, 100) < percentage:
+        found = True
         if rd.randint(0, 100) < rareitempercentage:
-            return "rareitemTrue"
+            itemname = "rare"
         else:
-            return True
-    else:
-        return False
+            itemname = f"{random.choice(itemtons)} {random.choice(itemnames)}"
+    response = {
+        'found': found,
+        'item': itemname
+    }
+    return response

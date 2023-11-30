@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script
+      src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+      defer
+    ></script>
+    <script src="main.js" defer></script>
+    <title>Game</title>
+  </head>
+  <body class="Game">
+      <header class="Game-Header">
+        <div class="Title-box">
+          <h1 class="Game-Title">Lentokonepeli</h1>
+        </div>
+        <nav class="navbar">
+          <ul>
+            <li><a href="menu.html" class="Quit-Button">Lopeta peli</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <main class="Main-Game-Container">
+        <div class="Game-Content">
+          <div id="map"></div>
+          <div class="Game-Info">
+            <div class="Airport"></div>
+            <div class="Inventory"></div>
+            <div class="Other-Info"></div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="Game-Footer"></footer>
+  </body>
+</html>
