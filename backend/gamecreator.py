@@ -38,6 +38,13 @@ def sqlinsert(airports, kursori):
         kursori.execute(sql, val)
         airportid += 1
 
+# Tämä funktio lisää pelaajan players tietokantaan.
+def player_info(kursori, location, id, fuel_budget, screen_name):
+    sql = "INSERT INTO players (id, fuel_budget, location, fuel_left, screen_name) VALUES (%s, %s, %s, %s, %s)"
+    val = (id, fuel_budget, location, fuel_budget, screen_name)
+    kursori.execute(sql, val)
+    return
+
 #tämä hakee annetun määränn lentokenttiä joiden etäisyys aloituspointista on annettu määrä.
 #ekana haetaan alotuskenttä jonka avulla verrataan jos lentälentät ovat halutun kuplan sisällä
 #loppulistassa jokaisella lentokoentällä on oma tuple, jossa ekana on nimi, sitten lat, lon ja vika on item prosentti
@@ -69,16 +76,18 @@ if len(clargs) > 0 and clargs[0] == "run":
     app = Flask(__name__)
     cors = CORS(app)
     app.config['CORS_HEADERS'] = 'Content-Type'
-    @app.route('/creategame/<limit>/<distance>')
-    def creategame(limit, distance):
+    @app.route('/creategame/<limit>/<distance>/<name>')
+    def creategame(limit, distance, name):
         yhteys = connector.sqlyhteys(sqlpass)
         kursori = yhteys.cursor()
         try:
             createdgame = gamemaker(kursori, int(limit), int(distance))
+            player_info(kursori, createdgame[0]['name'], 1, 5, name)
         except Exception as e:
             print(e)
             return [{'code':500, 'message':f'error "{e}" occured when creating game'}]
-        return [{'code':200, 'message':'game successfully created', 'data':createdgame}]
+        return [{'code':200, 'message':'game and player successfully created', 'data':{'gamedata':createdgame, 'playerdata':createdgame[0]}}]
+
     if __name__ == '__main__':
         app.run(use_reloader=True, host='127.0.0.1', port=3000)
 else: 
@@ -89,14 +98,3 @@ else:
             pikkufunktiot.cleardatabase(kursori)
         else:
             gamemaker(kursori)
-
-# Tämä funktio lisää pelaajan players tietokantaan.
-def player_info(id, fuel_budget, screen_name, fuel_left, yhteys):
-    # Kutsutaan homebase_haku funktiota jotta saadaan
-    # homebasen nimi tallenettia muuttujaan homebase
-    kursori = yhteys.cursor()
-    # Lisätään pelaajan tiedot players tauluun
-    sql = "INSERT INTO players (id, fuel_budget, screen_name, fuel_left) VALUES (%s, %s, %s, %s, %s)"
-    val = (id, fuel_budget, screen_name, fuel_left)
-    kursori.execute(sql, val)
-    return
