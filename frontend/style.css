@@ -181,3 +181,8 @@
     background-color: rgb(26, 26, 26);
 }
 
+/* Leafflet icons */
+.blue_icon {
+    background-color: rgb(3, 143, 230);
+    border-radius: 50%;
+}
