@@ -4,6 +4,11 @@ from geopy import distance
 import sys
 import pikkufunktiot
 from flask import Flask, request
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+sqlpass = os.getenv('sqlpass')
 
 clargs = (sys.argv)
 clargs.pop(0)
@@ -62,7 +67,7 @@ if len(clargs) > 0 and clargs[0] == "run":
     app = Flask(__name__)
     @app.route('/creategame/<limit>/<distance>')
     def creategame(limit, distance):
-        yhteys = connector.sqlyhteys("admin")
+        yhteys = connector.sqlyhteys(sqlpass)
         kursori = yhteys.cursor()
         try:
             createdgame = gamemaker(kursori, int(limit), int(distance))
