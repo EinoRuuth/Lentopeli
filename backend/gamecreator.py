@@ -54,8 +54,9 @@ def gamemaker(kursori, limit=20, distancebetween=200):
             pituus = (distance.distance(koordinaatit1, koordinaatit2).km)
             if pituus <= distancebetween:
                 print(f"difference between {fetchedairport[0]} and {firstairport[0]} is smaller than 100km (distance: {pituus})")
-                fetchedairport = fetchedairport + ((rd.randint(20, 80)),)
                 allaports.append(fetchedairport)
+    for portnumber in range(len(allaports)):
+        allaports[portnumber] = allaports[portnumber] + ((rd.randint(20, 80)),)
     print(allaports)
     print(len(allaports))
     sqlinsert(allaports, kursori)
