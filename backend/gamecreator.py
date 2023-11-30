@@ -4,6 +4,7 @@ from geopy import distance
 import sys
 import pikkufunktiot
 from flask import Flask, request
+from flask_cors import CORS, cross_origin
 import os
 from dotenv import load_dotenv
 
@@ -65,6 +66,8 @@ def gamemaker(kursori, limit=20, distancebetween=200):
 
 if len(clargs) > 0 and clargs[0] == "run":
     app = Flask(__name__)
+    cors = CORS(app)
+    app.config['CORS_HEADERS'] = 'Content-Type'
     @app.route('/creategame/<limit>/<distance>')
     def creategame(limit, distance):
         yhteys = connector.sqlyhteys(sqlpass)
@@ -72,8 +75,9 @@ if len(clargs) > 0 and clargs[0] == "run":
         try:
             createdgame = gamemaker(kursori, int(limit), int(distance))
         except Exception as e:
-            return {'code':500, 'message':f'error "{e}" occured when creating game'}
-        return {'code':200, 'message':'game successfully created', 'data':createdgame}
+            print(e)
+            return [{'code':500, 'message':f'error "{e}" occured when creating game'}]
+        return [{'code':200, 'message':'game successfully created', 'data':createdgame}]
     if __name__ == '__main__':
         app.run(use_reloader=True, host='127.0.0.1', port=3000)
 else: 

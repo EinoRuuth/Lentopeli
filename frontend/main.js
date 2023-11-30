@@ -7,9 +7,15 @@ map.setView([60, 24], 7);
 
 
 async function gameSetup(){
-  const response = await fetch('http://127.0.0.1:3000/creategame/20/200');
-  const apiData = await response.json();
-  console.log(apiData);
+  var headers = {'Access-Control-Allow-Origin':'null'}
+  const response = await fetch('http://127.0.0.1:3000/creategame/20/200', {
+    method : "GET",
+    mode: 'cors',
+    headers: headers
+});
+const jsondata = response.json();
+
+  console.log(jsondata);
 }
 
 gameSetup();
