@@ -60,7 +60,7 @@ def gamemaker(kursori, limit=20, distancebetween=200):
             koordinaatit2 = fetchedairport[1:3]
             pituus = (distance.distance(koordinaatit1, koordinaatit2).km)
             if pituus <= distancebetween:
-                print(f"difference between {fetchedairport[0]} and {firstairport[0]} is smaller than 100km (distance: {pituus})")
+                print(f"difference between {fetchedairport[0]} and {firstairport[0]} is smaller than {pituus}km (distance: {pituus})")
                 allaports.append(fetchedairport)
     for portnumber in range(len(allaports)):
         allaports[portnumber] = allaports[portnumber] + ((rd.randint(20, 80)),)
@@ -88,6 +88,18 @@ if len(clargs) > 0 and clargs[0] == "run":
             return [{'code':500, 'message':f'error "{e}" occured when creating game'}]
         return [{'code':200, 'message':'game and player successfully created', 'data':{'gamedata':createdgame, 'playerdata':createdgame[0]}}]
 
+
+    @app.route('/cleardata')
+    def cleardata():
+        try:
+            yhteys = connector.sqlyhteys(sqlpass)
+            kursori = yhteys.cursor()
+            pikkufunktiot.cleardatabase(kursori)
+        except Exception as e:
+            print(e)
+            return [{'code':500, 'message':f'error "{e}" occured when clearing database'}]
+        return [{'code':200, 'message':'databse cleared successfully'}]
+        
     if __name__ == '__main__':
         app.run(use_reloader=True, host='127.0.0.1', port=3000)
 else: 
