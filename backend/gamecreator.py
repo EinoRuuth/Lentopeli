@@ -3,8 +3,8 @@ import connector
 from geopy import distance
 import sys
 import pikkufunktiot
-from flask import Flask, request
-from flask_cors import CORS, cross_origin
+from flask import Flask
+from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 
