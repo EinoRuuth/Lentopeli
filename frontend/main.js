@@ -16,10 +16,10 @@ const blueIcon = L.divIcon({className: 'blue_icon'});
 
 // Pyytää lentokenttien kordinaatit
 async function gameSetup(){
-  const response = await fetch('http://127.0.0.1:3000/creategame/20/200')
+  const response = await fetch('http://127.0.0.1:3000/creategame/20/200/jason')
   .then((response) => response.json())
   .then((location) => {
-    let airports = location[0].data
+    let airports = location[0].data.gamedata
     console.log(airports[0])
     for (let i = 0; i < airports.length; i++) {
       const marker = L.marker([airports[i].latitude, airports[i].longitude]).addTo(map);
