@@ -148,7 +148,16 @@
     border-radius: 5px;
     background-color: rgb(255, 255, 255);
 }
-
+.Fly-Button {
+    background-color: rgb(26, 26, 26);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #ffffff;
+    margin-top: 15%;
+}
 .Game-Info {
     border-radius: 5px;
     padding: 0.5%;
@@ -192,5 +201,10 @@
 /* Leafflet icons */
 .blue_icon {
     background-color: rgb(3, 143, 230);
+    border-radius: 50%;
+
+}
+.green_icon {
+    background-color: rgb(3, 230, 37);
     border-radius: 50%;
 }
