@@ -23,7 +23,7 @@ def lentokentta(kursori, airport1, airport2):
     
     
  
-
+    
 if __name__ == "__main__":
     sql = "SELECT airport_name FROM game"
     sql += " ORDER BY RAND ( )"
