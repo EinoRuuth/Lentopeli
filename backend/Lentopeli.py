@@ -1,10 +1,17 @@
-import connector
 import gamecreator
 import move
-import pikkufunktiot
+import connector
 import sys
-import time
-import random as rd
+import pikkufunktiot
+from flask import Flask
+from flask_cors import CORS
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+sqlpass = os.getenv('sqlpass')
+yhteys = connector.sqlyhteys(sqlpass)
+kursori = yhteys.cursor()
 
 clargs = (sys.argv)
 clargs.pop(0)
@@ -30,63 +37,45 @@ fuel_left = 1000
 treasures = 0
 # config ends
 
+if len(clargs) > 0 and clargs[0] == "run":
+    app = Flask(__name__)
+    cors = CORS(app)
+    app.config['CORS_HEADERS'] = 'Content-Type'
+    @app.route('/creategame/<limit>/<distance>/<name>')
+    def creategame(limit, distance, name):
+        try:
+            createdgame = gamecreator.gamemaker(kursori, int(limit), int(distance))
+            gamecreator.player_info(kursori, createdgame[0]['name'], 1, 5, name)
+        except Exception as e:
+            print(e)
+            return [{'code':500, 'message':f'error "{e}" occured when creating game'}]
+        return [{'code':200, 'message':'game and player successfully created', 'data':{'gamedata':createdgame, 'playerdata':createdgame[0]}}]
 
-yhteys = connector.sqlyhteys(sqlpassword)
-kursori = yhteys.cursor()
-if len(clargs) > 0 and clargs[0] == "del":
-    pikkufunktiot.cleardatabase(kursori)
-else:
-    difficulty = input("Mikä vaikeustaso?(helppo)(keskitaso)(vaikea): ")
-    if difficulty == "keskitaso":
-        itemamount = 5
-        airportamount = 50
-    elif difficulty == "vaikea":
-        itemamount = 10
-        airportamount = 100
-    else:
-        itemamount = 2
-        airportamount = 20
-    itemsandairports = gamecreator.airports_items(itemamount, airportamount,
-                                                  itemtons, itemnames,
-                                                  gamecountry, yhteys)
-    gamecreator.sqlinsert(itemsandairports[0], itemsandairports[1], yhteys)
-    gamecreator.player_info(id, fuel_budget, screen_name, fuel_left, yhteys)
-    if rd.randint(1, 100) == 1 or len(clargs) > 0 and clargs[0] == "rare":
-        print("Peliin on lisätty harvinainen rahti. Etsi se ja voita peli heti!")
-        gamecreator.rareitem(kursori, itemnames)
 
-    homebasename = gamecreator.homebase_haku(kursori)
-    notvisitedairport = gamecreator.airportsearch(kursori)
-    for airportname in range(len(notvisitedairport)):
-        notvisitedairport[airportname] = notvisitedairport[airportname][0]
-    notvisitedairport.remove(homebasename)
-    notvisitedairport.sort()
-
-    while True:
-        treasureamountleft = pikkufunktiot.treasureamount(kursori)
-        fuelamountleft = pikkufunktiot.fuelamount(kursori)
-        lokaatio = pikkufunktiot.playerlocation(kursori)
-        if fuelamountleft == 0:
-            print("PELI OHI! Polttoaineesi loppui")
+    @app.route('/cleardata')
+    def cleardata():
+        try:
             pikkufunktiot.cleardatabase(kursori)
-            exit()
-        print(f"Tämänhetkinen sijainti: {lokaatio}")
-        print(f"Jäljellä olevaa rahtia: {treasureamountleft}")
-        print(f"Polttoainetta jäljellä: {fuelamountleft}")
-        print(f"Kotikenttäsi nimi on: {homebasename}")
-        print(f"Lentokenttiä joilla et ole vielä käynyt: {notvisitedairport}")
-        lentokenttä = input("Mihin lentokenttään haluaisi liikkua?(quit lopettaa): ")
-        if lentokenttä == "quit":
-            print("Lopetit pelin")
+        except Exception as e:
+            print(e)
+            return [{'code':500, 'message':f'error "{e}" occured when clearing database'}]
+        return [{'code':200, 'message':'databse cleared successfully'}]
+    
+    
+    @app.route('/calculatefuel/<airport1>/<airport2>')
+    def calculatefuel(airport1,airport2):
+        try:
+            fueldata = move.fuelcalc(kursori, airport1, airport2)
+        except Exception as e:
+            print(e)
+            return [{'code':500, 'message':f'error "{e}" occured when calculating fuel'}]
+        return [{'code':200, 'message':'fuel calculated successfully', 'data':fueldata}]
+        
+    if __name__ == '__main__':
+        app.run(use_reloader=True, host='127.0.0.1', port=3000)
+else: 
+    if __name__ == '__main__':
+        if len(clargs) > 0 and clargs[0] == "del":
             pikkufunktiot.cleardatabase(kursori)
-            exit()
-        lentokenttä = pikkufunktiot.fullairportname(lentokenttä, kursori)
-        if lentokenttä not in notvisitedairport and lentokenttä != homebasename:
-            print("Lentokenttää ei tunnistettu")
-            time.sleep(0.5)
-            print()
-            continue
-        move.move(lentokenttä, yhteys)
-        if lentokenttä in notvisitedairport:
-            notvisitedairport.remove(lentokenttä)
-        print()
+        else:
+            gamecreator.gamemaker(kursori)

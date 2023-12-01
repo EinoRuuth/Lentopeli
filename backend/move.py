@@ -1,102 +1,25 @@
 import pikkufunktiot
-import time
+import connector
+from geopy import distance
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+sqlpass = os.getenv('sqlpass')
+yhteys = connector.sqlyhteys(sqlpass)
+kursori = yhteys.cursor()
 
-def treasure_check(aarre, tavarat, yhteys):
-    lentokentan_nimi = tavarat
-    aarteen_nimi = aarre[0][0]
-    merkkijono = ""
-    if aarteen_nimi:
-        sql1 = "UPDATE players SET treasures='"+aarteen_nimi+"' WHERE id='"+"1"+"'"
-        sql2 = "UPDATE game SET treasure='"+"(NULL)"+"' WHERE treasure='"+str(aarteen_nimi)+"'"
-        kursori = yhteys.cursor()
-        kursori.execute(sql1)
-        kursori = yhteys.cursor()
-        kursori.execute(sql2)
-        merkkijono = (f"{lentokentan_nimi}issä on rahtia. {aarteen_nimi} lisätty ruumaan")
-        time.sleep(0.5)
-    else:
-        merkkijono = (f"{lentokentan_nimi}issä ei ole rahtia")
-    return merkkijono
-
-
-def gotalltreasure(kursori):
-    sql = "SELECT treasure FROM game"
+def fuelcalc(kursori, airport1, airport2):
+    sql = f"SELECT coordinates FROM game WHERE airport_name ='{airport2}'" 
     kursori.execute(sql)
-    tulos = kursori.fetchall()
-    luku = 0
-    for x in tulos:
-        if x[0] != "(NULL)" and x[0] != None:
-            luku += 1
-    if luku == 0:
-        return True
-    else:
-        return False
+    coords2 = kursori.fetchall()[0][0].split(',')
+    sql1 = f"SELECT coordinates FROM game WHERE airport_name ='{airport1}'"
+    kursori.execute(sql1)
+    coords1 = kursori.fetchall()[0][0].split(',')
+    pituus = distance.distance(coords1, coords2).km
+    
+    print(pituus)
 
-
-def treasure_haku(tavarat, yhteys):
-    lentokentan_nimi = tavarat
-    sql = "SELECT treasure FROM game"
-    sql += " WHERE (airport_name='"+lentokentan_nimi+"')"
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    aarre = kursori.fetchall()
-    if len(aarre) != 0:
-        print(treasure_check(aarre, lentokentan_nimi, yhteys))
-    else:
-        print("Ei löytynyt rahtia")
-    return
-
-
-def move(airport, yhteys):
-    sql = "SELECT fuel_left FROM players"
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    fuel= kursori.fetchall()
-    fuel = fuel[0][0]
-    if fuel >= 100:
-        fuelleft = fuel-100
-        sql1 = "UPDATE players SET location='" + airport + "'"
-        sql2 = "UPDATE players SET fuel_left='" + str(fuelleft) + "'"
-        sql3 = "UPDATE game SET has_visited=%s WHERE airport_name='"+ airport + "'"
-        val3 = (1,)
-        kursori.execute(sql1)
-        kursori.execute(sql2)
-        kursori.execute(sql3,val3)
-        print(f"Olet liikkunut {airport}ille")
-        if homebasecheck(airport, yhteys):
-            return
-        treasure_haku(airport, yhteys)
-        return
-    else:
-        print("Peli ohi! Polttoaineesi loppui.")
-        pikkufunktiot.cleardatabase(kursori)
-        exit()
-
-
-def homebasecheck(airport, yhteys):
-    sql = "SELECT airport_name FROM game WHERE homebase='1'"
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    homebase = kursori.fetchall()[0][0]
-    if airport == homebase:
-        print("Olet nyt kotikentällä")
-        sql1 = "SELECT treasures FROM players"
-        kursori.execute(sql1)
-        treasure = kursori.fetchall()[0][0]
-        if treasure != "" and treasure != None:
-            if treasure.split(" ")[0] == "kultaisia":
-                pikkufunktiot.cleardatabase(kursori)
-                exit("VOITIT PELIN! Löysit harvinaisen rahdin")
-            print("Sinulla on rahtia, polttoaine täytetty")
-            sql2 = "UPDATE players SET treasures = ''"
-            kursori.execute(sql2)
-            sql3 = "UPDATE players SET fuel_left= 1000"
-            kursori.execute(sql3)
-            if gotalltreasure(kursori):
-                print("VOITIT PELIN! Löysit kaikki rahdit")
-                pikkufunktiot.cleardatabase(kursori)
-                exit()
-        return True
-    else:
-        return False
+    fuel = (pituus // 50)+1
+    print(fuel)
+    return {'message':'fuel amount calculated', 'data':{"Fuel amount:": fuel}}
