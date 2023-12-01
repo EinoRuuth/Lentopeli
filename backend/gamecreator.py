@@ -51,7 +51,6 @@ def player_info(kursori, location, id, fuel_budget, screen_name):
 def gamemaker(kursori, limit=20, distancebetween=200):
     country = "FI"
     firstairport = yhdenhakija(country, kursori)
-    firstairport = firstairport + ((rd.randint(20, 80)),)
     allaports = [firstairport]
     koordinaatit1 = firstairport[1:3]
     while len(allaports) < limit:
