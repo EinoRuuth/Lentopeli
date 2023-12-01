@@ -1,10 +1,9 @@
 // Kartta
 const map = L.map('map', {tap: false});
-L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-  maxZoom: 15,
-  subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-}).addTo(map);
-map.setView([60, 24], 7);
+  L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+    maxZoom: 10,
+    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+  }).addTo(map);
 
 // Onnin tehtävä
 // Tee tähän funktio joka ottaa Pelaajan tiedot backendistä lähetetystä jsonista
@@ -44,6 +43,9 @@ async function gameSetup(url){
     let airports = location[0].data.gamedata
     console.log(player)
     console.log(airports)
+    let longitude = location[0].data.playerdata.longitude
+    let latitude = location[0].data.playerdata.latitude
+    map.setView([latitude, longitude], 7);
 
     // Laittaa lentokenttien sijainnit kartalle
     for (let i = 0; i < airports.length; i++) {
@@ -78,6 +80,7 @@ async function gameSetup(url){
       }
     }
   });
+
 }
 
 gameSetup('http://127.0.0.1:3000/creategame/20/200/jason');
