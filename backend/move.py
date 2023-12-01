@@ -22,4 +22,4 @@ def fuelcalc(kursori, airport1, airport2):
 
     fuel = (pituus // 50)+1
     print(fuel)
-    return {"Fuel amount:": fuel}
+    return {"Fuel:":fuel, 'distance':pituus}
