@@ -50,8 +50,7 @@ def player_info(kursori, location, id, fuel_budget, screen_name):
 #tämä hakee annetun määränn lentokenttiä joiden etäisyys aloituspointista on annettu määrä.
 #ekana haetaan alotuskenttä jonka avulla verrataan jos lentälentät ovat halutun kuplan sisällä
 #loppulistassa jokaisella lentokoentällä on oma tuple, jossa ekana on nimi, sitten lat, lon ja vika on item prosentti
-def gamemaker(kursori, limit=20, distancebetween=200):
-    country = "FI"
+def gamemaker(kursori, country, limit=20, distancebetween=200):
     firstairport = yhdenhakija(country, kursori)
     allaports = [firstairport]
     koordinaatit1 = firstairport[1:3]

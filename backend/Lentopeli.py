@@ -14,11 +14,8 @@ yhteys = connector.sqlyhteys(sqlpass)
 kursori = yhteys.cursor()
 
 clargs = (sys.argv)
-clargs.pop(0)
 
 # config starts
-# laita tähän alle oma sql salasanasi
-sqlpassword = "admin"
 # lentokenttien maa
 gamecountry = "FI"
 # tavaroitten määrät ja nimet
@@ -29,13 +26,6 @@ itemnames = ["aurinkopaneeleita", "puutavaraa", "teräslevyjä",
              "sähkölaitteita", "tekstiileitä", "säilykkeitä",
              "työkaluja", "postia", "rakennustarvikkeita",
              "koneiden varaosia"]
-# Playerin tiedot
-id = 1
-fuel_budget = 1000
-screen_name = "player"
-fuel_left = 1000
-treasures = 0
-# config ends
 
 if len(clargs) > 0 and clargs[0] == "run":
     app = Flask(__name__)
@@ -44,7 +34,7 @@ if len(clargs) > 0 and clargs[0] == "run":
     @app.route('/creategame/<limit>/<distance>/<name>')
     def creategame(limit, distance, name):
         try:
-            createdgame = gamecreator.gamemaker(kursori, int(limit), int(distance))
+            createdgame = gamecreator.gamemaker(kursori, gamecountry, int(limit), int(distance))
             gamecreator.player_info(kursori, createdgame[0]['name'], 1, 5, name)
         except Exception as e:
             print(e)
