@@ -29,8 +29,8 @@ const greenIcon = L.divIcon({className: 'green_icon'});
 
 
 // Pyytää lentokenttien kordinaatit
-async function gameSetup(){
-  const response = await fetch('http://127.0.0.1:3000/creategame/20/200/jason')
+async function gameSetup(url){
+  fetch(url)
   .then((response) => response.json())
   .then((location) => {
     let player = location[0].data.playerdata
@@ -56,17 +56,31 @@ async function gameSetup(){
         const h4 = document.createElement('h4');
         h4.innerHTML = airports[i].name;
         popupContent.append(h4);
+
         const goButton = document.createElement('button');
         goButton.classList.add('Fly-Button');
         goButton.innerHTML = 'Lennä tänne';
+
+        const quitbutton = document.createElement('button');
+        quitbutton.classList.add('Fly-Button');
+        quitbutton.innerHTML = 'Quit';
+
         popupContent.append(goButton);
+        popupContent.append(quitbutton);
+
         const p = document.createElement('p');
         p.innerHTML = `Mahdollisuus: ${airports[i].treasurechance} %`;
         popupContent.append(p);
+
         marker.bindPopup(popupContent);
+        quitbutton.addEventListener('click', async function() {
+          const response = await fetch('http://127.0.0.1:3000/cleardata');
+          const data = await response.json();
+          console.log(data)
+        })
       }
     }
   });
 }
 
-gameSetup();
+gameSetup('http://127.0.0.1:3000/creategame/20/200/jason');
