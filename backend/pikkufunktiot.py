@@ -1,4 +1,4 @@
-import random
+import random as rd
 
 
 def fullairportname(name, kursori):
@@ -48,7 +48,7 @@ def playerlocation(kursori):
 # Funktio ottaa prosentin ja laskee mahdollisuuden että löytyykö itemi vai ei.
 # Jos itemi löytyy, lasketaan myös löytyykö harvinainen itemi vai ei.
 
-def itemchance(percentage):
+def itemchance(percentage, itemtons, itemnames):
     rareitempercentage = 1
     itemname = None
     found = False
@@ -57,7 +57,7 @@ def itemchance(percentage):
         if rd.randint(0, 100) < rareitempercentage:
             itemname = "rare"
         else:
-            itemname = f"{random.choice(itemtons)} {random.choice(itemnames)}"
+            itemname = f"{rd.choice(itemtons)} {rd.choice(itemnames)}"
     response = {
         'found': found,
         'item': itemname
