@@ -20,12 +20,19 @@ map.setView([60, 24], 7);
 
 
 
-//
-
+// Quit button
+const quitbutton = document.getElementById('Quit');
+quitbutton.addEventListener('click', async function() {
+  const response = await fetch('http://127.0.0.1:3000/cleardata');
+  const data = await response.json();
+  console.log(data)
+})
 
 // Lentokenttien iconit kartalla
 const blueIcon = L.divIcon({className: 'blue_icon'});
 const greenIcon = L.divIcon({className: 'green_icon'});
+
+
 
 
 // Pyytää lentokenttien kordinaatit
@@ -61,23 +68,13 @@ async function gameSetup(url){
         goButton.classList.add('Fly-Button');
         goButton.innerHTML = 'Lennä tänne';
 
-        const quitbutton = document.createElement('button');
-        quitbutton.classList.add('Fly-Button');
-        quitbutton.innerHTML = 'Quit';
-
         popupContent.append(goButton);
-        popupContent.append(quitbutton);
 
         const p = document.createElement('p');
         p.innerHTML = `Mahdollisuus: ${airports[i].treasurechance} %`;
         popupContent.append(p);
 
         marker.bindPopup(popupContent);
-        quitbutton.addEventListener('click', async function() {
-          const response = await fetch('http://127.0.0.1:3000/cleardata');
-          const data = await response.json();
-          console.log(data)
-        })
       }
     }
   });
