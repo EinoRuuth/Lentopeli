@@ -44,26 +44,27 @@
 }
 .Menu-Content {
     width: 300px;
+
+}
+.Menu-List {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction:column;
+    list-style-type: none;
 }
-
 .Menu-Button {
-    margin-top: 15px;
-    margin-bottom: 15px;
     background-color: #ffffff;
     border: none;
-    padding: 20px 38px;
     font-size: 16px;
+    padding: 20px 38px;
     border-radius: 30px;
     transition: 0.5s;
     cursor: pointer;
-}
-.Menu-Button a {
+    line-height: 100px;
     text-decoration: none;
     color: rgb(19, 19, 19);
+    list-style-type: none;
 }
 .Menu-Button:hover {
     background-color: rgb(26, 26, 26);
@@ -111,6 +112,9 @@
 .navbar {
     width: 15%;
 }
+.Game-List {
+    list-style-type: none;
+}
 .Quit-Button {
     line-height: 100px;
     background-color: #ffffff;
@@ -123,6 +127,10 @@
     line-height: 100px;
     text-decoration: none;
     color: rgb(19, 19, 19);
+}
+.Quit-Button:hover {
+    background-color: rgb(26, 26, 26);
+    color: #ffffff;
 }
 /*Main Content*/
 
