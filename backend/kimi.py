@@ -13,6 +13,9 @@ Tehtävä on tehä toi move funktio
 parametrit on noi mitä on jo laitettu, eli minne ollaa menossa ja paljo polttoainetta lentoon menee
 
 eli logiikka on sit se, et se päivittää nää tiedot player tietokantaan, ja palauttaa true/false sen mukaa toimiko vai ei
+palautuksessa halutaan uuden lentokentä tiedot muodossa:
+({'name':lentokentän name, 'latitude':lentokentän latitude, 'longitude':lentokentän longitude, 'treasurechance':lentokentän treasurechance})
+mutta toi palautus voidaan kattoo yhes
 '''
 
 def move(kursor, targetairport, polttoaine):
