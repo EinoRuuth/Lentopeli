@@ -1,10 +1,15 @@
 import pikkufunktiot
 import connector
 from geopy import distance
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+sqlpass = os.getenv('sqlpass')
 
 
 def lentokentta(kursori, airport1, airport2):
-    sql = "SELECT * FROM game WHERE airport_name =" + airport2 
+    sql = f"SELECT * FROM game WHERE airport_name ='{airport2}'" 
     kursori.execute(sql)
     airport1 = kursori.fetchall()[0]
     sql1 = "SELECT coordinates FROM game WHERE airport_name =" + airport1
@@ -28,14 +33,14 @@ if __name__ == "__main__":
     sql = "SELECT airport_name FROM game"
     sql += " ORDER BY RAND ( )"
     sql += " LIMIT 2"
-    yhteys = connector.sqlyhteys("admin")
+    yhteys = connector.sqlyhteys(sqlpass)
     kursori = yhteys.cursor()
     kursori.execute(sql)
     airportname = kursori.fetchall()
     #
     # 
     #
-    lentokentta(kursori, airportname[0], airportname[1])
+    lentokentta(kursori, airportname[0][0], airportname[1][0])
     print(airportname)
 '''
 tehtävää varten runaa UUSI gamecreator file yksinään jotta saat täytettyä tietokannan

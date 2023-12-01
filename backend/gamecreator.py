@@ -103,7 +103,7 @@ if len(clargs) > 0 and clargs[0] == "run":
         app.run(use_reloader=True, host='127.0.0.1', port=3000)
 else: 
     if __name__ == '__main__':
-        yhteys = connector.sqlyhteys(sqlpass)
+        yhteys = connector.sqlyhteys('admin')
         kursori = yhteys.cursor()
         if len(clargs) > 0 and clargs[0] == "del":
             pikkufunktiot.cleardatabase(kursori)
