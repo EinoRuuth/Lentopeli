@@ -6,7 +6,7 @@ from geopy import distance
 def lentokentta(kursori, airport1, airport2):
     sql = "SELECT * FROM game WHERE airport_name =" + airport2 
     kursori.execute(sql)
-    lentokentta1 = kursori.fetchall()[0]
+    airport1 = kursori.fetchall()[0]
     sql1 = "SELECT coordinates FROM game WHERE airport_name =" + airport1
     kursori.execute(sql1)
     airport1_coords = kursori.fetchall()[0][0]
@@ -18,13 +18,11 @@ def lentokentta(kursori, airport1, airport2):
     elif pituus <= 100:
         fuel_amount = 2
 
-    print("Fuel amount needed:", fuel_amount)
-    return pituus
+    
+    return {"Fuel amount needed:": fuel_amount , "Second airport:": airport2 , "Location:": coords2 , "Airport name: ": airportname}
     
     
  
-
-
 
 if __name__ == "__main__":
     sql = "SELECT airport_name FROM game"
