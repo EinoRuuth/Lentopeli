@@ -18,8 +18,30 @@ palautuksessa halutaan uuden lentokentä tiedot muodossa:
 mutta toi palautus voidaan kattoo yhes
 '''
 
-def move(kursor, targetairport, polttoaine):
+
+def move(kursori, targetairport, polttoaine):
+    sql = "SELECT fuel_left FROM players"
+    kursori.execute(sql)
+    fuel = kursori.fetchall()[0][0]
+    if fuel >= polttoaine:
+        fuel = fuel - polttoaine
+        sql2 = "UPDATE players SET location ='" + targetairport + "'"
+        sql3 = "SELECT coordinates FROM game WHERE airport_name ='" + targetairport + "'"
+        sql4 = "UPDATE players SET fuel_left ='" + fuel + "'"
+        sql5 = "SELECT treasure_chance FROM game WHERE airport_name = '" + targetairport + "'"
+        kursori.execute(sql2)
+        kursori.execute(sql3)
+        kursori.execute(sql4)
+        kursori.execute(sql5)
+        treasurechance = kursori.fetchall()[0][0]
+        result = {
+            'name': targetairport,
+            'latitude': latitude,
+            'longitude': longitude,
+            'treasurechance': treasurechance
+        }
     return
+
 
 def start():
     sql = "SELECT airport_name FROM game"
