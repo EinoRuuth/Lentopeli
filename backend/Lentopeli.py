@@ -29,6 +29,8 @@ if len(clargs) > 0 and clargs[0] == "run":
     app = Flask(__name__)
     cors = CORS(app)
     app.config['CORS_HEADERS'] = 'Content-Type'
+
+
     @app.route('/creategame/<limit>/<distance>/<name>/<gamecountry>')
     def creategame(limit, distance, name, gamecountry):
         try:
@@ -36,8 +38,9 @@ if len(clargs) > 0 and clargs[0] == "run":
             gamecreator.player_info(kursori, createdgame[0]['name'], 1, 5, name)
         except Exception as e:
             print(e)
-            return [{'code':500, 'message':f'error "{e}" occured when creating game'}]
-        return [{'code':200, 'message':'game and player successfully created', 'data':{'gamedata':createdgame, 'playerdata':createdgame[0]}}]
+            return [{'code': 500, 'message': f'error "{e}" occurred when creating game'}]
+        return [{'code': 200, 'message': 'game and player successfully created',
+                 'data': {'gamedata': createdgame, 'playerdata': createdgame[0]}}]
 
 
     @app.route('/cleardata')
@@ -46,10 +49,10 @@ if len(clargs) > 0 and clargs[0] == "run":
             pikkufunktiot.cleardatabase(kursori)
         except Exception as e:
             print(e)
-            return [{'code':500, 'message':f'error "{e}" occured when clearing database'}]
-        return [{'code':200, 'message':'databse cleared successfully'}]
-    
-    
+            return [{'code': 500, 'message': f'error "{e}" occurred when clearing database'}]
+        return [{'code': 200, 'message': 'database cleared successfully'}]
+
+
     @app.route('/playerdata')
     def playerdata():
         try:
@@ -60,22 +63,33 @@ if len(clargs) > 0 and clargs[0] == "run":
             pdatadict = {'fuel': fuel_left, 'treasures': treasures, 'location': location}
         except Exception as e:
             print(e)
-            return [{'code':500, 'message':f'error "{e}" occured when fetching playerdata'}]
-        return [{'code':200, 'message':'playerdata fetched successfully', 'data':pdatadict}]
-    
-    
+            return [{'code': 500, 'message': f'error "{e}" occurred when fetching playerdata'}]
+        return [{'code': 200, 'message': 'playerdata fetched successfully', 'data': pdatadict}]
+
+
     @app.route('/calculatefuel/<airport1>/<airport2>')
-    def calculatefuel(airport1,airport2):
+    def calculatefuel(airport1, airport2):
         try:
             fueldata = move.fuelcalc(kursori, airport1, airport2)
         except Exception as e:
             print(e)
-            return [{'code':500, 'message':f'error "{e}" occured when calculating fuel'}]
-        return [{'code':200, 'message':'fuel calculated successfully', 'data':fueldata}]
-        
+            return [{'code': 500, 'message': f'error "{e}" occurred when calculating fuel'}]
+        return [{'code': 200, 'message': 'fuel calculated successfully', 'data': fueldata}]
+
+
+    @app.route('/move/<targetairport>/<fuelconsumption>')
+    def move(targetairport, fuelconsumption):
+        try:
+            movedata = move.move(targetairport, fuelconsumption)
+        except Exception as e:
+            print(e)
+            return [{'code': 500, 'message': f'error "{e}" occurred while trying to move'}]
+        return [{'code': 200, 'data': movedata}]
+
+
     if __name__ == '__main__':
         app.run(use_reloader=True, host='127.0.0.1', port=3000)
-else: 
+else:
     if __name__ == '__main__':
         if len(clargs) > 0 and clargs[0] == "del":
             pikkufunktiot.cleardatabase(kursori)
