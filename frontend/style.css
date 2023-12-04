@@ -76,6 +76,73 @@
     width: 100%;
     min-height:100px;
 }
+/*----------
+  Difficulty
+-----------*/
+
+/*Body*/
+
+.Difficulty {
+    background-color: rgb(26, 26, 26);
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100vh; 
+
+}
+
+/*Header*/
+
+.Difficulty-Header {
+    width: 100%;
+    text-align: center;
+    min-height:100px;
+}
+.Difficulty-Title {
+    line-height: 100px;
+    color: white;
+    font-size: 50px;
+}
+/*Main Content*/
+
+.Main-Difficulty-Container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.Difficulty-Content {
+    width: 300px;
+}
+.Difficulty-List {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+}
+.Difficulty-Button {
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    width: 120px;
+    height: 60px;
+    background-color: #ffffff;
+    border: none;
+    font-size: 16px;
+    border-radius: 30px;
+    transition: 0.5s;
+    cursor: pointer;
+    text-decoration: none;
+    color: rgb(19, 19, 19);
+    list-style-type: none;
+}
+.Difficulty-Button:hover {
+    background-color: rgb(26, 26, 26);
+    color: #ffffff;
+}
+/*Footer*/
+
+.Difficulty-Footer {
+    width: 100%;
+    min-height:100px;
+}
 
 /*----------
     GAME
