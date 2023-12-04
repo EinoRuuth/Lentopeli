@@ -1,9 +1,18 @@
-// Loader
+const loader = document.getElementById("loader");
+const loader_text = document.getElementById("loader_text");
 
-//const loader = document.getElementById("preloader");
-//window.addEventListener("load", function(){
-  //loader.style.display = "none";
-//})
+function displayLoading() {
+  loader.classList.add("display");
+  loader_text.classList.add("display");
+
+}
+
+function hideLoading() {
+  loader.classList.remove("display");
+  loader_text.classList.remove("display");
+
+}
+
 //Dialog
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -12,6 +21,10 @@ function getCookie(name) {
 }
 
 const country = getCookie("country");
+const playerName = getCookie("playerName");
+
+console.log(country)
+console.log(playerName)
 
 // Kartta
 const map = L.map('map', {tap: false});
@@ -51,9 +64,12 @@ const greenIcon = L.divIcon({className: 'green_icon'});
 
 // Pyytää lentokenttien kordinaatit
 async function gameSetup(url){
+  displayLoading();
   fetch(url)
   .then((response) => response.json())
   .then((location) => {
+    hideLoading();
+    console.log(url)
     let player = location[0].data.playerdata
     let airports = location[0].data.gamedata
     console.log(player)
@@ -97,7 +113,7 @@ async function gameSetup(url){
 
 }
 
-if (country !== "") {
-  gameSetup('http://127.0.0.1:3000/creategame/20/200/jason/' + country);
+if (country !== "" && playerName !== "") {
+  gameSetup('http://127.0.0.1:3000/creategame/20/200/' + playerName + "/" + country);
 }
 

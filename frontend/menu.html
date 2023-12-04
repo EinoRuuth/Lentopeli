@@ -10,18 +10,13 @@
   </head>
   <body class="Menu">
     <dialog id="Menu-Dialog">
-      <div class="Dialog-Div1">
-        <p>Syötä nimesi</p>
-        <input type="text" id="Player-Name" name="Pname">
-      </div>
-      <div class="Dialog-Div2">
-        <p>Valitse vaikeustaso</p>
-        <div class="Dialog-Div3">
-          <button class="Dialog-Button" id="Close">Lopeta</button>
-          <button onclick="window.location='game.html';" class="Dialog-Button" id="Suomi" value="FI">Suomi</button>
-          <button onclick="window.location='game.html';" class="Dialog-Button" id="Usa" value="US">Usa</button>
-        </div>
-      </div>
+          Syötä nimesi:<input type="text" id="Player-Name" name="fname">
+          <p class="Difficulty-text">Valitse vaikeustaso</p>
+          <div class="Dialog-Div">
+            <button class="Dialog-Button" id="Close">Lopeta</button>
+            <button class="Dialog-Button" id="Suomi" value="FI">Suomi</button>
+            <button class="Dialog-Button" id="Usa" value="US">Usa</button>
+          </div>
     </dialog>
 
     <header class="Menu-Header">

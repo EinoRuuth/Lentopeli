@@ -82,15 +82,27 @@
 /*----------
   Dialog/Loader
 -----------*/
-
-#preloader {
+#loader {
     background: url("img/loader_plane.gif") no-repeat center center;
-    background-size: 50%;
-    height: 100vh;
+    background-size: 300px;
     width: 100%;
-    position: fixed;
-    z-index: 100;
+    height: 60vh;
+    display: none;
 }
+#loader.display {
+    display: block;
+}
+#loader_text {
+    font-size: 30px;
+    height: 19vh;
+    text-align: center;
+    display: none;
+}
+
+#loader_text.display {
+    display: block;
+}
+
 #Menu-Dialog {
     margin: auto;
     width: 400px;
@@ -99,17 +111,13 @@
     border-radius: 50px;
     padding: 40px;
 }
-.Dialog-Div1 {
-    display: flex;
-    align-items: center;
+#Player-Name {
+    margin-left: 5%;
 }
-.Dialog-Div1 p {
-    padding-right: 5%;
-}
-.Dialog-Div2 {
+.Difficulty-text {
     margin-top: 10%;
 }
-.Dialog-Div3 {
+.Dialog-Div {
     display: flex;
     align-items: center;
     justify-content: space-around;

@@ -17,20 +17,24 @@
     <title>Game</title>
   </head>
   <body class="Game">
-      <header class="Game-Header">
-        <div class="Title-box">
-          <h1 class="Game-Title">Lentokonepeli</h1>
-        </div>
-        <nav class="navbar">
-          <ul class="Game-List">
-            <li><a href="menu.html" class="Quit-Button" id="Quit">Lopeta peli</a></li>
-          </ul>
-        </nav>
-      </header>
-
-      <main class="Main-Game-Container">
+    <header class="Game-Header">
+      <div class="Title-box">
+        <h1 class="Game-Title">Lentokonepeli</h1>
+      </div>
+      <nav class="navbar">
+        <ul class="Game-List">
+          <li>
+            <a href="menu.html" class="Quit-Button" id="Quit">Lopeta peli</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main class="Main-Game-Container">
         <div class="Game-Content">
-          <div id="map"></div>
+          <div id="map">
+            <div id="loader"></div>
+            <p id="loader_text">Luodaan Karttaa</p>
+          </div>
           <div class="Game-Info">
             <!-- Onnin tehtävä, Alla on kolme div laattikkoa joihin tulee tiedot
                  Voit luoda suoraan diveihin esim <p id="Player">Player name:</p> ja lisätä siihen
@@ -39,9 +43,8 @@
             <div class="Inventory"></div>
             <div class="Other-Info"></div>
           </div>
-        </div>
-      </main>
-
-      <footer class="Game-Footer"></footer>
-  </body>
+      </div>
+    </main>
+    <footer class="Game-Footer"></footer>
+</body>
 </html>
