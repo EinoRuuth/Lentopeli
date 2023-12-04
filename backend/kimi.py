@@ -2,7 +2,7 @@ import connector
 from geopy import distance
 import os
 from dotenv import load_dotenv
-
+import gamecreator
 load_dotenv()
 sqlpass = os.getenv('sqlpass')
 yhteys = connector.sqlyhteys(sqlpass)
@@ -22,25 +22,28 @@ mutta toi palautus voidaan kattoo yhes
 def move(kursori, targetairport, polttoaine):
     sql = "SELECT fuel_left FROM players"
     kursori.execute(sql)
-    fuel = kursori.fetchall()[0][0]
-    if fuel >= polttoaine:
-        fuel = fuel - polttoaine
-        sql2 = "UPDATE players SET location ='" + targetairport + "'"
-        sql3 = "SELECT coordinates FROM game WHERE airport_name ='" + targetairport + "'"
-        sql4 = "UPDATE players SET fuel_left ='" + fuel + "'"
-        sql5 = "SELECT treasure_chance FROM game WHERE airport_name = '" + targetairport + "'"
+    fuelleft = kursori.fetchall()[0][0]
+    if fuelleft >= polttoaine:
+        fuel = fuelleft - polttoaine
+        sql2 = f"UPDATE players SET location ='" + targetairport + "'"
+        sql3 = f"SELECT coordinates FROM game WHERE airport_name ='{targetairport}'"
+        sql4 = f"UPDATE players SET fuel_left ='{fuel}'"
+        sql5 = f"SELECT treasure_chance FROM game WHERE airport_name ='{targetairport}'"
+        sql6 = f"UPDATE game SET has_visited=1 WHERE airport_name ='{targetairport}'"
         kursori.execute(sql2)
         kursori.execute(sql3)
+        latitude, longitude = kursori.fetchall()[0][0].split(',')
         kursori.execute(sql4)
         kursori.execute(sql5)
         treasurechance = kursori.fetchall()[0][0]
-        result = {
-            'name': targetairport,
-            'latitude': latitude,
-            'longitude': longitude,
-            'treasurechance': treasurechance
-        }
-    return
+        kursori.execute(sql6)
+        data = {'name': targetairport, 'latitude': latitude,
+                'longitude': longitude, 'treasure chance': treasurechance}
+        message = "Liikuttu uudelle lentokentälle."
+        return True, data, message
+    else:
+        message = "Ei voitu liikkua. Polttoaine ei riitä."
+        return False, message
 
 
 def start():
