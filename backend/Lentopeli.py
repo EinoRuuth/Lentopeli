@@ -66,4 +66,4 @@ else:
         if len(clargs) > 0 and clargs[0] == "del":
             pikkufunktiot.cleardatabase(kursori)
         else:
-            gamecreator.gamemaker(kursori, 'US', 50, 500)
+            gamecreator.gamemaker(kursori, 'FI', 20, 200)
