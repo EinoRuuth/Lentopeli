@@ -1,3 +1,36 @@
+// Loader
+
+const loader = document.getElementById("preloader");
+window.addEventListener("load", function(){
+  loader.style.display = "none";
+})
+
+//Dialog 
+
+const dialog = document.getElementById("Menu-Dialog");
+const suomiBtn = document.getElementById("Suomi");
+const showBtn = document.getElementById("Show");
+const usaBtn = document.getElementById("Usa");
+const closeBtn = document.getElementById("Close");
+let dialog_value = ""
+
+showBtn.addEventListener("click", () => {
+  dialog.showModal();
+});
+
+usaBtn.addEventListener("click", () => {
+  dialog.showModal();
+});
+
+suomiBtn.addEventListener("click", () => {
+  dialog.showModal();
+});
+
+closeBtn.addEventListener("click", () => {
+  dialog.close();
+});
+
+
 // Kartta
 const map = L.map('map', {tap: false});
   L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
@@ -35,7 +68,7 @@ const greenIcon = L.divIcon({className: 'green_icon'});
 
 
 // Pyytää lentokenttien kordinaatit
-async function gameSetup(url){
+async function gameSetup(url,usa,fi){
   fetch(url)
   .then((response) => response.json())
   .then((location) => {
@@ -83,4 +116,4 @@ async function gameSetup(url){
 
 }
 
-gameSetup('http://127.0.0.1:3000/creategame/20/200/jason');
+gameSetup('http://127.0.0.1:3000/creategame/20/200/jason',dialog_value);

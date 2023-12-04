@@ -44,7 +44,6 @@
 }
 .Menu-Content {
     width: 300px;
-
 }
 .Menu-List {
     display: flex;
@@ -54,6 +53,11 @@
     list-style-type: none;
 }
 .Menu-Button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: #ffffff;
     border: none;
     font-size: 16px;
@@ -61,7 +65,6 @@
     border-radius: 30px;
     transition: 0.5s;
     cursor: pointer;
-    line-height: 100px;
     text-decoration: none;
     color: rgb(19, 19, 19);
     list-style-type: none;
@@ -77,72 +80,105 @@
     min-height:100px;
 }
 /*----------
-  Difficulty
+  Dialog/Loader
 -----------*/
 
-/*Body*/
-
-.Difficulty {
-    background-color: rgb(26, 26, 26);
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    height: 100vh; 
-
-}
-
-/*Header*/
-
-.Difficulty-Header {
+#preloader {
+    background: url("img/loader_plane.gif") no-repeat center center;
+    background-size: 50%;
+    height: 100vh;
     width: 100%;
-    text-align: center;
-    min-height:100px;
+    position: fixed;
+    z-index: 100;
 }
-.Difficulty-Title {
-    line-height: 100px;
-    color: white;
-    font-size: 50px;
+#Menu-Dialog {
+    margin: auto;
+    width: 400px;
+    height: 210px;
+    border: none;
+    border-radius: 50px;
+    padding: 40px;
 }
-/*Main Content*/
-
-.Main-Difficulty-Container {
+.Dialog-Div1 {
     display: flex;
     align-items: center;
-    justify-content: center;
 }
-.Difficulty-Content {
-    width: 300px;
+.Dialog-Div1 p {
+    padding-right: 5%;
 }
-.Difficulty-List {
+.Dialog-Div2 {
+    margin-top: 10%;
+}
+.Dialog-Div3 {
     display: flex;
+    align-items: center;
     justify-content: space-around;
-    list-style-type: none;
 }
-.Difficulty-Button {
-    display: flex;
-    justify-content:center;
-    align-items:center;
-    width: 120px;
-    height: 60px;
-    background-color: #ffffff;
+.Dialog-Button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: rgb(19, 19, 19);
     border: none;
-    font-size: 16px;
+    font-size: 12px;
+    padding: 10px 28px;
     border-radius: 30px;
     transition: 0.5s;
     cursor: pointer;
     text-decoration: none;
-    color: rgb(19, 19, 19);
+    color: #ffffff;
     list-style-type: none;
 }
-.Difficulty-Button:hover {
-    background-color: rgb(26, 26, 26);
-    color: #ffffff;
-}
-/*Footer*/
-
-.Difficulty-Footer {
-    width: 100%;
-    min-height:100px;
-}
+dialog {
+    animation: fade-out 0.7s ease-out;
+  }
+  
+  dialog[open] {
+    animation: fade-in 0.7s ease-out;
+  }
+  
+  dialog[open]::backdrop {
+    animation: backdrop-fade-in 0.7s ease-out forwards;
+  }
+  
+  /* Animation keyframes */
+  
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: scaleY(0);
+      display: none;
+    }
+  
+    100% {
+      opacity: 1;
+      transform: scaleY(1);
+      display: block;
+    }
+  }
+  
+  @keyframes fade-out {
+    0% {
+      opacity: 1;
+      transform: scaleY(1);
+      display: block;
+    }
+  
+    100% {
+      opacity: 0;
+      transform: scaleY(0);
+      display: none;
+    }
+  }
+  
+  @keyframes backdrop-fade-in {
+    0% {
+      background-color: rgb(0 0 0 / 0);
+    }
+  
+    100% {
+      background-color: rgb(0 0 0 / 0.25);
+    }
+  }
 
 /*----------
     GAME

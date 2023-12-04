@@ -5,19 +5,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <script src="main.js" defer></script>
     <title>Menu</title>
   </head>
   <body class="Menu">
+    <dialog id="Menu-Dialog">
+      <div class="Dialog-Div1">
+        <p>Syötä nimesi</p>
+        <input type="text" id="Player-Name" name="Pname">
+      </div>
+      <div class="Dialog-Div2">
+        <p>Valitse vaikeustaso</p>
+        <div class="Dialog-Div3">
+          <button class="Dialog-Button" id="Close">Lopeta</button>
+          <button class="Dialog-Button" id="Suomi" value="FI">Suomi</button>
+          <button class="Dialog-Button" id="Usa" value="US">Usa</button>
+        </div>
+      </div>
+    </dialog>
+
     <header class="Menu-Header">
       <h1 class="Menu-Title">Lentokonepeli</h1>
     </header>
-
     <main class="Main-Menu-Container">
       <div class="Menu-Content">
         <ul class="Menu-List">
-          <li><a href="difficulty.html" class="Menu-Button">Pelaa</a></li>
-          <li><a href="" class="Menu-Button">Jatka edellistä peliä</a></li>
-          <li><a href="" class="Menu-Button">Lopeta</a></li>
+          <li><button id="Show" class="Menu-Button">Pelaa</button></li>
+          <li><button href="" class="Menu-Button">Jatka edellistä peliä</button></li>
+          <li><button href="" class="Menu-Button">Lopeta</button></li>
         </ul>
       </div>
     </main>
