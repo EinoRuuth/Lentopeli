@@ -12,24 +12,27 @@ const suomiBtn = document.getElementById("Suomi");
 const showBtn = document.getElementById("Show");
 const usaBtn = document.getElementById("Usa");
 const closeBtn = document.getElementById("Close");
-let dialog_value = ""
+const dialog_value = ""
 
 showBtn.addEventListener("click", () => {
   dialog.showModal();
 });
 
 usaBtn.addEventListener("click", () => {
-  dialog.showModal();
+  dialog_value = usaBtn.value
+  console.log(dialog_value);
+
 });
 
 suomiBtn.addEventListener("click", () => {
-  dialog.showModal();
+  dialog_value = suomiBtn.value
+  console.log(dialog_value);
+
 });
 
 closeBtn.addEventListener("click", () => {
   dialog.close();
 });
-
 
 // Kartta
 const map = L.map('map', {tap: false});
