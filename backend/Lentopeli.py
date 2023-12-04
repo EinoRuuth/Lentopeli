@@ -16,8 +16,6 @@ kursori = yhteys.cursor()
 clargs = (sys.argv)
 
 # config starts
-# lentokenttien maa
-gamecountry = "FI"
 # tavaroitten määrät ja nimet
 itemtons = ["8 tonnia", "10 tonnia", "11 tonnia", "12 tonnia",
             "14 tonnia", "16 tonnia", "18 tonnia", "19 tonnia",
@@ -31,8 +29,8 @@ if len(clargs) > 0 and clargs[0] == "run":
     app = Flask(__name__)
     cors = CORS(app)
     app.config['CORS_HEADERS'] = 'Content-Type'
-    @app.route('/creategame/<limit>/<distance>/<name>')
-    def creategame(limit, distance, name):
+    @app.route('/creategame/<limit>/<distance>/<name>/<gamecountry>')
+    def creategame(limit, distance, name, gamecountry):
         try:
             createdgame = gamecreator.gamemaker(kursori, gamecountry, int(limit), int(distance))
             gamecreator.player_info(kursori, createdgame[0]['name'], 1, 5, name)
@@ -68,4 +66,4 @@ else:
         if len(clargs) > 0 and clargs[0] == "del":
             pikkufunktiot.cleardatabase(kursori)
         else:
-            gamecreator.gamemaker(kursori, gamecountry)
+            gamecreator.gamemaker(kursori, 'US', 50, 500)

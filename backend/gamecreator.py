@@ -27,6 +27,17 @@ alotuskentat = ['Oulu Airport',
                 'Kiikkala Airport',
                 'Mikkeli airport']
 
+startports = ['Randys Airpark',
+              'McAllister Wash Airstrip',
+              'Tragesser Airport',
+              'Hazlehurst Airport',
+              'Matzie Airport',
+              'Al Divine Airport',
+              'Powhatan Airport',
+              'Rohnerville Airport',
+              'Park Township Airport',
+              'Rohwer Airport']
+
 #hakee yhden lentokentän ja antaa sen nimen sekä koordinaatit
 def yhdenhakija(gamecountry, kursori):
     sql = "SELECT name, latitude_deg, longitude_deg FROM airport"
@@ -57,17 +68,32 @@ def player_info(kursori, location, id, fuel_budget, screen_name):
     kursori.execute(sql, val)
     return
 
+def startingport(country):
+    if country == "FI":
+        startingport = rd.choice(alotuskentat)
+        sql = "SELECT name, latitude_deg, longitude_deg FROM airport"
+        sql += f" WHERE name='{startingport}' AND (type='small_airport' OR type='medium_airport' OR type='large_airport')"
+        sql += " ORDER BY RAND ( )"
+        sql += " LIMIT 1"
+        kursori.execute(sql)
+        firstairportreturn = kursori.fetchall()[0]
+        return firstairportreturn
+    else:
+        startingport = rd.choice(startports)
+        sql = "SELECT name, latitude_deg, longitude_deg FROM airport"
+        sql += f" WHERE name='{startingport}' AND (type='small_airport' OR type='medium_airport' OR type='large_airport')"
+        sql += " ORDER BY RAND ( )"
+        sql += " LIMIT 1"
+        kursori.execute(sql)
+        firstairportreturn = kursori.fetchall()[0]
+        return firstairportreturn
+
 #tämä hakee annetun määränn lentokenttiä joiden etäisyys aloituspointista on annettu määrä.
 #ekana haetaan alotuskenttä jonka avulla verrataan jos lentälentät ovat halutun kuplan sisällä
 #loppulistassa jokaisella lentokoentällä on oma tuple, jossa ekana on nimi, sitten lat, lon ja vika on item prosentti
 def gamemaker(kursori, country, limit=20, distancebetween=200):
-    startingport = rd.choice(alotuskentat)
-    sql = "SELECT name, latitude_deg, longitude_deg FROM airport"
-    sql += f" WHERE name='{startingport}' AND (type='small_airport' OR type='medium_airport' OR type='large_airport')"
-    sql += " ORDER BY RAND ( )"
-    sql += " LIMIT 1"
-    kursori.execute(sql)
-    firstairport = kursori.fetchall()[0]
+    firstairport = startingport(country)
+    print(firstairport)
     allaports = [firstairport]
     koordinaatit1 = firstairport[1:3]
     while len(allaports) < limit:
