@@ -50,6 +50,20 @@ if len(clargs) > 0 and clargs[0] == "run":
         return [{'code':200, 'message':'databse cleared successfully'}]
     
     
+    @app.route('/playerdata')
+    def playerdata():
+        try:
+            pdata = (pikkufunktiot.getplayerdata(kursori))
+            fuel_left = pdata[2]
+            treasures = pdata[3]
+            location = pdata[4]
+            pdatadict = {'fuel': fuel_left, 'treasures': treasures, 'location': location}
+        except Exception as e:
+            print(e)
+            return [{'code':500, 'message':f'error "{e}" occured when fetching playerdata'}]
+        return [{'code':200, 'message':'playerdata fetched successfully', 'data':pdatadict}]
+    
+    
     @app.route('/calculatefuel/<airport1>/<airport2>')
     def calculatefuel(airport1,airport2):
         try:
