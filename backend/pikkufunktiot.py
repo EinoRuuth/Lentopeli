@@ -63,3 +63,9 @@ def itemchance(percentage, itemtons, itemnames):
         'item': itemname
     }
     return response
+
+def getplayerdata(kursori):
+    sql = "SELECT * FROM players WHERE id='1'"
+    kursori.execute(sql)
+    playerdata = kursori.fetchall()[0][0]
+    return playerdata
