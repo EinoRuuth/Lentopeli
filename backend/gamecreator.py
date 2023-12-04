@@ -18,14 +18,14 @@ clargs.pop(0)
 
 alotuskentat = ['Oulu Airport',
                 'Kuopio Airport',
-                'Nummijärvi Airport',
                 'Jyväskylä Airport',
                 'Parkano Airfield',
                 'Räyskälä Airfield',
                 'Viitasaari Airfield',
                 'Haapavesi Airfield',
-                'Kiikkala Airport',
-                'Mikkeli airport']
+                'Ilvesjoki UL',
+                'Lahti Vesivehmaa Airport',
+                'Mikkeli Airport']
 
 startports = ['Randys Airpark',
               'McAllister Wash Airstrip',
