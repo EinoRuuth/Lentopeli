@@ -1,38 +1,17 @@
 // Loader
 
-const loader = document.getElementById("preloader");
-window.addEventListener("load", function(){
-  loader.style.display = "none";
-})
+//const loader = document.getElementById("preloader");
+//window.addEventListener("load", function(){
+  //loader.style.display = "none";
+//})
+//Dialog
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
 
-//Dialog 
-
-const dialog = document.getElementById("Menu-Dialog");
-const suomiBtn = document.getElementById("Suomi");
-const showBtn = document.getElementById("Show");
-const usaBtn = document.getElementById("Usa");
-const closeBtn = document.getElementById("Close");
-const dialog_value = ""
-
-showBtn.addEventListener("click", () => {
-  dialog.showModal();
-});
-
-usaBtn.addEventListener("click", () => {
-  dialog_value = usaBtn.value
-  console.log(dialog_value);
-
-});
-
-suomiBtn.addEventListener("click", () => {
-  dialog_value = suomiBtn.value
-  console.log(dialog_value);
-
-});
-
-closeBtn.addEventListener("click", () => {
-  dialog.close();
-});
+const country = getCookie("country");
 
 // Kartta
 const map = L.map('map', {tap: false});
@@ -71,7 +50,7 @@ const greenIcon = L.divIcon({className: 'green_icon'});
 
 
 // Pyytää lentokenttien kordinaatit
-async function gameSetup(url,usa,fi){
+async function gameSetup(url){
   fetch(url)
   .then((response) => response.json())
   .then((location) => {
@@ -82,7 +61,6 @@ async function gameSetup(url,usa,fi){
     let longitude = location[0].data.playerdata.longitude
     let latitude = location[0].data.playerdata.latitude
     map.setView([latitude, longitude], 7);
-
     // Laittaa lentokenttien sijainnit kartalle
     for (let i = 0; i < airports.length; i++) {
       const marker = L.marker([airports[i].latitude, airports[i].longitude]).addTo(map);
@@ -119,4 +97,7 @@ async function gameSetup(url,usa,fi){
 
 }
 
-gameSetup('http://127.0.0.1:3000/creategame/20/200/jason',dialog_value);
+if (country !== "") {
+  gameSetup('http://127.0.0.1:3000/creategame/20/200/jason/' + country);
+}
+
