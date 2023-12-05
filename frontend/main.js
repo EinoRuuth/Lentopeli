@@ -29,10 +29,12 @@ console.log(playerName)
 // Kartta
 const map = L.map('map', {tap: false});
   L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-    minZoom: 6,
-    maxZoom: 6,
+    minZoom: 7,
+    maxZoom: 7,
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
   }).addTo(map);
+  map.zoomControl.remove();
+
 
 // Onnin tehtävä
 // Tee tähän funktio joka ottaa Pelaajan tiedot backendistä lähetetystä jsonista
