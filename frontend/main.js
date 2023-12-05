@@ -36,23 +36,10 @@ const map = L.map('map', {tap: false});
 // Onnin tehtävä
 // Tee tähän funktio joka ottaa Pelaajan tiedot backendistä lähetetystä jsonista
 // Laita tiedot kartan vieressä oleviin laatikoihin nätin näköisesti
-async function playerSetup(url){
-  fetch(url)
-  .then((response) => response.json())
-  .then((player) => {
-    console.log(player)
-    const airportss = document.getElementById("current");
-    airportss.innerHTML = player[0].data.playerdata
-    const inventoryy = document.getElementById("treasures");
-    inventoryy.innerHTML = player[0].data.playerdata
+
+  
 
 
-  });
-
-}
-
-
-playerSetup('http://127.0.0.1:3000/playerdata');
 
 
 
@@ -83,9 +70,9 @@ const greenIcon = L.divIcon({
 
 
 // Pyytää lentokenttien kordinaatit
-async function gameSetup(url){
+async function gameSetup(gameurl,playerurl){
   displayLoading();
-  fetch(url)
+  await fetch(gameurl)
   .then((response) => response.json())
   .then((location) => {
     hideLoading();
@@ -127,15 +114,40 @@ async function gameSetup(url){
       }
     }
   });
+  await fetch(playerurl)
+  .then((response) => response.json())
+  .then((player) => {
+    console.log(player)
+    const airportss = document.getElementById("current");
+    airportss.innerHTML = player[0].data.location
+
+    const fuel = document.getElementById("fuels");
+    fuel.innerHTML = 'Polttoainetta jäljellä: ' + player[0].data.fuel
+
+
+    let treasure = player[0].data.treasures
+    
+    if (treasure !== null){
+      const inventoryy = document.getElementById("treasures");
+      inventoryy.innerHTML = treasure
+      
+  }
+  const playernames = document.getElementById("playername");
+  playernames.innerHTML = playerName
+
+
+  });
 
 }
 
+
+
 if (country !== "" && playerName !== "") {
   if (country === "US") {
-    gameSetup('http://127.0.0.1:3000/creategame/50/500/' + playerName + "/" + country);
+    gameSetup('http://127.0.0.1:3000/creategame/50/500/' + playerName + "/" + country,'http://127.0.0.1:3000/playerdata');
   }
   else {
-    gameSetup('http://127.0.0.1:3000/creategame/20/200/' + playerName + "/" + country);
+    gameSetup('http://127.0.0.1:3000/creategame/20/200/' + playerName + "/" + country,'http://127.0.0.1:3000/playerdata');
   }
 }
 
