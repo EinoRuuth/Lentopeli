@@ -114,6 +114,11 @@ async function gameSetup(url){
 }
 
 if (country !== "" && playerName !== "") {
-  gameSetup('http://127.0.0.1:3000/creategame/20/200/' + playerName + "/" + country);
+  if (country === "US") {
+    gameSetup('http://127.0.0.1:3000/creategame/50/500/' + playerName + "/" + country);
+  }
+  else {
+    gameSetup('http://127.0.0.1:3000/creategame/20/200/' + playerName + "/" + country);
+  }
 }
 
