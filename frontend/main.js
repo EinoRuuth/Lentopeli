@@ -29,7 +29,8 @@ console.log(playerName)
 // Kartta
 const map = L.map('map', {tap: false});
   L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-    maxZoom: 10,
+    minZoom: 6,
+    maxZoom: 6,
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
   }).addTo(map);
 
@@ -56,8 +57,19 @@ quitbutton.addEventListener('click', async function() {
 })
 
 // Lentokenttien iconit kartalla
-const blueIcon = L.divIcon({className: 'blue_icon'});
-const greenIcon = L.divIcon({className: 'green_icon'});
+const blueIcon = L.divIcon({
+  className: ["blue_icon"],
+  iconSize: [15, 15],
+  iconAnchor: [7, 37],
+  popupAnchor: [1, -34]
+  ,
+});
+const greenIcon = L.divIcon({
+  className: ["green_icon"],
+  iconSize: [15, 15],
+  iconAnchor: [7, 37],
+  popupAnchor: [1, -34]
+});
 
 
 
