@@ -1,3 +1,4 @@
+//Loading screen karttaa varten
 const loader = document.getElementById("loader");
 const loader_text = document.getElementById("loader_text");
 
@@ -13,7 +14,7 @@ function hideLoading() {
 
 }
 
-//Dialog
+//Cookieiden haku funktio
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -31,17 +32,6 @@ const map = L.map('map', {tap: false});
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
   }).addTo(map);
   map.zoomControl.remove();
-
-
-// Onnin tehtävä
-// Tee tähän funktio joka ottaa Pelaajan tiedot backendistä lähetetystä jsonista
-// Laita tiedot kartan vieressä oleviin laatikoihin nätin näköisesti
-
-  
-
-
-
-
 
 // Quit button
 const quitbutton = document.getElementById('Quit');
@@ -66,11 +56,10 @@ const greenIcon = L.divIcon({
   popupAnchor: [1, -34]
 });
 
-
-
-
 // Pyytää lentokenttien kordinaatit
 async function gameSetup(gameurl,playerurl){
+
+  //Haetaan lentokenttien tiedot
   displayLoading();
   await fetch(gameurl)
   .then((response) => response.json())
@@ -114,34 +103,33 @@ async function gameSetup(gameurl,playerurl){
       }
     }
   });
+
+  //Haetaan pelaajan tiedot
   await fetch(playerurl)
   .then((response) => response.json())
   .then((player) => {
     console.log(player)
-    const airportss = document.getElementById("current");
-    airportss.innerHTML = player[0].data.location
 
-    const fuel = document.getElementById("fuels");
-    fuel.innerHTML = 'Polttoainetta jäljellä: ' + player[0].data.fuel
+    const current_airport = document.getElementById("Current_Airport");
+    current_airport.innerHTML = player[0].data.location;
 
-
-    let treasure = player[0].data.treasures
+    const fuel_amount = document.getElementById("Fuel-left");
+    fuel_amount.innerHTML = 'Polttoainetta jäljellä: ' + player[0].data.fuel;
     
+    const player_paragraph = document.getElementById("PlayerName");
+    player_paragraph.innerHTML = playerName;
+
+    let treasure = player[0].data.treasures;
+
     if (treasure !== null){
-      const inventoryy = document.getElementById("treasures");
-      inventoryy.innerHTML = treasure
-      
-  }
-  const playernames = document.getElementById("playername");
-  playernames.innerHTML = playerName
-
-
+      const inventory = document.getElementById("Resources");
+      inventory.innerHTML = treasure
+    }
   });
 
 }
 
-
-
+//Kutsutaan gameSetuop funktiota ja katsotaan ettei country ja playerName ole tyhjiä
 if (country !== "" && playerName !== "") {
   if (country === "US") {
     gameSetup('http://127.0.0.1:3000/creategame/50/500/' + playerName + "/" + country,'http://127.0.0.1:3000/playerdata');
