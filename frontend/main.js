@@ -37,14 +37,22 @@ const map = L.map('map', {tap: false});
 // Onnin tehtävä
 // Tee tähän funktio joka ottaa Pelaajan tiedot backendistä lähetetystä jsonista
 // Laita tiedot kartan vieressä oleviin laatikoihin nätin näköisesti
+async function playerSetup(url){
+  fetch(url)
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data)
 
 
 
 
 
+  });
+
+}
 
 
-
+playerSetup("Tähän flask osoite");
 
 
 
