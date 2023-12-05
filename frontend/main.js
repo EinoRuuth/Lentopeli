@@ -23,9 +23,6 @@ function getCookie(name) {
 const country = getCookie("country");
 const playerName = getCookie("playerName");
 
-console.log(country)
-console.log(playerName)
-
 // Kartta
 const map = L.map('map', {tap: false});
   L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
@@ -48,7 +45,6 @@ async function playerSetup(url){
     airportss.innerHTML = player[0].data.playerdata
     const inventoryy = document.getElementById("treasures");
     inventoryy.innerHTML = player[0].data.playerdata
-
 
 
   });
@@ -93,11 +89,8 @@ async function gameSetup(url){
   .then((response) => response.json())
   .then((location) => {
     hideLoading();
-    console.log(url)
     let player = location[0].data.playerdata
     let airports = location[0].data.gamedata
-    console.log(player)
-    console.log(airports)
     let longitude = location[0].data.playerdata.longitude
     let latitude = location[0].data.playerdata.latitude
     map.setView([latitude, longitude], 7);
