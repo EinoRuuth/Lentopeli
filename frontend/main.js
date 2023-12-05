@@ -40,10 +40,12 @@ const map = L.map('map', {tap: false});
 async function playerSetup(url){
   fetch(url)
   .then((response) => response.json())
-  .then((data) => {
-    console.log(data)
-
-
+  .then((player) => {
+    console.log(player)
+    const airportss = document.getElementById("current");
+    airportss.innerHTML = player[0].data.playerdata
+    const inventoryy = document.getElementById("treasures");
+    inventoryy.innerHTML = player[0].data.playerdata
 
 
 
@@ -52,7 +54,7 @@ async function playerSetup(url){
 }
 
 
-playerSetup("Tähän flask osoite");
+playerSetup('http://127.0.0.1:3000/playerdata');
 
 
 
