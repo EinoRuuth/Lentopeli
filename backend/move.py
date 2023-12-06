@@ -30,6 +30,7 @@ def move(targetairport, fuelconsumption):
     sql = "SELECT fuel_left FROM players"
     kursori.execute(sql)
     fuelleft = kursori.fetchall()[0][0]
+    fuelconsumption = int(fuelconsumption)
     if fuelleft >= fuelconsumption:
         fuel = fuelleft - fuelconsumption
         sql2 = f"UPDATE players SET location ='" + targetairport + "'"
