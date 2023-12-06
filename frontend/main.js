@@ -1,3 +1,6 @@
+import { fuel } from './fuel.js';
+import { move } from './move.js';
+
 //Loading screen karttaa varten
 const loader = document.getElementById("loader");
 const loader_text = document.getElementById("loader_text");
@@ -90,7 +93,7 @@ async function gameSetup(gameurl,playerurl){
         popupContent.append(h4);
 
         const goButton = document.createElement('button');
-        goButton.classList.add('Fly-Button');
+        goButton.setAttribute('id', 'Fly-Button');
         goButton.innerHTML = 'Lennä tänne';
 
         popupContent.append(goButton);
@@ -100,6 +103,15 @@ async function gameSetup(gameurl,playerurl){
         popupContent.append(p);
 
         marker.bindPopup(popupContent);
+        goButton.addEventListener('click', function () {
+          let player_location = player.name
+          let fuel_url = 'http://127.0.0.1:3000/calculatefuel/' + player_location + '/' + airports[i].name;
+          let fuel_url_2 = fuel_url.replaceAll(" ", "_");
+          let move_url = 'http://127.0.0.1:3000/moveplayer/' + airports[i].name + '/' + '1';
+          let move_url_2 = move_url.replaceAll(" ", "_");
+          fuel(fuel_url_2);
+          move(move_url_2);
+        })
       }
     }
   });
@@ -108,8 +120,6 @@ async function gameSetup(gameurl,playerurl){
   await fetch(playerurl)
   .then((response) => response.json())
   .then((player) => {
-    console.log(player)
-
     const current_airport = document.getElementById("Current_Airport");
     current_airport.innerHTML = player[0].data.location;
 
@@ -126,7 +136,6 @@ async function gameSetup(gameurl,playerurl){
       inventory.innerHTML = treasure
     }
   });
-
 }
 
 //Kutsutaan gameSetuop funktiota ja katsotaan ettei country ja playerName ole tyhjiä

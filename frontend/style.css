@@ -260,7 +260,7 @@ dialog {
     border-radius: 5px;
     background-color: rgb(255, 255, 255);
 }
-.Fly-Button {
+#Fly-Button {
     background-color: rgb(26, 26, 26);
     border: none;
     padding: 8px 16px;
