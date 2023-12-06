@@ -1,6 +1,6 @@
 import { fuel } from './fuel.js';
 import { move } from './move.js';
-
+import { playerSetup } from './player.js';
 //Loading screen karttaa varten
 const loader = document.getElementById("loader");
 const loader_text = document.getElementById("loader_text");
@@ -59,15 +59,23 @@ const greenIcon = L.divIcon({
   popupAnchor: [1, -34]
 });
 
-// Pyytää lentokenttien kordinaatit
-async function gameSetup(gameurl,playerurl){
+function liiku(fuel_left, nykyinen) {
+  const current_airport = document.getElementById("Current_Airport");
+  current_airport.innerHTML = nykyinen;
 
+  const fuel_amount = document.getElementById("Fuel-left");
+  fuel_amount.innerHTML = 'Polttoainetta jäljellä: ' + fuel_left;
+}
+
+// Pyytää lentokenttien kordinaatit
+async function gameSetup(url){
   //Haetaan lentokenttien tiedot
   displayLoading();
-  await fetch(gameurl)
+  await fetch(url)
   .then((response) => response.json())
   .then((location) => {
     hideLoading();
+    playerSetup('http://127.0.0.1:3000/playerdata', playerName)
     let player = location[0].data.playerdata
     let airports = location[0].data.gamedata
     let longitude = location[0].data.playerdata.longitude
@@ -105,46 +113,40 @@ async function gameSetup(gameurl,playerurl){
         marker.bindPopup(popupContent);
         goButton.addEventListener('click', function () {
           let player_location = player.name
+
           let fuel_url = 'http://127.0.0.1:3000/calculatefuel/' + player_location + '/' + airports[i].name;
           let fuel_url_2 = fuel_url.replaceAll(" ", "_");
-          let move_url = 'http://127.0.0.1:3000/moveplayer/' + airports[i].name + '/' + '1';
-          let move_url_2 = move_url.replaceAll(" ", "_");
           fuel(fuel_url_2);
+  
+          const fuel_cost = getCookie("Fuel_cost");
+          const Fuel_distance = getCookie("Fuel_distance");
+
+          let move_url = 'http://127.0.0.1:3000/moveplayer/' + airports[i].name + '/' + fuel_cost;
+          let move_url_2 = move_url.replaceAll(" ", "_");
           move(move_url_2);
+
+          const fuel_left = getCookie("Fuel_left");
+          const current_airport = getCookie("current_airport");
+
+          liiku(fuel_left, current_airport)
         })
       }
-    }
-  });
-
-  //Haetaan pelaajan tiedot
-  await fetch(playerurl)
-  .then((response) => response.json())
-  .then((player) => {
-    const current_airport = document.getElementById("Current_Airport");
-    current_airport.innerHTML = player[0].data.location;
-
-    const fuel_amount = document.getElementById("Fuel-left");
-    fuel_amount.innerHTML = 'Polttoainetta jäljellä: ' + player[0].data.fuel;
-    
-    const player_paragraph = document.getElementById("PlayerName");
-    player_paragraph.innerHTML = playerName;
-
-    let treasure = player[0].data.treasures;
-
-    if (treasure !== null){
-      const inventory = document.getElementById("Resources");
-      inventory.innerHTML = treasure
     }
   });
 }
 
 //Kutsutaan gameSetuop funktiota ja katsotaan ettei country ja playerName ole tyhjiä
 if (country !== "" && playerName !== "") {
+  document.cookie = "Fuel_left=";
+  document.cookie = "current_airport=";
+  document.cookie = "Fuel_cost=";
+  document.cookie = "Fuel_distance=";
   if (country === "US") {
-    gameSetup('http://127.0.0.1:3000/creategame/50/500/' + playerName + "/" + country,'http://127.0.0.1:3000/playerdata');
+    gameSetup('http://127.0.0.1:3000/creategame/50/500/' + playerName + "/" + country);
+
   }
   else {
-    gameSetup('http://127.0.0.1:3000/creategame/20/200/' + playerName + "/" + country,'http://127.0.0.1:3000/playerdata');
+    gameSetup('http://127.0.0.1:3000/creategame/20/200/' + playerName + "/" + country);
   }
 }
 
