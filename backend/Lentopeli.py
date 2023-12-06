@@ -69,6 +69,8 @@ if len(clargs) > 0 and clargs[0] == "run":
 
     @app.route('/calculatefuel/<airport1>/<airport2>')
     def calculatefuel(airport1, airport2):
+        airport1 = airport1.replace("_", " ")
+        airport2 = airport2.replace("_", " ")
         try:
             fueldata = move.fuelcalc(kursori, airport1, airport2)
         except Exception as e:
@@ -79,6 +81,7 @@ if len(clargs) > 0 and clargs[0] == "run":
 
     @app.route('/move/<targetairport>/<fuelconsumption>')
     def move(targetairport, fuelconsumption):
+        targetairport = targetairport.replace("_", " ")
         try:
             movedata = move.move(targetairport, fuelconsumption)
         except Exception as e:
