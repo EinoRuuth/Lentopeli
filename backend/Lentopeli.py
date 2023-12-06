@@ -79,8 +79,8 @@ if len(clargs) > 0 and clargs[0] == "run":
         return [{'code': 200, 'message': 'fuel calculated successfully', 'data': fueldata}]
 
 
-    @app.route('/move/<targetairport>/<fuelconsumption>')
-    def move(targetairport, fuelconsumption):
+    @app.route('/moveplayer/<targetairport>/<fuelconsumption>')
+    def moveplayer(targetairport, fuelconsumption):
         targetairport = targetairport.replace("_", " ")
         try:
             movedata = move.move(targetairport, fuelconsumption)
