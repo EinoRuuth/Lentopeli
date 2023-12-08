@@ -1,6 +1,5 @@
-import { fuel } from './fuel.js';
-import { move } from './move.js';
 import { playerSetup } from './player.js';
+
 //Loading screen karttaa varten
 const loader = document.getElementById("loader");
 const loader_text = document.getElementById("loader_text");
@@ -39,9 +38,17 @@ const map = L.map('map', {tap: false});
 // Quit button
 const quitbutton = document.getElementById('Quit');
 quitbutton.addEventListener('click', async function() {
+  document.cookie = 'current_airport=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+  document.cookie = 'Fuel_left=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+  document.cookie = 'Moved=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+  document.cookie = 'Fuel_cost=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+  document.cookie = 'Fuel_distance=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+
+  
   const response = await fetch('http://127.0.0.1:3000/cleardata');
   const data = await response.json();
   console.log(data)
+
 })
 
 // Lentokenttien iconit kartalla
@@ -58,13 +65,29 @@ const greenIcon = L.divIcon({
   iconAnchor: [7, 37],
   popupAnchor: [1, -34]
 });
+async function move(move_url){
+  //Haetaan lentokenttien tiedot
+  await fetch(move_url)
+  .then((response) => response.json())
+  .then((move_data) => {
+      console.log(move_data)
+      let fuel_left = move_data[0].data.Fuel;
+      let current_airport = move_data[0].data.Fuel;
 
-function liiku(fuel_left, nykyinen) {
-  const current_airport = document.getElementById("Current_Airport");
-  current_airport.innerHTML = nykyinen;
+      playerSetup('http://127.0.0.1:3000/playerdata', playerName, fuel_left, current_airport)
+  });
+}
+async function fuel(fuel_url, current_airport){
+  //Haetaan lentokenttien tiedot
+  await fetch(fuel_url)
+  .then((response) => response.json())
+  .then((fuel_data) => {
+    let fuel_cost = fuel_data[0].data.Fuel;
 
-  const fuel_amount = document.getElementById("Fuel-left");
-  fuel_amount.innerHTML = 'Polttoainetta jäljellä: ' + fuel_left;
+    let move_url = 'http://127.0.0.1:3000/moveplayer/' + current_airport + '/' + fuel_cost;
+    let move_url_2 = move_url.replaceAll(" ", "_");
+    move(move_url_2);
+  });
 }
 
 // Pyytää lentokenttien kordinaatit
@@ -116,34 +139,18 @@ async function gameSetup(url){
 
           let fuel_url = 'http://127.0.0.1:3000/calculatefuel/' + player_location + '/' + airports[i].name;
           let fuel_url_2 = fuel_url.replaceAll(" ", "_");
-          fuel(fuel_url_2);
-  
-          const fuel_cost = getCookie("Fuel_cost");
-          const Fuel_distance = getCookie("Fuel_distance");
+          fuel(fuel_url_2, airports[i].name);
 
-          let move_url = 'http://127.0.0.1:3000/moveplayer/' + airports[i].name + '/' + fuel_cost;
-          let move_url_2 = move_url.replaceAll(" ", "_");
-          move(move_url_2);
-
-          const fuel_left = getCookie("Fuel_left");
-          const current_airport = getCookie("current_airport");
-
-          liiku(fuel_left, current_airport)
         })
       }
     }
   });
 }
 
-//Kutsutaan gameSetuop funktiota ja katsotaan ettei country ja playerName ole tyhjiä
+//Kutsutaan gameSetup funktiota ja katsotaan ettei country ja playerName ole tyhjiä
 if (country !== "" && playerName !== "") {
-  document.cookie = "Fuel_left=";
-  document.cookie = "current_airport=";
-  document.cookie = "Fuel_cost=";
-  document.cookie = "Fuel_distance=";
   if (country === "US") {
     gameSetup('http://127.0.0.1:3000/creategame/50/500/' + playerName + "/" + country);
-
   }
   else {
     gameSetup('http://127.0.0.1:3000/creategame/20/200/' + playerName + "/" + country);
