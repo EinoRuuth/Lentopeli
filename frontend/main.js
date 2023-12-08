@@ -37,14 +37,7 @@ const map = L.map('map', {tap: false});
 
 // Quit button
 const quitbutton = document.getElementById('Quit');
-quitbutton.addEventListener('click', async function() {
-  document.cookie = 'current_airport=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
-  document.cookie = 'Fuel_left=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
-  document.cookie = 'Moved=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
-  document.cookie = 'Fuel_cost=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
-  document.cookie = 'Fuel_distance=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
-
-  
+quitbutton.addEventListener('click', async function() {  
   const response = await fetch('http://127.0.0.1:3000/cleardata');
   const data = await response.json();
   console.log(data)
@@ -65,28 +58,48 @@ const greenIcon = L.divIcon({
   iconAnchor: [7, 37],
   popupAnchor: [1, -34]
 });
-async function move(move_url){
+const grayIcon = L.divIcon({
+  className: ["gray_icon"],
+  iconSize: [15, 15],
+  iconAnchor: [7, 37],
+  popupAnchor: [1, -34]
+});
+async function move(move_url, current_marker, player_longitude, player_latitude){
   //Haetaan lentokenttien tiedot
   await fetch(move_url)
   .then((response) => response.json())
   .then((move_data) => {
       console.log(move_data)
-      let fuel_left = move_data[0].data.Fuel;
-      let current_airport = move_data[0].data.Fuel;
+      let fuel_left = move_data[0].data.data.fuel;
+      let current_airport = move_data[0].data.data.name;
+      let moved = move_data[0].data.moved;
 
-      playerSetup('http://127.0.0.1:3000/playerdata', playerName, fuel_left, current_airport)
+      if (moved === true) {
+        const player_marker = L.marker([player_latitude, player_longitude]);
+        player_marker.setIcon(grayIcon);
+        player_marker.bindPopup(`Olet jo käynyt täällä`);
+
+        current_marker.bindPopup(`Olet täällä: <b>${current_airport}</b>`);
+        current_marker.openPopup();
+        current_marker.setIcon(greenIcon);
+  
+        playerSetup('http://127.0.0.1:3000/playerdata', playerName, fuel_left, current_airport)
+      }
+
   });
 }
-async function fuel(fuel_url, current_airport){
+async function fuel(fuel_url, current_airport, marker, longitude, latitude){
   //Haetaan lentokenttien tiedot
   await fetch(fuel_url)
   .then((response) => response.json())
   .then((fuel_data) => {
     let fuel_cost = fuel_data[0].data.Fuel;
-
+    let current_marker = marker
+    let player_longitude = longitude
+    let player_latitude = latitude
     let move_url = 'http://127.0.0.1:3000/moveplayer/' + current_airport + '/' + fuel_cost;
     let move_url_2 = move_url.replaceAll(" ", "_");
-    move(move_url_2);
+    move(move_url_2, current_marker, player_longitude, player_latitude);
   });
 }
 
@@ -101,8 +114,9 @@ async function gameSetup(url){
     playerSetup('http://127.0.0.1:3000/playerdata', playerName)
     let player = location[0].data.playerdata
     let airports = location[0].data.gamedata
-    let longitude = location[0].data.playerdata.longitude
-    let latitude = location[0].data.playerdata.latitude
+    const longitude = location[0].data.playerdata.longitude
+    const latitude = location[0].data.playerdata.latitude
+
     map.setView([latitude, longitude], 7);
     // Laittaa lentokenttien sijainnit kartalle
     for (let i = 0; i < airports.length; i++) {
@@ -110,9 +124,9 @@ async function gameSetup(url){
 
       // Kenttä missä pelaajan on
       if (player.longitude === airports[i].longitude && player.latitude === airports[i].latitude) {
-        marker.bindPopup(`Olet täällä: <b>${airports[i].name}</b>`);
-        marker.openPopup();
-        marker.setIcon(greenIcon);
+          marker.bindPopup(`Olet täällä: <b>${airports[i].name}</b>`);
+          marker.openPopup();
+          marker.setIcon(greenIcon);
       }
 
       // Muut kentät
@@ -139,7 +153,7 @@ async function gameSetup(url){
 
           let fuel_url = 'http://127.0.0.1:3000/calculatefuel/' + player_location + '/' + airports[i].name;
           let fuel_url_2 = fuel_url.replaceAll(" ", "_");
-          fuel(fuel_url_2, airports[i].name);
+          fuel(fuel_url_2, airports[i].name, marker, longitude, latitude);
 
         })
       }
