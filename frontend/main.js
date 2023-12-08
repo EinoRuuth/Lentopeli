@@ -1,20 +1,20 @@
 import { playerSetup } from './player.js';
 
+
 //Loading screen karttaa varten
 const loader = document.getElementById("loader");
 const loader_text = document.getElementById("loader_text");
-
 function displayLoading() {
   loader.classList.add("display");
   loader_text.classList.add("display");
 
 }
-
 function hideLoading() {
   loader.classList.remove("display");
   loader_text.classList.remove("display");
 
 }
+
 
 //Cookieiden haku funktio
 function getCookie(name) {
@@ -22,9 +22,9 @@ function getCookie(name) {
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) return parts.pop().split(';').shift();
 }
-
 const country = getCookie("country");
 const playerName = getCookie("playerName");
+
 
 // Kartta
 const map = L.map('map', {tap: false});
@@ -35,6 +35,7 @@ const map = L.map('map', {tap: false});
   }).addTo(map);
   map.zoomControl.remove();
 
+
 // Quit button
 const quitbutton = document.getElementById('Quit');
 quitbutton.addEventListener('click', async function() {  
@@ -43,6 +44,7 @@ quitbutton.addEventListener('click', async function() {
   console.log(data)
 
 })
+
 
 // Lentokenttien iconit kartalla
 const blueIcon = L.divIcon({
@@ -64,16 +66,24 @@ const grayIcon = L.divIcon({
   iconAnchor: [7, 37],
   popupAnchor: [1, -34]
 });
+
+
+//Liikkumis funktio toiselle kentälle
 async function move(move_url, current_marker, player_longitude, player_latitude){
   //Haetaan lentokenttien tiedot
   await fetch(move_url)
   .then((response) => response.json())
   .then((move_data) => {
-      console.log(move_data)
+
+
+      //Moven datasta laitetaan muuttujiin mitä polttoaineesta on jäljellä,
+      //Lentokentän nimi mihin mennään ja moved arvo.
       let fuel_left = move_data[0].data.data.fuel;
       let current_airport = move_data[0].data.data.name;
       let moved = move_data[0].data.moved;
 
+      //Katsotaan onko moved true eli onko lentokentälle liikkuminen onnistunut
+      //Ja muutetaan nappuloiden popup tekstiä ja väriä.
       if (moved === true) {
         const player_marker = L.marker([player_latitude, player_longitude]);
         player_marker.setIcon(grayIcon);
@@ -82,21 +92,28 @@ async function move(move_url, current_marker, player_longitude, player_latitude)
         current_marker.bindPopup(`Olet täällä: <b>${current_airport}</b>`);
         current_marker.openPopup();
         current_marker.setIcon(greenIcon);
-  
+        //Kutsuun playersetup funktiota päivitetyillä tidoilla tietokannassa
         playerSetup('http://127.0.0.1:3000/playerdata', playerName, fuel_left, current_airport)
       }
 
   });
 }
+
+
+//Polttoaineen laskenta funktio
 async function fuel(fuel_url, current_airport, marker, longitude, latitude){
   //Haetaan lentokenttien tiedot
   await fetch(fuel_url)
   .then((response) => response.json())
   .then((fuel_data) => {
+    //Fuel datasta laitetaan muuttujiin polttoaineen hinta, marker muuttuja gamesetup funktiosta
+    //Ja pelaajan edelliset kordinaatit.
     let fuel_cost = fuel_data[0].data.Fuel;
     let current_marker = marker
     let player_longitude = longitude
     let player_latitude = latitude
+
+    //Kutsutaan move funktiota
     let move_url = 'http://127.0.0.1:3000/moveplayer/' + current_airport + '/' + fuel_cost;
     let move_url_2 = move_url.replaceAll(" ", "_");
     move(move_url_2, current_marker, player_longitude, player_latitude);
