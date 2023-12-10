@@ -98,75 +98,144 @@ const grayIcon = L.divIcon({
   iconAnchor: [7, 37],
   popupAnchor: [1, -34]
 });
+
+async function treasure(url){
+  //Haetaan pelaajan tiedot
+  await fetch(url)
+  .then((response) => response.json())
+  .then((treasure_Data) => {
+    console.log(treasure_Data)
+  });
+}
+
 //minigame
-function minigame() {
+function minigame(last_tchance) {
   const dialog = document.getElementById("Game-Dialog");
   dialog.showModal(); 
   let random_number = 1;
   if (random_number = 1) {
     tic_tac_toe()
-    const game = {
-      xTurn: true,
-      xState: [],
-      oState: [],
-      winningStates: [
-          // Rows
-          ['0', '1', '2'],
-          ['3', '4', '5'],
-          ['6', '7', '8'],
-  
-          // Columns
-          ['0', '3', '6'],
-          ['1', '4', '7'],
-          ['2', '5', '8'],
-  
-          // Diagonal
-          ['0', '4', '8'],
-          ['2', '4', '6']
-      ]
-      }
-      document.addEventListener('click', event => {
-        const target = event.target
-        const isCell = target.classList.contains('grid-cell')
-        const isDisabled = target.classList.contains('disabled')
-    
-        if (isCell && !isDisabled) {
-            // The player clicked on a cell that is still empty
-            const cellValue = target.dataset.value
-            game.xTurn === true
-                ? game.xState.push(cellValue)
-                : game.oState.push(cellValue)
+    const allBox = document.querySelectorAll(".box");
+    const resultContainer = document.getElementById("result");
 
-            target.classList.add('disabled')
-            target.classList.add(game.xTurn ? 'x' : 'o')
+    const checkList = [];
+    let currentPlayer = "CROSS";
+    let winStatus = false;
 
-            
-            game.xTurn = !game.xTurn
-            if (!document.querySelectorAll('.grid-cell:not(.disabled)').length) {
-              document.querySelector('.game-over').classList.add('visible')
-              document.querySelector('.game-over-text').textContent = 'Draw!'
+    function areEqual(one, two) {
+        if (one === two) return one;
+        return false;
+    }
+
+    function checkEquality(currentPlayer, array) {
+        for (const item of array) {
+            const a = checkList[item[0]];
+            const b = checkList[item[1]];
+            if (areEqual(a, b) == currentPlayer) {
+                return [item[0], item[1]];
             }
-            game.winningStates.forEach(winningState => {
-              const xWins = winningState.every(state => game.xState.includes(state))
-              const oWins = winningState.every(state => game.oState.includes(state))
-            
-              if (xWins || oWins) {
-                  document.querySelectorAll('.grid-cell').forEach(cell => cell.classList.add('disabled'))
-                  document.querySelector('.game-over').classList.add('visible')
-                  document.querySelector('.game-over-text').textContent = xWins
-                      ? 'X wins!'
-                      : 'O wins!'
-              }
-          }) 
-
         }
-    })
+        return false;
+    }
 
-}
+    function blinkTheBox(val) {
+        if (val) {
+            for (const i of val) {
+                const box = document.querySelector(`[data-box-num="${i}"]`);
+                box.classList.add("blink");
+            }
+            return true;
+        }
+        return false;
+    }
+
+    function isWin() {
+        let val = false;
+        if (checkList[0] == currentPlayer) {
+            val = checkEquality(currentPlayer, [
+                [1, 2],
+                [3, 6],
+                [4, 8],
+            ]);
+            if (val && blinkTheBox([0, ...val])) return true;
+        }
+
+        if (checkList[8] == currentPlayer) {
+            val = checkEquality(currentPlayer, [
+                [2, 5],
+                [6, 7],
+            ]);
+            if (val && blinkTheBox([8, ...val])) return true;
+        }
+
+        if (checkList[4] == currentPlayer) {
+            val = checkEquality(currentPlayer, [
+                [1, 7],
+                [3, 5],
+                [2, 6],
+            ]);
+            if (val && blinkTheBox([4, ...val])) return true;
+        }
+
+        return val;
+    }
+
+    function checkWin(len) {
+        if (len >= 3 && isWin()) {
+            winStatus = true;
+            if (currentPlayer == "CROSS") {
+                resultContainer.innerText = "X Won the Match.";
+                let game_results = "True"
+                treasure('http://127.0.0.1:3000/drawtreasure/' + game_results + '/' + last_tchance)
+            } else {
+                resultContainer.innerText = "O Won the Match.";
+                let game_results = "False"
+                treasure('http://127.0.0.1:3000/drawtreasure/' + game_results + '/' + last_tchance)
+            }
+        } else if (len == 8) {
+            winStatus = true;
+            resultContainer.innerText = "= Match Draw.";
+        }
+        return winStatus;
+    }
+
+    function boxClick(targetBox, player, boxNum) {
+        checkList[boxNum] = player;
+        targetBox.classList.add(player.toLowerCase());
+    }
+
+    function handleBoxClick(e) {
+        let len = checkList.filter(Boolean).length;
+        const boxNum = parseInt(e.target.getAttribute("data-box-num"));
+        let boxNumForBot;
+
+        if (!winStatus && !checkList[boxNum]) {
+            currentPlayer = "CROSS";
+            boxClick(e.target, "CROSS", boxNum);
+
+            if (checkWin(len) === false) {
+                len = checkList.filter(Boolean).length;
+                currentPlayer = "ZERO";
+                while (len < 9) {
+                    boxNumForBot = Math.floor(Math.random() * 9);
+                    if (!checkList[boxNumForBot]) {
+                        boxClick(allBox[boxNumForBot], "ZERO", boxNumForBot);
+                        checkWin(len);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    allBox.forEach((item) => {
+        item.addEventListener("click", (e) => handleBoxClick(e));
+    });
+  }
 }
 
 //Liikkumis funktio toiselle kentälle
-async function move(move_url, current_marker, player_longitude, player_latitude){
+async function move(move_url, current_marker, player_longitude, player_latitude, tchance){
   //Haetaan lentokenttien tiedot
   await fetch(move_url)
   .then((response) => response.json())
@@ -178,7 +247,7 @@ async function move(move_url, current_marker, player_longitude, player_latitude)
       let fuel_left = move_data[0].data.data.fuel;
       let current_airport = move_data[0].data.data.name;
       let moved = move_data[0].data.moved;
-
+      let last_tchance = tchance
       //Katsotaan onko moved true eli onko lentokentälle liikkuminen onnistunut
       //Ja muutetaan nappuloiden popup tekstiä ja väriä.
       if (moved === true) {
@@ -187,7 +256,7 @@ async function move(move_url, current_marker, player_longitude, player_latitude)
         player_marker.bindPopup(`Olet jo käynyt täällä`);
         playerSetup('http://127.0.0.1:3000/playerdata', playerName, fuel_left, current_airport)
         current_marker.setIcon(greenIcon);
-        minigame();
+        minigame(last_tchance);
 
         //Kutsuun playersetup funktiota päivitetyillä tidoilla tietokannassa
     }
@@ -196,7 +265,7 @@ async function move(move_url, current_marker, player_longitude, player_latitude)
 
 
 //Polttoaineen laskenta funktio
-async function fuel(fuel_url, current_airport, marker, longitude, latitude){
+async function fuel(fuel_url, current_airport, marker, longitude, latitude, treasurechance){
   //Haetaan lentokenttien tiedot
   await fetch(fuel_url)
   .then((response) => response.json())
@@ -207,11 +276,11 @@ async function fuel(fuel_url, current_airport, marker, longitude, latitude){
     let current_marker = marker
     let player_longitude = longitude
     let player_latitude = latitude
-
+    let tchance = treasurechance
     //Kutsutaan move funktiota
     let move_url = 'http://127.0.0.1:3000/moveplayer/' + current_airport + '/' + fuel_cost;
     let move_url_2 = move_url.replaceAll(" ", "_");
-    move(move_url_2, current_marker, player_longitude, player_latitude);
+    move(move_url_2, current_marker, player_longitude, player_latitude, tchance);
   });
 }
 
@@ -265,7 +334,7 @@ async function gameSetup(url){
 
           let fuel_url = 'http://127.0.0.1:3000/calculatefuel/' + player_location + '/' + airports[i].name;
           let fuel_url_2 = fuel_url.replaceAll(" ", "_");
-          fuel(fuel_url_2, airports[i].name, marker, longitude, latitude);
+          fuel(fuel_url_2, airports[i].name, marker, longitude, latitude, airports[i].treasurechance);
 
 
         })
