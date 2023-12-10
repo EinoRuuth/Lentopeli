@@ -66,7 +66,12 @@ const grayIcon = L.divIcon({
   iconAnchor: [7, 37],
   popupAnchor: [1, -34]
 });
-
+//minigame
+function minigame(event) {
+  const dialog = document.getElementById("Game-Dialog");
+  dialog.showModal();  
+  event.preventDefault();
+}
 
 //Liikkumis funktio toiselle kentälle
 async function move(move_url, current_marker, player_longitude, player_latitude){
@@ -88,14 +93,12 @@ async function move(move_url, current_marker, player_longitude, player_latitude)
         const player_marker = L.marker([player_latitude, player_longitude]);
         player_marker.setIcon(grayIcon);
         player_marker.bindPopup(`Olet jo käynyt täällä`);
-
-        current_marker.bindPopup(`Olet täällä: <b>${current_airport}</b>`);
-        current_marker.openPopup();
-        current_marker.setIcon(greenIcon);
-        //Kutsuun playersetup funktiota päivitetyillä tidoilla tietokannassa
         playerSetup('http://127.0.0.1:3000/playerdata', playerName, fuel_left, current_airport)
-      }
+        current_marker.setIcon(greenIcon);
+        minigame();
 
+        //Kutsuun playersetup funktiota päivitetyillä tidoilla tietokannassa
+    }
   });
 }
 
@@ -154,6 +157,10 @@ async function gameSetup(url){
         h4.innerHTML = airports[i].name;
         popupContent.append(h4);
 
+        const dialog = document.createElement('dialog');
+        dialog.setAttribute('id', 'Game-Dialog');
+        popupContent.append(dialog);
+
         const goButton = document.createElement('button');
         goButton.setAttribute('id', 'Fly-Button');
         goButton.innerHTML = 'Lennä tänne';
@@ -171,6 +178,7 @@ async function gameSetup(url){
           let fuel_url = 'http://127.0.0.1:3000/calculatefuel/' + player_location + '/' + airports[i].name;
           let fuel_url_2 = fuel_url.replaceAll(" ", "_");
           fuel(fuel_url_2, airports[i].name, marker, longitude, latitude);
+
 
         })
       }
