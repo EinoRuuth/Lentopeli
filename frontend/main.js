@@ -1,4 +1,5 @@
 import { playerSetup } from './player.js';
+import { tic_tac_toe } from './minigames.js';
 
 
 //Loading screen karttaa varten
@@ -67,10 +68,70 @@ const grayIcon = L.divIcon({
   popupAnchor: [1, -34]
 });
 //minigame
-function minigame(event) {
+function minigame() {
   const dialog = document.getElementById("Game-Dialog");
-  dialog.showModal();  
-  event.preventDefault();
+  dialog.showModal(); 
+  let random_number = 1;
+  if (random_number = 1) {
+    tic_tac_toe()
+    const game = {
+      xTurn: true,
+      xState: [],
+      oState: [],
+      winningStates: [
+          // Rows
+          ['0', '1', '2'],
+          ['3', '4', '5'],
+          ['6', '7', '8'],
+  
+          // Columns
+          ['0', '3', '6'],
+          ['1', '4', '7'],
+          ['2', '5', '8'],
+  
+          // Diagonal
+          ['0', '4', '8'],
+          ['2', '4', '6']
+      ]
+      }
+      document.addEventListener('click', event => {
+        const target = event.target
+        const isCell = target.classList.contains('grid-cell')
+        const isDisabled = target.classList.contains('disabled')
+    
+        if (isCell && !isDisabled) {
+            // The player clicked on a cell that is still empty
+            const cellValue = target.dataset.value
+            game.xTurn === true
+                ? game.xState.push(cellValue)
+                : game.oState.push(cellValue)
+
+            target.classList.add('disabled')
+            target.classList.add(game.xTurn ? 'x' : 'o')
+
+            
+            game.xTurn = !game.xTurn
+            if (!document.querySelectorAll('.grid-cell:not(.disabled)').length) {
+              document.querySelector('.game-over').classList.add('visible')
+              document.querySelector('.game-over-text').textContent = 'Draw!'
+            }
+            game.winningStates.forEach(winningState => {
+              const xWins = winningState.every(state => game.xState.includes(state))
+              const oWins = winningState.every(state => game.oState.includes(state))
+            
+              if (xWins || oWins) {
+                  document.querySelectorAll('.grid-cell').forEach(cell => cell.classList.add('disabled'))
+                  document.querySelector('.game-over').classList.add('visible')
+                  document.querySelector('.game-over-text').textContent = xWins
+                      ? 'X wins!'
+                      : 'O wins!'
+              }
+          }) 
+
+        }
+    })
+
+}
 }
 
 //Liikkumis funktio toiselle kentälle
@@ -156,10 +217,6 @@ async function gameSetup(url){
         const h4 = document.createElement('h4');
         h4.innerHTML = airports[i].name;
         popupContent.append(h4);
-
-        const dialog = document.createElement('dialog');
-        dialog.setAttribute('id', 'Game-Dialog');
-        popupContent.append(dialog);
 
         const goButton = document.createElement('button');
         goButton.setAttribute('id', 'Fly-Button');

@@ -90,9 +90,11 @@
     height: 60vh;
     display: none;
 }
+
 #loader.display {
     display: block;
 }
+
 #loader_text {
     font-size: 30px;
     height: 19vh;
@@ -340,4 +342,80 @@ dialog {
 .gray_icon {
     background-color: rgb(82, 82, 82);
     border-radius: 50%;
+}
+
+/*----------
+  Minigamet
+-----------*/
+
+.tic_tac_toe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    
+}
+
+.grid-cell {
+    border: 1px solid #000;
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+}
+.grid-cell:nth-child(-n + 3) {
+    border-top: none;
+}
+
+.grid-cell:nth-child(3n + 1) {
+    border-left: none;
+}
+
+.grid-cell:nth-child(3n + 3) {
+    border-right: none;
+}
+
+.grid-cell:nth-last-of-type(-n + 3) {
+    border-bottom: none;
+}
+.x::after {
+    content: '❌';
+}
+
+.o::after {
+    content: '⭕';
+}
+.disabled {
+    cursor: not-allowed;
+}
+
+.grid-cell:not(.disabled):hover {
+    background: #eee;
+}
+.game-over {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: rgb(0 0 0 / 50%) 0 0 0 9999px;
+}
+
+.game-over-text {
+    position: absolute;
+    top: -200px;
+    font-size: 60px;
+    font-family: sans-serif;
+    font-weight: bold;
+    text-align: center;
+    transform: translateX(-30%);
+}
+
+.visible {
+    display: block;
 }
