@@ -1,6 +1,11 @@
 export function tic_tac_toe() {
     const dialog = document.getElementById("Game-Dialog");
 
+    const button = document.createElement('button');
+    button.setAttribute('id', 'close')
+    button.innerText = "Sulje minipeli";
+    dialog.append(button);
+
     const container_div = document.createElement('div');
     container_div.classList.add('container');
     dialog.append(container_div);

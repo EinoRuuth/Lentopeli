@@ -105,18 +105,21 @@ async function treasure(url){
   .then((response) => response.json())
   .then((treasure_Data) => {
     console.log(treasure_Data)
+    playerSetup('http://127.0.0.1:3000/playerdata', playerName)
   });
 }
 
 //minigame
-function minigame(last_tchance) {
+function minigame(tchance, current_marker) {
   const dialog = document.getElementById("Game-Dialog");
+  dialog.innerHTML = ""; 
   dialog.showModal(); 
   let random_number = 1;
   if (random_number = 1) {
     tic_tac_toe()
     const allBox = document.querySelectorAll(".box");
     const resultContainer = document.getElementById("result");
+    const closeBtn = document.getElementById("close");
 
     const checkList = [];
     let currentPlayer = "CROSS";
@@ -186,11 +189,25 @@ function minigame(last_tchance) {
             if (currentPlayer == "CROSS") {
                 resultContainer.innerText = "X Won the Match.";
                 let game_results = "True"
-                treasure('http://127.0.0.1:3000/drawtreasure/' + game_results + '/' + last_tchance)
+                treasure('http://127.0.0.1:3000/drawtreasure/' + game_results + '/' + tchance)
+                current_marker.bindPopup(`Olet käynyt tällä lentokentällä`);
+                current_marker.setIcon(grayIcon);
+                closeBtn.style.display = "flex";
+                closeBtn.addEventListener("click", () => {
+                  dialog.close();
+                });
             } else {
                 resultContainer.innerText = "O Won the Match.";
                 let game_results = "False"
-                treasure('http://127.0.0.1:3000/drawtreasure/' + game_results + '/' + last_tchance)
+                tchance = "0"
+                treasure('http://127.0.0.1:3000/drawtreasure/' + game_results + '/' + tchance)
+                current_marker.bindPopup(`Olet käynyt tällä lentokentällä`);
+                current_marker.setIcon(grayIcon);
+                
+                closeBtn.style.display = "flex";
+                closeBtn.addEventListener("click", () => {
+                  dialog.close();
+                });
             }
         } else if (len == 8) {
             winStatus = true;
@@ -235,7 +252,7 @@ function minigame(last_tchance) {
 }
 
 //Liikkumis funktio toiselle kentälle
-async function move(move_url, current_marker, player_longitude, player_latitude, tchance){
+async function move(move_url, current_marker, tchance){
   //Haetaan lentokenttien tiedot
   await fetch(move_url)
   .then((response) => response.json())
@@ -247,16 +264,12 @@ async function move(move_url, current_marker, player_longitude, player_latitude,
       let fuel_left = move_data[0].data.data.fuel;
       let current_airport = move_data[0].data.data.name;
       let moved = move_data[0].data.moved;
-      let last_tchance = tchance
       //Katsotaan onko moved true eli onko lentokentälle liikkuminen onnistunut
       //Ja muutetaan nappuloiden popup tekstiä ja väriä.
       if (moved === true) {
-        const player_marker = L.marker([player_latitude, player_longitude]);
-        player_marker.setIcon(grayIcon);
-        player_marker.bindPopup(`Olet jo käynyt täällä`);
         playerSetup('http://127.0.0.1:3000/playerdata', playerName, fuel_left, current_airport)
         current_marker.setIcon(greenIcon);
-        minigame(last_tchance);
+        minigame(tchance, current_marker);
 
         //Kutsuun playersetup funktiota päivitetyillä tidoilla tietokannassa
     }
@@ -265,7 +278,7 @@ async function move(move_url, current_marker, player_longitude, player_latitude,
 
 
 //Polttoaineen laskenta funktio
-async function fuel(fuel_url, current_airport, marker, longitude, latitude, treasurechance){
+async function fuel(fuel_url, current_airport, marker, tchance){
   //Haetaan lentokenttien tiedot
   await fetch(fuel_url)
   .then((response) => response.json())
@@ -274,13 +287,11 @@ async function fuel(fuel_url, current_airport, marker, longitude, latitude, trea
     //Ja pelaajan edelliset kordinaatit.
     let fuel_cost = fuel_data[0].data.Fuel;
     let current_marker = marker
-    let player_longitude = longitude
-    let player_latitude = latitude
-    let tchance = treasurechance
+    console.log(tchance)
     //Kutsutaan move funktiota
     let move_url = 'http://127.0.0.1:3000/moveplayer/' + current_airport + '/' + fuel_cost;
     let move_url_2 = move_url.replaceAll(" ", "_");
-    move(move_url_2, current_marker, player_longitude, player_latitude, tchance);
+    move(move_url_2, current_marker, tchance);
   });
 }
 
@@ -334,7 +345,7 @@ async function gameSetup(url){
 
           let fuel_url = 'http://127.0.0.1:3000/calculatefuel/' + player_location + '/' + airports[i].name;
           let fuel_url_2 = fuel_url.replaceAll(" ", "_");
-          fuel(fuel_url_2, airports[i].name, marker, longitude, latitude, airports[i].treasurechance);
+          fuel(fuel_url_2, airports[i].name, marker, airports[i].treasurechance);
 
 
         })
