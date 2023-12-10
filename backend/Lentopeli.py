@@ -96,7 +96,7 @@ if len(clargs) > 0 and clargs[0] == "run":
         return [{'code': 200, 'message': 'playerdata fetched successfully', 'data': pdatadict}]
 
 
-    @app.route('/calculatefuel/<airport>/')
+    @app.route('/calculatefuel/<airport>')
     def calculatefuel(airpor1):
         airport1 = airport1.replace("_", " ")
         try:
