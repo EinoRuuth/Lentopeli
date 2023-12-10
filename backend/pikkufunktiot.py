@@ -10,7 +10,6 @@ def init(data):
     return difficulty
 
 def cleardatabase(kursori):
-    print(difficulty[0])
     sql = "delete from game"
     kursori.execute(sql)
     sql = "delete from players"

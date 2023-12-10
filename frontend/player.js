@@ -3,7 +3,7 @@ export async function playerSetup(url, Name, fuel_left, c_airport){
     await fetch(url)
     .then((response) => response.json())
     .then((player) => {
-      
+      console.log(player[0])
       const current_airport = document.getElementById("Current_Airport");
       if (c_airport == undefined) {
         current_airport.innerHTML = player[0].data.location;
