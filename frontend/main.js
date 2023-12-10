@@ -212,6 +212,16 @@ function minigame(tchance, current_marker) {
         } else if (len == 8) {
             winStatus = true;
             resultContainer.innerText = "= Match Draw.";
+            let game_results = "False"
+            tchance = "0"
+            treasure('http://127.0.0.1:3000/drawtreasure/' + game_results + '/' + tchance)
+            current_marker.bindPopup(`Olet käynyt tällä lentokentällä`);
+            current_marker.setIcon(grayIcon);
+            
+            closeBtn.style.display = "flex";
+            closeBtn.addEventListener("click", () => {
+              dialog.close();
+            });
         }
         return winStatus;
     }
