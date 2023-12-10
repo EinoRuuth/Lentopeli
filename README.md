@@ -8,7 +8,7 @@ ALTER TABLE game RENAME COLUMN co2_budget TO fuel_budget;
 
 ALTER TABLE game ADD COLUMN fuel_left INT(8) AFTER fuel_budget;
 
-ALTER TABLE game ADD COLUMN treasures VARCHAR(255) AFTER fuel_left;
+ALTER TABLE game ADD COLUMN treasures INT(2) AFTER fuel_left;
 
 ALTER TABLE game DROP COLUMN fuel_consumed;
 

@@ -1,16 +1,13 @@
 import random as rd
 
-
-def fullairportname(name, kursori):
-    sql = "SELECT airport_name from game WHERE airport_name LIKE '" + name + "%'"
-    kursori.execute(sql)
-    fullairportname = kursori.fetchall()
-    if len(fullairportname):
-        airport = fullairportname[0][0]
-    else:
-        return False
-    return airport
-
+def init(data):
+    if data == "FI":
+        diff = 0
+    elif data == "US":
+        diff = 1
+    global difficulty
+    difficulty = [diff]
+    return difficulty
 
 def cleardatabase(kursori):
     sql = "delete from game"
@@ -19,49 +16,64 @@ def cleardatabase(kursori):
     kursori.execute(sql)
     print("Tietokanta tyhjennetty")
 
-
-def treasureamount(kursori):
-    sql = "SELECT treasure FROM game"
+def wincheck(kursori):
+    sql = "SELECT treasures FROM players WHERE id='1'"
     kursori.execute(sql)
-    tulos = kursori.fetchall()
-    luku = 0
-    for x in tulos:
-        if x[0] != "(NULL)" and x[0] != None:
-            luku += 1
-    return luku
-
-
-def fuelamount(kursori):
-    sql = "SELECT fuel_left FROM players"
+    playerdata = kursori.fetchall()[0][0]
+    if playerdata is None:
+        playerdata = 0
+    if playerdata+1 == 5:
+        return True
+    sql = f"UPDATE players SET treasures='{playerdata+1}' WHERE id='1'"
     kursori.execute(sql)
-    fuelleft = kursori.fetchall()[0][0]
-    return fuelleft
+    return False
 
-
-def playerlocation(kursori):
-    sql = "SELECT location FROM players"
+def losecheck(kursori):
+    sql = "SELECT fuel_left FROM players WHERE id='1'"
     kursori.execute(sql)
-    currentlocation = kursori.fetchall()[0][0]
-    return currentlocation
+    playerdata = kursori.fetchall()[0][0]
+    if playerdata == 0:
+        losedata = True
+    else:
+        losedata = False
+    return losedata
 
+
+def refuel(kursori):
+    sql = "UPDATE players SET fuel_left='5' WHERE id='1'"
+    kursori.execute(sql)
 
 # Funktio ottaa prosentin ja laskee mahdollisuuden että löytyykö itemi vai ei.
 # Jos itemi löytyy, lasketaan myös löytyykö harvinainen itemi vai ei.
 
-def itemchance(percentage, itemtons, itemnames):
+def itemchance(percentage, itemnames, kursori):
     rareitempercentage = 1
     itemname = None
     found = False
-    if rd.randint(0, 100) < percentage:
+    loss = False
+    won = False
+    if rd.randint(0, 100) < int(percentage):
         found = True
+        refuel(kursori)
         if rd.randint(0, 100) < rareitempercentage:
-            itemname = "rare"
+            itemname = f"golden {rd.choice(itemnames)}"
+            won = True
         else:
-            itemname = f"{rd.choice(itemtons)} {rd.choice(itemnames)}"
-    response = {
-        'found': found,
-        'item': itemname
-    }
+            itemname = f"{rd.choice(itemnames)}"
+            won = wincheck(kursori)
+    else:
+        loss = losecheck(kursori)
+    if loss:
+        response = {
+            'loss': 'lost',
+            'data': 'ran out of fuel'
+        }
+    else:
+        response = {
+            'found': found,
+            'item': itemname,
+            'won':won
+        }
     return response
 
 def getplayerdata(kursori):

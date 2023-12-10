@@ -36,6 +36,7 @@ if len(clargs) > 0 and clargs[0] == "run":
         try:
             createdgame = gamecreator.gamemaker(kursori, gamecountry, int(limit), int(distance))
             gamecreator.player_info(kursori, createdgame[0]['name'], 1, 5, name)
+            pikkufunktiot.init(gamecountry)
         except Exception as e:
             print(e)
             return [{'code': 500, 'message': f'error "{e}" occurred when creating game'}]
@@ -51,6 +52,33 @@ if len(clargs) > 0 and clargs[0] == "run":
             print(e)
             return [{'code': 500, 'message': f'error "{e}" occurred when clearing database'}]
         return [{'code': 200, 'message': 'database cleared successfully'}]
+    
+    
+    @app.route('/drawtreasure/<wonminigame>/<chance>')
+    def drawtreasure(wonminigame, chance):
+        if wonminigame:
+            try:
+                treasure = pikkufunktiot.itemchance(chance, itemnames, kursori)
+            except Exception as e:
+                print(e)
+                return [{'code': 500, 'message': f'error "{e}" occurred when drawing treasure'}]
+            return [{'code': 200, 'message': 'treasure drawn successfully', 'data':treasure}]
+        else:
+            try:
+                loss = pikkufunktiot.losecheck(kursori)
+            except Exception as e:
+                print(e)
+                return [{'code': 500, 'message': f'error "{e}" occurred when changing fuel'}]
+            if loss:
+                lossdata = {
+                    'loss': 'true',
+                    'data': 'ran out of fuel'
+                }
+            else:
+                lossdata = {
+                    'loss': 'false'
+                }
+            return [{'code': 200, 'message': 'treasure drawn successfully', 'data':lossdata}]
 
 
     @app.route('/playerdata')
