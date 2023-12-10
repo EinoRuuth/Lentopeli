@@ -21,12 +21,5 @@ export async function playerSetup(url, Name, fuel_left, c_airport){
       }
       const player_paragraph = document.getElementById("PlayerName");
       player_paragraph.innerHTML = Name;
-  
-      let treasure = player[0].data.treasures;
-  
-      if (treasure !== null){
-        const inventory = document.getElementById("Resources");
-        inventory.innerHTML = treasure
-      }
     });
   }

@@ -87,10 +87,9 @@ if len(clargs) > 0 and clargs[0] == "run":
         try:
             pdata = (pikkufunktiot.getplayerdata(kursori))
             print(pdata)
-            treasures = pdata[3]
-            fuel_left = pdata[2]
-            location = pdata[4]
-            pdatadict = {'fuel': fuel_left, 'treasures': treasures, 'location': location}
+            fuel_left = pdata[0]
+            location = pdata[1]
+            pdatadict = {'fuel': fuel_left, 'location': location}
         except Exception as e:
             print(e)
             return [{'code': 500, 'message': f'error "{e}" occurred when fetching playerdata'}]

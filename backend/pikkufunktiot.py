@@ -77,7 +77,7 @@ def itemchance(percentage, itemnames, kursori):
     return response
 
 def getplayerdata(kursori):
-    sql = "SELECT * FROM players WHERE id='1'"
+    sql = "SELECT fuel_left, location FROM players WHERE id='1'"
     kursori.execute(sql)
     playerdata = kursori.fetchall()[0]
     return playerdata
