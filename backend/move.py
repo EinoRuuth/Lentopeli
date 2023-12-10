@@ -10,21 +10,17 @@ yhteys = connector.sqlyhteys(sqlpass)
 kursori = yhteys.cursor()
 
 
-def fuelcalc(kursori, airport1):
-    returndict = {}
-    sql = f"SELECT airport_name, coordinates FROM game"
+def fuelcalc(kursori, airport1, airport2):
+    sql = f"SELECT coordinates FROM game WHERE airport_name='{airport2}'"
     kursori.execute(sql)
-    coords2 = kursori.fetchall()
+    coords2 = kursori.fetchall()[0][0].split(',')
     sql1 = f"SELECT coordinates FROM game WHERE airport_name ='{airport1}'"
     kursori.execute(sql1)
+    
     coords1 = kursori.fetchall()[0][0].split(',')
-    for coords in coords2:
-        if coords[0] != airport1:
-            secondcoords = coords[1].split(',')
-            secondname = coords[0]
-            pituus = distance.distance(coords1, secondcoords).km
-            returndict[secondname] = int((pituus // 50) + 1)
-    return returndict
+    pituus = distance.distance(coords1, coords2).km
+    fuel = int((pituus // 50) + 1)
+    return {'fuel':fuel, 'pituus':pituus}
 
 
 def move(targetairport, fuelconsumption):

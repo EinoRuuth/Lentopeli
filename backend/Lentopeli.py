@@ -38,12 +38,11 @@ if len(clargs) > 0 and clargs[0] == "run":
             createdgame = gamecreator.gamemaker(kursori, gamecountry, int(limit), int(distance))
             gamecreator.player_info(kursori, createdgame[0]['name'], 1, 5, name)
             pikkufunktiot.init(gamecountry)
-            fueldata = move.fuelcalc(kursori, createdgame[0]['name'])
         except Exception as e:
             print(e)
             return [{'code': 500, 'message': f'error "{e}" occurred when creating game'}]
         return [{'code': 200, 'message': 'game and player successfully created',
-                 'data': {'gamedata': createdgame, 'playerdata': createdgame[0], 'fueldata':fueldata}}]
+                 'data': {'gamedata': createdgame, 'playerdata': createdgame[0]}}]
 
 
     @app.route('/cleardata')
@@ -95,6 +94,16 @@ if len(clargs) > 0 and clargs[0] == "run":
             print(e)
             return [{'code': 500, 'message': f'error "{e}" occurred when fetching playerdata'}]
         return [{'code': 200, 'message': 'playerdata fetched successfully', 'data': pdatadict}]
+
+
+    @app.route('/calculatefuel/<airport1>/<airport2>')
+    def calculatefuel(airport1, airport2):
+        try:
+            fueldata = move.fuelcalc(kursori, airport1, airport2)
+        except Exception as e:
+            print(e)
+            return [{'code': 500, 'message': f'error "{e}" occurred when fetching calcfuel'}]
+        return [{'code': 200, 'message': 'fuel calculated successfully', 'data': fueldata}]
 
 
     @app.route('/moveplayer/<targetairport>/<fuelconsumption>')
