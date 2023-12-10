@@ -33,6 +33,7 @@ if len(clargs) > 0 and clargs[0] == "run":
 
     @app.route('/creategame/<limit>/<distance>/<name>/<gamecountry>')
     def creategame(limit, distance, name, gamecountry):
+        pikkufunktiot.init(gamecountry)
         try:
             createdgame = gamecreator.gamemaker(kursori, gamecountry, int(limit), int(distance))
             gamecreator.player_info(kursori, createdgame[0]['name'], 1, 5, name)

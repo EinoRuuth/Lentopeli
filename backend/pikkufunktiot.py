@@ -2,14 +2,15 @@ import random as rd
 
 def init(data):
     if data == "FI":
-        diff = 0
+        diff = 5
     elif data == "US":
-        diff = 1
+        diff = 10
     global difficulty
     difficulty = [diff]
     return difficulty
 
 def cleardatabase(kursori):
+    print(difficulty[0])
     sql = "delete from game"
     kursori.execute(sql)
     sql = "delete from players"
@@ -22,7 +23,7 @@ def wincheck(kursori):
     playerdata = kursori.fetchall()[0][0]
     if playerdata is None:
         playerdata = 0
-    if playerdata+1 == 5:
+    if playerdata+1 == difficulty[0]:
         return True
     sql = f"UPDATE players SET treasures='{playerdata+1}' WHERE id='1'"
     kursori.execute(sql)
