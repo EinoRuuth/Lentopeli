@@ -1,6 +1,5 @@
-import { playerSetup } from "./player.js";
 import { tic_tac_toe } from "./minigames.js";
-
+import { playerSetup } from "./player.js";
 //Loading screen karttaa varten
 const loader = document.getElementById("loader");
 const loader_text = document.getElementById("loader_text");
@@ -289,7 +288,7 @@ async function move(move_url, current_marker, tchance) {
 }
 
 //Polttoaineen laskenta funktio
-async function fuel(fuel_url, current_airport, marker, tchance) {
+export async function fuel(fuel_url, current_airport, marker, tchance) {
   //Haetaan lentokenttien tiedot
   await fetch(fuel_url)
     .then((response) => response.json())
@@ -350,7 +349,6 @@ async function fuel(fuel_url, current_airport, marker, tchance) {
 
     });
 }
-
 // Pyytää lentokenttien kordinaatit
 async function gameSetup(url) {
   //Haetaan lentokenttien tiedot
@@ -358,6 +356,7 @@ async function gameSetup(url) {
   await fetch(url)
     .then((response) => response.json())
     .then((location) => {
+      console.log(location)
       hideLoading();
       playerSetup("http://127.0.0.1:3000/playerdata", playerName);
       let player = location[0].data.playerdata;
@@ -403,20 +402,8 @@ async function gameSetup(url) {
 
           marker.bindPopup(popupContent);
           goButton.addEventListener("click", function () {
-            let player_location = player.name;
+            playerSetup("http://127.0.0.1:3000/playerdata", playerName, undefined, undefined, airports[i].name, airports[i].treasurechance, marker);
 
-            let fuel_url =
-              "http://127.0.0.1:3000/calculatefuel/" +
-              player_location +
-              "/" +
-              airports[i].name;
-            let fuel_url_2 = fuel_url.replaceAll(" ", "_");
-            fuel(
-              fuel_url_2,
-              airports[i].name,
-              marker,
-              airports[i].treasurechance
-            );
           });
         }
       }
