@@ -23,7 +23,7 @@ def fuelcalc(kursori, airport1):
             secondcoords = coords[1].split(',')
             secondname = coords[0]
             pituus = distance.distance(coords1, secondcoords).km
-            returndict[secondname] = (pituus // 50) + 1
+            returndict[secondname] = int((pituus // 50) + 1)
     return returndict
 
 

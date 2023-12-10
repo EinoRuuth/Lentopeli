@@ -127,4 +127,3 @@ else:
         else:
             createdgame = gamecreator.gamemaker(kursori, 'FI', 20, 200)
             gamecreator.player_info(kursori, createdgame[0]['name'], 1, 5, 'bob')
-            print(move.fuelcalc(kursori, createdgame[0]['name']))
