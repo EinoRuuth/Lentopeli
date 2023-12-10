@@ -14,11 +14,14 @@ def fuelcalc(kursori, airport1, airport2):
     sql = f"SELECT coordinates FROM game WHERE airport_name='{airport2}'"
     kursori.execute(sql)
     coords2 = kursori.fetchall()[0][0].split(',')
+    print(coords2)
     sql1 = f"SELECT coordinates FROM game WHERE airport_name ='{airport1}'"
     kursori.execute(sql1)
-    
     coords1 = kursori.fetchall()[0][0].split(',')
+    print(coords1)
+    
     pituus = distance.distance(coords1, coords2).km
+    pituus = round(pituus, 1)
     fuel = int((pituus // 50) + 1)
     return {'fuel':fuel, 'pituus':pituus}
 

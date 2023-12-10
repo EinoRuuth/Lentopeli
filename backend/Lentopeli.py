@@ -86,7 +86,6 @@ if len(clargs) > 0 and clargs[0] == "run":
     def playerdata():
         try:
             pdata = (pikkufunktiot.getplayerdata(kursori))
-            print(pdata)
             fuel_left = pdata[0]
             location = pdata[1]
             pdatadict = {'fuel': fuel_left, 'location': location}
@@ -98,6 +97,8 @@ if len(clargs) > 0 and clargs[0] == "run":
 
     @app.route('/calculatefuel/<airport1>/<airport2>')
     def calculatefuel(airport1, airport2):
+        airport1 = airport1.replace("_", " ")
+        airport2 = airport2.replace("_", " ")
         try:
             fueldata = move.fuelcalc(kursori, airport1, airport2)
         except Exception as e:
@@ -127,3 +128,4 @@ else:
         else:
             createdgame = gamecreator.gamemaker(kursori, 'FI', 20, 200)
             gamecreator.player_info(kursori, createdgame[0]['name'], 1, 5, 'bob')
+            print(move.fuelcalc(kursori, createdgame[0]['name'], createdgame[1]['name']))
