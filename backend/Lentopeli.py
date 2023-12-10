@@ -112,11 +112,10 @@ if len(clargs) > 0 and clargs[0] == "run":
         targetairport = targetairport.replace("_", " ")
         try:
             movedata = move.move(targetairport, fuelconsumption)
-            fueldata = move.fuelcalc(kursori, targetairport)
         except Exception as e:
             print(e)
             return [{'code': 500, 'message': f'error "{e}" occurred while trying to move'}]
-        return [{'code': 200, 'data': movedata, 'fueldata':fueldata}]
+        return [{'code': 200, 'data': movedata}]
 
 
     if __name__ == '__main__':
