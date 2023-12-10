@@ -100,7 +100,7 @@ if len(clargs) > 0 and clargs[0] == "run":
     def calculatefuel(airport):
         airport1 = airport1.replace("_", " ")
         try:
-            fueldata = move.fuelcalc(kursori, airport1)
+            fueldata = move.fuelcalc(kursori, airport)
         except Exception as e:
             print(e)
             return [{'code': 500, 'message': f'error "{e}" occurred when calculating fuel'}]
