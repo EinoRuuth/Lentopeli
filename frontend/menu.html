@@ -4,20 +4,23 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital@1&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital@1&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
     <script src="dialog.js" defer></script>
     <title>Menu</title>
   </head>
   <body class="Menu">
     <dialog id="Menu-Dialog">
-          Syötä nimesi:<input type="text" id="Player-Name" name="fname">
-          <p class="Difficulty-text">Valitse vaikeustaso</p>
-          <div class="Dialog-Div">
-            <button class="Dialog-Button" id="Close">Lopeta</button>
-            <button class="Dialog-Button" id="Suomi" value="FI">Suomi</button>
-            <button class="Dialog-Button" id="Usa" value="US">Usa</button>
-          </div>
+      Syötä nimesi:<input type="text" id="Player-Name" name="fname" />
+      <p class="Difficulty-text">Valitse vaikeustaso</p>
+      <div class="Dialog-Div">
+        <button class="Dialog-Button" id="Close">Lopeta</button>
+        <button class="Dialog-Button" id="Suomi" value="FI">Suomi</button>
+        <button class="Dialog-Button" id="Usa" value="US">Usa</button>
+      </div>
     </dialog>
 
     <header class="Menu-Header">
@@ -26,8 +29,14 @@
     <main class="Main-Menu-Container">
       <div class="Menu-Content">
         <ul class="Menu-List">
-          <li><button id="Show" class="Menu-Button" onclick="dialog()">Pelaa</button></li>
-          <li><button href="" class="Menu-Button">Jatka edellistä peliä</button></li>
+          <li>
+            <button id="Show" class="Menu-Button" onclick="dialog()">
+              Pelaa
+            </button>
+          </li>
+          <li>
+            <button href="" class="Menu-Button">Jatka edellistä peliä</button>
+          </li>
           <li><button href="" class="Menu-Button">Lopeta</button></li>
         </ul>
       </div>
