@@ -96,12 +96,11 @@ if len(clargs) > 0 and clargs[0] == "run":
         return [{'code': 200, 'message': 'playerdata fetched successfully', 'data': pdatadict}]
 
 
-    @app.route('/calculatefuel/<airport1>/<airport2>')
-    def calculatefuel(airport1, airport2):
+    @app.route('/calculatefuel/<airport>/')
+    def calculatefuel(airpor1):
         airport1 = airport1.replace("_", " ")
-        airport2 = airport2.replace("_", " ")
         try:
-            fueldata = move.fuelcalc(kursori, airport1, airport2)
+            fueldata = move.fuelcalc(kursori, airport1)
         except Exception as e:
             print(e)
             return [{'code': 500, 'message': f'error "{e}" occurred when calculating fuel'}]
@@ -128,3 +127,4 @@ else:
         else:
             createdgame = gamecreator.gamemaker(kursori, 'FI', 20, 200)
             gamecreator.player_info(kursori, createdgame[0]['name'], 1, 5, 'bob')
+            print(move.fuelcalc(kursori, createdgame[0]['name']))
