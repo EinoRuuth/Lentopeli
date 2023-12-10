@@ -56,7 +56,7 @@ if len(clargs) > 0 and clargs[0] == "run":
     
     @app.route('/drawtreasure/<wonminigame>/<chance>')
     def drawtreasure(wonminigame, chance):
-        if wonminigame:
+        if wonminigame == 'True':
             try:
                 treasure = pikkufunktiot.itemchance(chance, itemnames, kursori)
             except Exception as e:
@@ -78,7 +78,7 @@ if len(clargs) > 0 and clargs[0] == "run":
                 lossdata = {
                     'loss': 'false'
                 }
-            return [{'code': 200, 'message': 'treasure drawn successfully', 'data':lossdata}]
+            return [{'code': 200, 'message': 'fuel deducted successfully', 'data':lossdata}]
 
 
     @app.route('/playerdata')
