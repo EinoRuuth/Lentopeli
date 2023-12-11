@@ -84,12 +84,18 @@ const greenIcon = L.divIcon({
   popupAnchor: [1, -34],
 });
 
-export async function treasure(url) {
+export async function treasure(url, found) {
   //Haetaan pelaajan tiedot
   await fetch(url)
     .then((response) => response.json())
     .then((treasure_Data) => {
       console.log(treasure_Data);
+      if (found = true) {
+        const inventory = document.getElementById("Resources");
+        const p = document.createElement("p");
+        p.innerText = treasure_Data[0].data.item;
+        inventory.append(p);
+      }
       playerSetup("http://127.0.0.1:3000/playerdata", playerName);
     });
 }

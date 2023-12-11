@@ -120,7 +120,7 @@ export function tic_tac_toe(tchance, current_marker) {
           resultContainer.innerText = "X Won the Match.";
           let game_results = "True";
           treasure(
-            "http://127.0.0.1:3000/drawtreasure/" + game_results + "/" + tchance
+            "http://127.0.0.1:3000/drawtreasure/" + game_results + "/" + tchance, game_results
           );
           current_marker.bindPopup(`Olet käynyt tällä lentokentällä`);
           current_marker.setIcon(grayIcon);
@@ -133,7 +133,7 @@ export function tic_tac_toe(tchance, current_marker) {
           let game_results = "False";
           tchance = "0";
           treasure(
-            "http://127.0.0.1:3000/drawtreasure/" + game_results + "/" + tchance
+            "http://127.0.0.1:3000/drawtreasure/" + game_results + "/" + tchance, game_results
           );
           current_marker.bindPopup(`Olet käynyt tällä lentokentällä`);
           current_marker.setIcon(grayIcon);
