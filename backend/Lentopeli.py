@@ -140,14 +140,8 @@ else:
         if len(clargs) > 0 and clargs[0] == "del":
             pikkufunktiot.cleardatabase(kursori)
         else:
-            gamecountry = 'FI'
+            gamecountry = 'US'
             pikkufunktiot.init(gamecountry)
             createdgame = gamecreator.gamemaker(kursori, gamecountry, 20, 200)
             gamecreator.player_info(kursori, createdgame[0]['name'], 1, 5, 'bob')
-            jeeman = pikkufunktiot.itemchance(80, itemnames, kursori)
-            try:
-                jeeman['loss']
-                print('man')
-            except:
-                print("jee")
             

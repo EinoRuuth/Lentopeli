@@ -46,6 +46,8 @@ def yhdenhakija(gamecountry, kursori):
     sql += " LIMIT 1"
     kursori.execute(sql)
     tulos = kursori.fetchall()[0]
+    if "'" in tulos[0]:
+        yhdenhakija(gamecountry, kursori)
     return tulos
 
 # tämä lisää tavarat sql tietokantaan
@@ -91,6 +93,8 @@ def startingport(country):
         sql += " LIMIT 1"
         kursori.execute(sql)
         firstairportreturn = kursori.fetchall()[0]
+        if "'" in firstairportreturn[0]:
+            startingport(country)
         return firstairportreturn
 
 #tämä hakee annetun määränn lentokenttiä joiden etäisyys aloituspointista on annettu määrä.
