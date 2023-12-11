@@ -1,12 +1,5 @@
 import { treasure } from "./main.js";
 
-const grayIcon = L.divIcon({
-  className: ["gray_icon"],
-  iconSize: [15, 15],
-  iconAnchor: [7, 37],
-  popupAnchor: [1, -34],
-});
-
 export function tic_tac_toe(tchance, current_marker) {
   const dialog = document.getElementById("Game-Dialog");
 
@@ -122,11 +115,11 @@ export function tic_tac_toe(tchance, current_marker) {
           treasure(
             "http://127.0.0.1:3000/drawtreasure/" + game_results + "/" + tchance
           );
-          current_marker.bindPopup(`Olet käynyt tällä lentokentällä`);
-          current_marker.setIcon(grayIcon);
           closeBtn.style.display = "flex";
           closeBtn.addEventListener("click", () => {
+            current_marker.bindPopup(`Olet täällä`);
             dialog.close();
+
           });
         } else {
           resultContainer.innerText = "O Won the Match.";
@@ -135,12 +128,12 @@ export function tic_tac_toe(tchance, current_marker) {
           treasure(
             "http://127.0.0.1:3000/drawtreasure/" + game_results + "/" + tchance
           );
-          current_marker.bindPopup(`Olet käynyt tällä lentokentällä`);
-          current_marker.setIcon(grayIcon);
 
           closeBtn.style.display = "flex";
           closeBtn.addEventListener("click", () => {
+            current_marker.bindPopup(`Olet täällä`);
             dialog.close();
+
           });
         }
       } else if (len == 8) {
@@ -151,12 +144,12 @@ export function tic_tac_toe(tchance, current_marker) {
         treasure(
           "http://127.0.0.1:3000/drawtreasure/" + game_results + "/" + tchance
         );
-        current_marker.bindPopup(`Olet käynyt tällä lentokentällä`);
-        current_marker.setIcon(grayIcon);
 
         closeBtn.style.display = "flex";
         closeBtn.addEventListener("click", () => {
+          current_marker.bindPopup(`Olet täällä`);
           dialog.close();
+
         });
       }
       return winStatus;

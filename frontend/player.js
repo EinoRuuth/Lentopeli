@@ -4,7 +4,13 @@ export async function playerSetup(url, Name, fuel_left, c_airport, airports_name
   await fetch(url)
     .then((response) => response.json())
     .then((player) => {
-      
+      console.log(player)
+      let earlier_latitude = player[0].data.latitude
+      let earlier_longitude = player[0].data.longitude
+      const old_marker = L.marker([
+        earlier_latitude,
+        earlier_longitude,
+      ])
       const current_airport = document.getElementById("Current_Airport");
       if (c_airport == undefined) {
         current_airport.innerHTML = player[0].data.location;
@@ -32,7 +38,11 @@ export async function playerSetup(url, Name, fuel_left, c_airport, airports_name
         fuel_url_2,
         airports_name,
         marker,
-        chance
+        chance,
+        player_location,
+        old_marker,
+        earlier_latitude,
+        earlier_longitude
       );
       }
     });

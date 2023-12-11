@@ -82,22 +82,22 @@ const greenIcon = L.divIcon({
   iconAnchor: [7, 37],
   popupAnchor: [1, -34],
 });
-
+const grayIcon = L.divIcon({
+  className: ["gray_icon"],
+  iconSize: [15, 15],
+  iconAnchor: [7, 37],
+  popupAnchor: [1, -34],
+});
 export async function treasure(url) {
   //Haetaan pelaajan tiedot
   await fetch(url)
     .then((response) => response.json())
     .then((treasure_Data) => {
-      console.log(treasure_Data);
       let found = treasure_Data[0].data.found;
       let win = treasure_Data[0].data.won;
       let win_reason = treasure_Data[0].message;
       let loss = treasure_Data[0].data.loss;
       let fuel_end_reason = treasure_Data[0].data.data;
-
-      console.log(found)
-      console.log(win)
-      console.log(loss)
 
       if(found != undefined) {
         if (found = true) {
@@ -185,12 +185,11 @@ function minigame(tchance, current_marker) {
 }
 
 //Liikkumis funktio toiselle kentälle
-async function move(move_url, current_marker, tchance) {
+async function move(move_url, current_marker, tchance, old_marker, player_latitude, player_longitude) {
   //Haetaan lentokenttien tiedot
   await fetch(move_url)
     .then((response) => response.json())
     .then((move_data) => {
-      console.log(move_data);
 
       //Moven datasta laitetaan muuttujiin mitä polttoaineesta on jäljellä,
       //Lentokentän nimi mihin mennään ja moved arvo.
@@ -200,6 +199,14 @@ async function move(move_url, current_marker, tchance) {
       //Katsotaan onko moved true eli onko lentokentälle liikkuminen onnistunut
       //Ja muutetaan nappuloiden popup tekstiä ja väriä.
       if (moved === true) {
+        map.removeLayer(old_marker)
+        const new_marker = L.marker([
+          player_latitude,
+          player_longitude,
+        ]).addTo(map);
+        console.log(current_marker)
+        new_marker.setIcon(grayIcon);
+        new_marker.bindPopup(`Olet käynyt tällä lentokentällä`);
         playerSetup(
           "http://127.0.0.1:3000/playerdata",
           playerName,
@@ -215,7 +222,7 @@ async function move(move_url, current_marker, tchance) {
 }
 
 //Polttoaineen laskenta funktio
-export async function fuel(fuel_url, current_airport, marker, tchance) {
+export async function fuel(fuel_url, current_airport, marker, tchance, player_location, old_marker, player_latitude, player_longitude) {
   //Haetaan lentokenttien tiedot
   await fetch(fuel_url)
     .then((response) => response.json())
@@ -228,7 +235,7 @@ export async function fuel(fuel_url, current_airport, marker, tchance) {
       const dialog = document.getElementById("Game-Dialog");
       dialog.innerHTML = "";
       dialog.showModal();
-
+      console.log(player_location)
       const h2 = document.createElement("h2");
       h2.classList.add("Move-Header");
       h2.innerText = current_airport;
@@ -268,7 +275,7 @@ export async function fuel(fuel_url, current_airport, marker, tchance) {
         let move_url =
         "http://127.0.0.1:3000/moveplayer/" + current_airport + "/" + fuel_cost;
         let move_url_2 = move_url.replaceAll(" ", "_");
-        move(move_url_2, current_marker, tchance);
+        move(move_url_2, current_marker, tchance, old_marker, player_latitude, player_longitude);
 
       });
 
