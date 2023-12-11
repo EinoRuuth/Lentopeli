@@ -66,7 +66,7 @@ def itemchance(percentage, itemnames, kursori):
         loss = losecheck(kursori)
     if loss:
         response = {
-            'loss': 'lost',
+            'loss': 'true',
             'data': 'polttoaine loppui'
         }
     else:
