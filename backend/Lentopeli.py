@@ -103,8 +103,8 @@ if len(clargs) > 0 and clargs[0] == "run":
             pdata, coords = (pikkufunktiot.getplayerdata(kursori))
             fuel_left = pdata[0]
             location = pdata[1]
-            lon = coords[0]
-            lat = coords[1]
+            lat = coords[0]
+            lon = coords[1]
             pdatadict = {'fuel': fuel_left, 'location': location, 'longitude': lon, 'latitude': lat}
         except Exception as e:
             print(e)
