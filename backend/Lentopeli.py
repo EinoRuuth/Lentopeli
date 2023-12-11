@@ -112,10 +112,15 @@ if len(clargs) > 0 and clargs[0] == "run":
         targetairport = targetairport.replace("_", " ")
         try:
             movedata = move.move(kursori, targetairport, fuelconsumption)
+            fuelreachcheck = pikkufunktiot.fuelcheck(kursori, movedata)
         except Exception as e:
             print(e)
             return [{'code': 500, 'message': f'error "{e}" occurred while trying to move'}]
-        return [{'code': 200, 'data': movedata}]
+        if fuelreachcheck:
+            return [{'code': 200, 'data': movedata}]
+        else:
+            response = {'loss': 'lost', 'data': 'polttoaine ei riitä lentää minnekkään'}
+            return [{'code': 200, 'data': response}]
 
 
     if __name__ == '__main__':
@@ -127,4 +132,6 @@ else:
         else:
             createdgame = gamecreator.gamemaker(kursori, 'FI', 20, 200)
             gamecreator.player_info(kursori, createdgame[0]['name'], 1, 5, 'bob')
-            print(move.fuelcalc(kursori, createdgame[0]['name'], createdgame[1]['name']))
+            movedata = move.move(kursori, createdgame[1]['name'], 1)
+            print(movedata)
+            fuelreachcheck = pikkufunktiot.checkfuel(kursori, movedata)
