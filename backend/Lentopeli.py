@@ -60,14 +60,18 @@ if len(clargs) > 0 and clargs[0] == "run":
         if wonminigame == 'True':
             try:
                 treasure = pikkufunktiot.itemchance(chance, itemnames, kursori)
-                fuelreachcheck = pikkufunktiot.checkfuel(kursori)
+                try:
+                    treasure['loss']
+                    fuelreachcheck = pikkufunktiot.checkfuel(kursori)
+                    if fuelreachcheck:
+                        return [{'code': 200, 'message': 'treasure drawn successfully', 'data':treasure}]
+                    else:
+                        return [{'code': 200, 'message': 'treasure drawn successfully', 'data':{'loss': 'true','data': 'polttoaine ei riitä liikkumiseen minnekkään'}}]
+                except:
+                    return [{'code': 200, 'message': 'treasure drawn successfully', 'data':treasure}]
             except Exception as e:
                 print(e)
                 return [{'code': 500, 'message': f'error "{e}" occurred when drawing treasure'}]
-            if fuelreachcheck:
-                return [{'code': 200, 'message': 'treasure drawn successfully', 'data':treasure}]
-            else:
-                return [{'code': 200, 'message': 'treasure drawn successfully', 'data':{'loss': 'true','data': 'polttoaine ei riitä liikkumiseen minnekkään'}}]
         else:
             try:
                 loss = pikkufunktiot.losecheck(kursori)
@@ -136,6 +140,14 @@ else:
         if len(clargs) > 0 and clargs[0] == "del":
             pikkufunktiot.cleardatabase(kursori)
         else:
-            createdgame = gamecreator.gamemaker(kursori, 'FI', 20, 200)
+            gamecountry = 'FI'
+            pikkufunktiot.init(gamecountry)
+            createdgame = gamecreator.gamemaker(kursori, gamecountry, 20, 200)
             gamecreator.player_info(kursori, createdgame[0]['name'], 1, 5, 'bob')
-            print(pikkufunktiot.checkfuel(kursori))
+            jeeman = pikkufunktiot.itemchance(80, itemnames, kursori)
+            try:
+                jeeman['loss']
+                print('man')
+            except:
+                print("jee")
+            
