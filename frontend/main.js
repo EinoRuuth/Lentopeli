@@ -92,6 +92,7 @@ export async function treasure(url) {
       let found = treasure_Data[0].data.found;
       let win = treasure_Data[0].data.won;
       let loss = treasure_Data[0].data.loss;
+      let reason = treasure_Data[0].data.data;
 
       console.log(found)
       console.log(win)
@@ -109,12 +110,16 @@ export async function treasure(url) {
       if (loss === "true") {
         const dialog = document.getElementById("Game-Dialog");
         dialog.innerHTML = "";
-      
+
         const p1 = document.createElement("p");
-        p1.classList.add("Move-Fuelcost");
-        p1.innerText = "Hävisit pelin";
-  
+        p1.classList.add("Reason");
+        p1.innerText = reason;
         dialog.append(p1);
+
+        const p2 = document.createElement("p");
+        p2.classList.add("Move-Fuelcost");
+        p2.innerText = "Hävisit pelin";
+        dialog.append(p2);
   
         const button1 = document.createElement("button");
         button1.setAttribute("id", "Game-end");
@@ -136,12 +141,16 @@ export async function treasure(url) {
       if(win === true) {
         const dialog = document.getElementById("Game-Dialog");
         dialog.innerHTML = "";
-      
+
         const p1 = document.createElement("p");
-        p1.classList.add("Move-Fuelcost");
-        p1.innerText = "Voitit pelin";
-  
+        p1.classList.add("Reason");
+        p1.innerText = reason;
         dialog.append(p1);
+
+        const p2 = document.createElement("p");
+        p2.classList.add("Move-Fuelcost");
+        p2.innerText = "Voitit pelin";
+        dialog.append(p2);
   
         const button1 = document.createElement("button");
         button1.setAttribute("id", "Game-end");
