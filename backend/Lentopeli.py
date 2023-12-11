@@ -100,10 +100,12 @@ if len(clargs) > 0 and clargs[0] == "run":
     @app.route('/playerdata')
     def playerdata():
         try:
-            pdata = (pikkufunktiot.getplayerdata(kursori))
+            pdata, coords = (pikkufunktiot.getplayerdata(kursori))
             fuel_left = pdata[0]
             location = pdata[1]
-            pdatadict = {'fuel': fuel_left, 'location': location}
+            lon = coords[0]
+            lat = coords[1]
+            pdatadict = {'fuel': fuel_left, 'location': location, 'longitude': lon, 'latitude': lat}
         except Exception as e:
             print(e)
             return [{'code': 500, 'message': f'error "{e}" occurred when fetching playerdata'}]
@@ -140,8 +142,8 @@ else:
         if len(clargs) > 0 and clargs[0] == "del":
             pikkufunktiot.cleardatabase(kursori)
         else:
-            gamecountry = 'US'
+            gamecountry = 'FI'
             pikkufunktiot.init(gamecountry)
-            createdgame = gamecreator.gamemaker(kursori, gamecountry, 40, 400)
+            createdgame = gamecreator.gamemaker(kursori, gamecountry, 20, 200)
             gamecreator.player_info(kursori, createdgame[0]['name'], 1, 5, 'bob')
             

@@ -81,7 +81,10 @@ def getplayerdata(kursori):
     sql = "SELECT fuel_left, location FROM players WHERE id='1'"
     kursori.execute(sql)
     playerdata = kursori.fetchall()[0]
-    return playerdata
+    sql = f'SELECT coordinates FROM game WHERE airport_name="{playerdata[1]}"'
+    kursori.execute(sql)
+    playerlocation = kursori.fetchall()[0][0].split(", ")
+    return playerdata, playerlocation
 
 def checkfuel(kursori):
     sql = "SELECT fuel_left, location FROM players WHERE id='1'"
