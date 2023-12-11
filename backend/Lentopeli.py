@@ -142,6 +142,6 @@ else:
         else:
             gamecountry = 'US'
             pikkufunktiot.init(gamecountry)
-            createdgame = gamecreator.gamemaker(kursori, gamecountry, 20, 200)
+            createdgame = gamecreator.gamemaker(kursori, gamecountry, 40, 400)
             gamecreator.player_info(kursori, createdgame[0]['name'], 1, 5, 'bob')
             

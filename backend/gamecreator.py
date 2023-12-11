@@ -46,8 +46,6 @@ def yhdenhakija(gamecountry, kursori):
     sql += " LIMIT 1"
     kursori.execute(sql)
     tulos = kursori.fetchall()[0]
-    if "'" in tulos[0]:
-        yhdenhakija(gamecountry, kursori)
     return tulos
 
 # tämä lisää tavarat sql tietokantaan
@@ -93,8 +91,6 @@ def startingport(country):
         sql += " LIMIT 1"
         kursori.execute(sql)
         firstairportreturn = kursori.fetchall()[0]
-        if "'" in firstairportreturn[0]:
-            startingport(country)
         return firstairportreturn
 
 #tämä hakee annetun määränn lentokenttiä joiden etäisyys aloituspointista on annettu määrä.
@@ -111,7 +107,7 @@ def gamemaker(kursori, country, limit=20, distancebetween=200):
             koordinaatit2 = fetchedairport[1:3]
             pituus = (distance.distance(koordinaatit1, koordinaatit2).km)
             if pituus <= distancebetween:
-                print(f"difference between {fetchedairport[0]} and {firstairport[0]} is smaller than {pituus}km (distance: {pituus})")
+                print(f"difference between {fetchedairport[0]} and {firstairport[0]} is smaller than {distancebetween}km (distance: {pituus})")
                 allaports.append(fetchedairport)
     for portnumber in range(len(allaports)):
         allaports[portnumber] = allaports[portnumber] + ((rd.randint(20, 80)),)

@@ -1,16 +1,12 @@
-import pikkufunktiot
-import connector
 from geopy import distance
-import os
-from dotenv import load_dotenv
 
 
 def fuelcalc(kursori, airport1, airport2):
-    sql = f"SELECT coordinates FROM game WHERE airport_name='{airport2}'"
+    sql = f'SELECT coordinates FROM game WHERE airport_name="{airport2}"'
     kursori.execute(sql)
     coords2 = kursori.fetchall()[0][0].split(',')
     print(coords2)
-    sql1 = f"SELECT coordinates FROM game WHERE airport_name ='{airport1}'"
+    sql1 = f'SELECT coordinates FROM game WHERE airport_name ="{airport1}"'
     kursori.execute(sql1)
     coords1 = kursori.fetchall()[0][0].split(',')
     print(coords1)
@@ -28,11 +24,11 @@ def move(kursori, targetairport, fuelconsumption):
     fuelconsumption = int(fuelconsumption)
     if fuelleft >= fuelconsumption:
         fuel = fuelleft - fuelconsumption
-        sql2 = f"UPDATE players SET location ='" + targetairport + "'"
-        sql3 = f"SELECT coordinates FROM game WHERE airport_name ='{targetairport}'"
-        sql4 = f"UPDATE players SET fuel_left ='{fuel}'"
-        sql5 = f"SELECT treasure_chance FROM game WHERE airport_name ='{targetairport}'"
-        sql6 = f"UPDATE game SET has_visited=1 WHERE airport_name ='{targetairport}'"
+        sql2 = f'UPDATE players SET location ="{targetairport}"'
+        sql3 = f'SELECT coordinates FROM game WHERE airport_name ="{targetairport}"'
+        sql4 = f'UPDATE players SET fuel_left ="{fuel}"'
+        sql5 = f'SELECT treasure_chance FROM game WHERE airport_name ="{targetairport}"'
+        sql6 = f'UPDATE game SET has_visited=1 WHERE airport_name ="{targetairport}"'
         kursori.execute(sql2)
         kursori.execute(sql3)
         latitude, longitude = kursori.fetchall()[0][0].split(',')

@@ -88,7 +88,7 @@ def checkfuel(kursori):
     kursori.execute(sql)
     fueldata = kursori.fetchall()[0]
     
-    sql = f"SELECT coordinates FROM game WHERE airport_name='{fueldata[1]}'"
+    sql = f'SELECT coordinates FROM game WHERE airport_name="{fueldata[1]}"'
     kursori.execute(sql)
     coords1 = kursori.fetchall()[0]
     
