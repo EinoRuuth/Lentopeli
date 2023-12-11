@@ -35,7 +35,6 @@ const quitbutton = document.getElementById("Quit");
 quitbutton.addEventListener("click", async function () {
   const response = await fetch("http://127.0.0.1:3000/cleardata");
   const data = await response.json();
-  console.log(data);
 });
 
 var startTime; // to keep track of the start time
@@ -84,19 +83,56 @@ const greenIcon = L.divIcon({
   popupAnchor: [1, -34],
 });
 
-export async function treasure(url, found) {
+export async function treasure(url) {
   //Haetaan pelaajan tiedot
   await fetch(url)
     .then((response) => response.json())
     .then((treasure_Data) => {
       console.log(treasure_Data);
-      if (found = true) {
-        const inventory = document.getElementById("Resources");
-        const p = document.createElement("p");
-        p.innerText = treasure_Data[0].data.item;
-        inventory.append(p);
+      let found = treasure_Data[0].data.found;
+      let win = treasure_Data[0].data.won;
+      let loss = treasure_Data[0].data.los;
+
+      console.log(found)
+      console.log(win)
+      console.log(loss)
+
+      if(found != undefined) {
+        if (found = true) {
+          const inventory = document.getElementById("Resources");
+          const p = document.createElement("p");
+          p.innerText = treasure_Data[0].data.item;
+          inventory.append(p);
+        }
       }
       playerSetup("http://127.0.0.1:3000/playerdata", playerName);
+      if(win === true) {
+        const dialog = document.getElementById("Game-Dialog");
+        dialog.innerHTML = "";
+      
+        const p1 = document.createElement("p");
+        p1.classList.add("Move-Fuelcost");
+        p1.innerText = "Voitit pelin";
+  
+        dialog.append(p1);
+  
+        const button1 = document.createElement("button");
+        button1.setAttribute("id", "Game-end");
+        button1.innerText = "Lopeta peli";
+        dialog.append(button1);  
+        
+        const button2 = document.createElement("button");
+        button2.setAttribute("id", "Game-again");
+        button2.innerText = "Pelaa uudelleen";
+        dialog.append(button2);
+  
+        //Kutsutaan move funktiota
+        button1.style.display = "block";
+        button1.addEventListener("click", () => {
+          dialog.close();
+          location.href = "menu.html";
+        });
+      }
     });
 }
 
@@ -117,7 +153,6 @@ async function move(move_url, current_marker, tchance) {
   await fetch(move_url)
     .then((response) => response.json())
     .then((move_data) => {
-      console.log(move_data)
       //Moven datasta laitetaan muuttujiin mitä polttoaineesta on jäljellä,
       //Lentokentän nimi mihin mennään ja moved arvo.
       let fuel_left = move_data[0].data.data.fuel;
@@ -146,13 +181,11 @@ export async function fuel(fuel_url, current_airport, marker, tchance) {
   await fetch(fuel_url)
     .then((response) => response.json())
     .then((fuel_data) => {
-      console.log(fuel_data);
       //Fuel datasta laitetaan muuttujiin polttoaineen hinta, marker muuttuja gamesetup funktiosta
       //Ja pelaajan edelliset kordinaatit.
       let fuel_cost = fuel_data[0].data.fuel;
       let fuel_distance = fuel_data[0].data.pituus;
       let current_marker = marker;
-      console.log(tchance);
       const dialog = document.getElementById("Game-Dialog");
       dialog.innerHTML = "";
       dialog.showModal();
@@ -209,9 +242,9 @@ async function gameSetup(url) {
   await fetch(url)
     .then((response) => response.json())
     .then((location) => {
-      console.log(location)
       hideLoading();
       playerSetup("http://127.0.0.1:3000/playerdata", playerName);
+      startStopwatch();
       let player = location[0].data.playerdata;
       let airports = location[0].data.gamedata;
       const longitude = location[0].data.playerdata.longitude;
@@ -275,4 +308,3 @@ if (country !== "" && playerName !== "") {
     );
   }
 }
-startStopwatch();

@@ -28,7 +28,6 @@ export async function playerSetup(url, Name, fuel_left, c_airport, airports_name
         "/" +
         airports_name;
       let fuel_url_2 = fuel_url.replaceAll(" ", "_");
-      console.log(fuel_url_2)
       fuel(
         fuel_url_2,
         airports_name,
