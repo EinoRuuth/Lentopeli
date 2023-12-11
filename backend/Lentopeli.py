@@ -53,8 +53,8 @@ if len(clargs) > 0 and clargs[0] == "run":
             print(e)
             return [{'code': 500, 'message': f'error "{e}" occurred when clearing database'}]
         return [{'code': 200, 'message': 'database cleared successfully'}]
-    
-    
+
+
     @app.route('/drawtreasure/<wonminigame>/<chance>')
     def drawtreasure(wonminigame, chance):
         if wonminigame == 'True':
@@ -62,13 +62,13 @@ if len(clargs) > 0 and clargs[0] == "run":
                 treasure = pikkufunktiot.itemchance(chance, itemnames, kursori)
                 try:
                     treasure['loss']
+                    return [{'code': 200, 'message': 'treasure drawn successfully', 'data':treasure}]
+                except:
                     fuelreachcheck = pikkufunktiot.checkfuel(kursori)
                     if fuelreachcheck:
                         return [{'code': 200, 'message': 'treasure drawn successfully', 'data':treasure}]
                     else:
                         return [{'code': 200, 'message': 'treasure drawn successfully', 'data':{'loss': 'true','data': 'polttoaine ei riitä liikkumiseen minnekkään'}}]
-                except:
-                    return [{'code': 200, 'message': 'treasure drawn successfully', 'data':treasure}]
             except Exception as e:
                 print(e)
                 return [{'code': 500, 'message': f'error "{e}" occurred when drawing treasure'}]
