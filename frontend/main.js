@@ -89,6 +89,7 @@ export async function treasure(url) {
     .then((response) => response.json())
     .then((treasure_Data) => {
       console.log(treasure_Data);
+<<<<<<< HEAD
       let found = treasure_Data[0].data.found;
       let win = treasure_Data[0].data.won;
       let loss = treasure_Data[0].data.los;
@@ -105,6 +106,8 @@ export async function treasure(url) {
           inventory.append(p);
         }
       }
+=======
+>>>>>>> parent of d0873ca (inventory)
       playerSetup("http://127.0.0.1:3000/playerdata", playerName);
       if(win === true) {
         const dialog = document.getElementById("Game-Dialog");
