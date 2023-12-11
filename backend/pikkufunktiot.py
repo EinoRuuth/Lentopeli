@@ -53,7 +53,7 @@ def itemchance(percentage, itemnames, kursori):
     found = False
     loss = False
     won = False
-    if True:
+    if rd.randint(0, 100) < int(percentage):
         found = True
         refuel(kursori)
         if rd.randint(0, 100) < rareitempercentage:
