@@ -51,13 +51,19 @@ def yhdenhakija(gamecountry, kursori):
 # tämä lisää tavarat sql tietokantaan
 def sqlinsert(airports, kursori):
     airportid = 1
+    first = 0
     for airportdata in airports:
         # tämä täyttää nimen, has visited ja
         # treasure chancen sekä koordinatit
         # tietokantaan
+        if first == 0:
+            visited = 1
+        else:
+            visited = 0
         sql = "INSERT INTO game (id, airport_name, treasure_chance, has_visited, coordinates) VALUES (%s, %s, %s, %s, %s)"
-        val = (airportid, airportdata[0], airportdata[3], 0, f"{airportdata[1]}, {airportdata[2]}")
+        val = (airportid, airportdata[0], airportdata[3], visited, f"{airportdata[1]}, {airportdata[2]}")
         kursori.execute(sql, val)
+        first += 1
         airportid += 1
 
 # Tämä funktio lisää pelaajan players tietokantaan.
