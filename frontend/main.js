@@ -91,8 +91,9 @@ export async function treasure(url) {
       console.log(treasure_Data);
       let found = treasure_Data[0].data.found;
       let win = treasure_Data[0].data.won;
+      let win_reason = treasure_Data[0].message;
       let loss = treasure_Data[0].data.loss;
-      let reason = treasure_Data[0].data.data;
+      let fuel_end_reason = treasure_Data[0].data.data;
 
       console.log(found)
       console.log(win)
@@ -113,7 +114,7 @@ export async function treasure(url) {
 
         const p1 = document.createElement("p");
         p1.classList.add("Reason");
-        p1.innerText = reason;
+        p1.innerText = fuel_end_reason;
         dialog.append(p1);
 
         const p2 = document.createElement("p");
@@ -144,7 +145,7 @@ export async function treasure(url) {
 
         const p1 = document.createElement("p");
         p1.classList.add("Reason");
-        p1.innerText = reason;
+        p1.innerText = win_reason;
         dialog.append(p1);
 
         const p2 = document.createElement("p");
