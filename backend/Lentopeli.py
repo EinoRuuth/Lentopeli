@@ -111,7 +111,7 @@ if len(clargs) > 0 and clargs[0] == "run":
     def moveplayer(targetairport, fuelconsumption):
         targetairport = targetairport.replace("_", " ")
         try:
-            movedata = move.move(targetairport, fuelconsumption)
+            movedata = move.move(kursori, targetairport, fuelconsumption)
         except Exception as e:
             print(e)
             return [{'code': 500, 'message': f'error "{e}" occurred while trying to move'}]

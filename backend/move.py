@@ -4,11 +4,6 @@ from geopy import distance
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
-sqlpass = os.getenv('sqlpass')
-yhteys = connector.sqlyhteys(sqlpass)
-kursori = yhteys.cursor()
-
 
 def fuelcalc(kursori, airport1, airport2):
     sql = f"SELECT coordinates FROM game WHERE airport_name='{airport2}'"
@@ -26,7 +21,7 @@ def fuelcalc(kursori, airport1, airport2):
     return {'fuel':fuel, 'pituus':pituus}
 
 
-def move(targetairport, fuelconsumption):
+def move(kursori, targetairport, fuelconsumption):
     sql = "SELECT fuel_left FROM players"
     kursori.execute(sql)
     fuelleft = kursori.fetchall()[0][0]
