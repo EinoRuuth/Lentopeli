@@ -91,7 +91,7 @@ export async function treasure(url) {
       console.log(treasure_Data);
       let found = treasure_Data[0].data.found;
       let win = treasure_Data[0].data.won;
-      let loss = treasure_Data[0].data.los;
+      let loss = treasure_Data[0].data.loss;
 
       console.log(found)
       console.log(win)
