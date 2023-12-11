@@ -132,6 +132,3 @@ else:
         else:
             createdgame = gamecreator.gamemaker(kursori, 'FI', 20, 200)
             gamecreator.player_info(kursori, createdgame[0]['name'], 1, 5, 'bob')
-            movedata = move.move(kursori, createdgame[1]['name'], 1)
-            print(movedata)
-            fuelreachcheck = pikkufunktiot.checkfuel(kursori, movedata)
