@@ -60,10 +60,14 @@ if len(clargs) > 0 and clargs[0] == "run":
         if wonminigame == 'True':
             try:
                 treasure = pikkufunktiot.itemchance(chance, itemnames, kursori)
+                fuelreachcheck = pikkufunktiot.checkfuel(kursori)
             except Exception as e:
                 print(e)
                 return [{'code': 500, 'message': f'error "{e}" occurred when drawing treasure'}]
-            return [{'code': 200, 'message': 'treasure drawn successfully', 'data':treasure}]
+            if fuelreachcheck:
+                return [{'code': 200, 'message': 'treasure drawn successfully', 'data':treasure}]
+            else:
+                return [{'code': 200, 'message': 'treasure drawn successfully', 'data':{'loss': 'true','data': 'ran out of fuel'}}]
         else:
             try:
                 loss = pikkufunktiot.losecheck(kursori)
@@ -76,9 +80,15 @@ if len(clargs) > 0 and clargs[0] == "run":
                     'data': 'ran out of fuel'
                 }
             else:
-                lossdata = {
+                fuelreachcheck = pikkufunktiot.checkfuel(kursori)
+                if fuelreachcheck:
+                    lossdata = {
                     'loss': 'false'
-                }
+                    }
+                else:  
+                    lossdata = {
+                    'loss': 'true'
+                    }
             return [{'code': 200, 'message': 'fuel deducted successfully', 'data':lossdata}]
 
 
@@ -112,15 +122,10 @@ if len(clargs) > 0 and clargs[0] == "run":
         targetairport = targetairport.replace("_", " ")
         try:
             movedata = move.move(kursori, targetairport, fuelconsumption)
-            fuelreachcheck = pikkufunktiot.checkfuel(kursori, movedata)
         except Exception as e:
             print(e)
             return [{'code': 500, 'message': f'error "{e}" occurred while trying to move'}]
-        if fuelreachcheck:
-            return [{'code': 200, 'data': movedata}]
-        else:
-            response = {'loss': 'lost', 'data': 'polttoaine ei riitä lentää minnekkään'}
-            return [{'code': 200, 'data': response}]
+        return [{'code': 200, 'data': movedata}]
 
 
     if __name__ == '__main__':
@@ -132,3 +137,4 @@ else:
         else:
             createdgame = gamecreator.gamemaker(kursori, 'FI', 20, 200)
             gamecreator.player_info(kursori, createdgame[0]['name'], 1, 5, 'bob')
+            print(pikkufunktiot.checkfuel(kursori))

@@ -83,19 +83,23 @@ def getplayerdata(kursori):
     playerdata = kursori.fetchall()[0]
     return playerdata
 
-def checkfuel(kursori, location):
-    sql = "SELECT fuel_left FROM players WHERE id='1'"
+def checkfuel(kursori):
+    sql = "SELECT fuel_left, location FROM players WHERE id='1'"
     kursori.execute(sql)
-    fueldata = kursori.fetchall()[0][0]
+    fueldata = kursori.fetchall()[0]
+    
+    sql = f"SELECT coordinates FROM game WHERE airport_name='{fueldata[1]}'"
+    kursori.execute(sql)
+    coords1 = kursori.fetchall()[0]
+    
     sql = f"SELECT airport_name, coordinates FROM game WHERE has_visited='0'"
     kursori.execute(sql)
     coords2 = kursori.fetchall()
-    location = location['data']
-    coords1 = (location['latitude'], location['longitude'])
+
     for port in coords2:
         pituus = distance.distance(coords1, port[1:]).km
         pituus = round(pituus, 1)
         fuel = int((pituus // 50) + 1)
-        if fuel <= fueldata:
+        if fuel <= fueldata[0]:
             return True
     return False
