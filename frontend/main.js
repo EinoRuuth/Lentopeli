@@ -145,7 +145,7 @@ export async function treasure(url) {
 
         const p1 = document.createElement("p");
         p1.classList.add("Reason");
-        p1.innerText = win_reason;
+        p1.innerText = "Löysit kaikki 5 aarretta";
         dialog.append(p1);
 
         const p2 = document.createElement("p");
