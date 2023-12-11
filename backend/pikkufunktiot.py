@@ -23,10 +23,11 @@ def wincheck(kursori):
     if playerdata is None:
         playerdata = 0
     if playerdata+1 == difficulty[0]:
-        return True
+        reason = f'Löysit {difficulty[0]} rahtia'
+        return True, reason
     sql = f"UPDATE players SET treasures='{playerdata+1}' WHERE id='1'"
     kursori.execute(sql)
-    return False
+    return False, None
 
 def losecheck(kursori):
     sql = "SELECT fuel_left FROM players WHERE id='1'"
@@ -52,15 +53,17 @@ def itemchance(percentage, itemnames, kursori):
     found = False
     loss = False
     won = False
+    winmessage = ''
     if rd.randint(0, 100) < int(percentage):
         found = True
         refuel(kursori)
         if rd.randint(0, 100) < rareitempercentage:
             itemname = f"golden {rd.choice(itemnames)}"
             won = True
+            winmessage = 'Löysit harvinaisen rahdin'
         else:
             itemname = f"{rd.choice(itemnames)}"
-            won = wincheck(kursori)
+            won, winmessage = wincheck(kursori)
     else:
         loss = losecheck(kursori)
     if loss:
@@ -72,7 +75,8 @@ def itemchance(percentage, itemnames, kursori):
         response = {
             'found': found,
             'item': itemname,
-            'won':won
+            'won':won,
+            'winmessage': winmessage
         }
     return response
 
