@@ -112,7 +112,7 @@ if len(clargs) > 0 and clargs[0] == "run":
         targetairport = targetairport.replace("_", " ")
         try:
             movedata = move.move(kursori, targetairport, fuelconsumption)
-            fuelreachcheck = pikkufunktiot.fuelcheck(kursori, movedata)
+            fuelreachcheck = pikkufunktiot.checkfuel(kursori, movedata)
         except Exception as e:
             print(e)
             return [{'code': 500, 'message': f'error "{e}" occurred while trying to move'}]
