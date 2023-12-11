@@ -106,6 +106,33 @@ export async function treasure(url) {
         }
       }
       playerSetup("http://127.0.0.1:3000/playerdata", playerName);
+      if (loss === "true") {
+        const dialog = document.getElementById("Game-Dialog");
+        dialog.innerHTML = "";
+      
+        const p1 = document.createElement("p");
+        p1.classList.add("Move-Fuelcost");
+        p1.innerText = "Hävisit pelin";
+  
+        dialog.append(p1);
+  
+        const button1 = document.createElement("button");
+        button1.setAttribute("id", "Game-end");
+        button1.innerText = "Lopeta peli";
+        dialog.append(button1);  
+        
+        const button2 = document.createElement("button");
+        button2.setAttribute("id", "Game-again");
+        button2.innerText = "Pelaa uudelleen";
+        dialog.append(button2);
+  
+        //Kutsutaan move funktiota
+        button1.style.display = "block";
+        button1.addEventListener("click", () => {
+          dialog.close();
+          location.href = "menu.html";
+        });
+      }
       if(win === true) {
         const dialog = document.getElementById("Game-Dialog");
         dialog.innerHTML = "";
@@ -153,6 +180,8 @@ async function move(move_url, current_marker, tchance) {
   await fetch(move_url)
     .then((response) => response.json())
     .then((move_data) => {
+      console.log(move_data);
+
       //Moven datasta laitetaan muuttujiin mitä polttoaineesta on jäljellä,
       //Lentokentän nimi mihin mennään ja moved arvo.
       let fuel_left = move_data[0].data.data.fuel;
