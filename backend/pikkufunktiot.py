@@ -1,4 +1,5 @@
 import random as rd
+from geopy import distance
 
 def init(data):
     if data == "FI":
@@ -69,7 +70,7 @@ def itemchance(percentage, itemnames, kursori):
     if loss:
         response = {
             'loss': 'lost',
-            'data': 'ran out of fuel'
+            'data': 'polttoaine loppui'
         }
     else:
         response = {
@@ -85,3 +86,20 @@ def getplayerdata(kursori):
     kursori.execute(sql)
     playerdata = kursori.fetchall()[0]
     return playerdata
+
+def checkfuel(kursori, location):
+    sql = "SELECT fuel_left FROM players WHERE id='1'"
+    kursori.execute(sql)
+    fueldata = kursori.fetchall()[0][0]
+    sql = f"SELECT airport_name, coordinates FROM game"
+    kursori.execute(sql)
+    coords2 = kursori.fetchall()
+    location = location['data']
+    coords1 = (location['latitude'], location['longitude'])
+    for port in coords2:
+        pituus = distance.distance(coords1, port[1:]).km
+        pituus = round(pituus, 1)
+        fuel = int((pituus // 50) + 1)
+        if fuel <= fueldata:
+            return True
+    return False
