@@ -57,7 +57,7 @@ def itemchance(percentage, itemnames, kursori):
         found = True
         refuel(kursori)
         if rd.randint(0, 100) < rareitempercentage:
-            itemname = f"golden {rd.choice(itemnames)}"
+            itemname = f"kultainen {rd.choice(itemnames)}"
             won = True
         else:
             itemname = f"{rd.choice(itemnames)}"
