@@ -64,17 +64,17 @@ def itemchance(percentage, itemnames, kursori):
             won = wincheck(kursori)
     else:
         loss = losecheck(kursori)
-    #if loss:
-    response = {
-        'loss': 'lost',
-        'data': 'polttoaine loppui'
-    }
-    #else:
-    #    response = {
-    #        'found': found,
-    #        'item': itemname,
-    #        'won':won
-    #    }
+    if loss:
+        response = {
+            'loss': 'lost',
+            'data': 'polttoaine loppui'
+        }
+    else:
+        response = {
+            'found': found,
+            'item': itemname,
+            'won':won
+        }
     return response
 
 def getplayerdata(kursori):
