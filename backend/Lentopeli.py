@@ -67,7 +67,7 @@ if len(clargs) > 0 and clargs[0] == "run":
             if fuelreachcheck:
                 return [{'code': 200, 'message': 'treasure drawn successfully', 'data':treasure}]
             else:
-                return [{'code': 200, 'message': 'treasure drawn successfully', 'data':{'loss': 'true','data': 'polttoaine loppui'}}]
+                return [{'code': 200, 'message': 'treasure drawn successfully', 'data':{'loss': 'true','data': 'polttoaine ei riitä liikkumiseen minnekkään'}}]
         else:
             try:
                 loss = pikkufunktiot.losecheck(kursori)
