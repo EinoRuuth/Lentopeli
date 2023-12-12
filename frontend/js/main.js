@@ -1,4 +1,4 @@
-import { tic_tac_toe, rock_paper } from "./minigames.js";
+import { tic_tac_toe, rock_paper, guess_number } from "./minigames.js";
 import { playerSetup } from "./player.js";
 //Loading screen karttaa varten
 const loader = document.getElementById("loader");
@@ -193,16 +193,23 @@ export async function treasure(url) {
 function minigame(tchance, current_marker, current_airport) {
   const dialog = document.getElementById("Game-Dialog");
   dialog.innerHTML = "";
-  dialog.style.width = "600px";
-  dialog.style.height = "450px";
   dialog.showModal();
-  const random_number = Math.floor(Math.random() * 2) + 1;
+  const random_number = Math.floor(Math.random() * 3) + 1;
   console.log(random_number)
   if (random_number === 1) {
+    dialog.style.width = "600px";
+    dialog.style.height = "450px";
     tic_tac_toe(tchance, current_marker, current_airport);
   }
   else if (random_number === 2) {
+    dialog.style.width = "600px";
+    dialog.style.height = "450px";
     rock_paper(tchance, current_marker, current_airport);
+  }
+  else if (random_number === 3) {
+    dialog.style.width = "600px";
+    dialog.style.height = "250px";
+    guess_number(tchance, current_marker, current_airport);
   }
 }
 

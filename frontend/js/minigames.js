@@ -277,7 +277,7 @@ export function rock_paper(tchance, current_marker, current_airport) {
     let player_game_score = yourScoreSpan.innerText
     let computer_game_score = computerScoreSpan.innerText
 
-    if (computer_game_score === "4") {
+    if (computer_game_score === "2") {
       console.log("Hävisit pelin minipelin.")
       dialog.innerHTML = "";
       dialog.style.width = "400px";
@@ -312,7 +312,7 @@ export function rock_paper(tchance, current_marker, current_airport) {
         dialog.close();
       });
     }
-    else if (player_game_score === "4") {
+    else if (player_game_score === "2") {
       console.log("Voitit minipelin.")
       dialog.innerHTML = "";
       dialog.style.width = "400px";
@@ -322,7 +322,7 @@ export function rock_paper(tchance, current_marker, current_airport) {
       h1.innerHTML = "Voitit minipelin"
       h1.style.textAlign = "center";
       dialog.append(h1);
-      
+
       const button_div = document.createElement("div");
       button_div.classList.add("Button-div");
       dialog.append(button_div);
@@ -370,4 +370,153 @@ export function rock_paper(tchance, current_marker, current_airport) {
     const randomIndex = Math.floor(Math.random() * SELECTIONS.length);
     return SELECTIONS[randomIndex];
   }
+}
+
+export function guess_number(tchance, current_marker, current_airport) {
+  const dialog = document.getElementById("Game-Dialog");
+
+  const wrappaaja = document.createElement("div");
+  wrappaaja.classList.add("wrappaaja");
+  dialog.append(wrappaaja);
+
+
+  const wrapper = document.createElement("div");
+  wrapper.classList.add("wrapper");
+  wrappaaja.append(wrapper);
+
+  const h1 = document.createElement("h1");
+  h1.innerText = "Arvaa numero 1 ja 20 välillä";
+  wrapper.append(h1);
+
+  const p = document.createElement("p");
+  p.classList.add("guess");
+  wrapper.append(p);
+
+  const input_field = document.createElement("div");
+  input_field.classList.add("input-field");
+  wrapper.append(input_field);
+
+  const input2 = document.createElement("input");
+  input2.setAttribute("type", "number");
+  input_field.append(input2);
+
+  const button = document.createElement("button");
+  button.classList.add("number-button");
+  button.innerText = "Kokeile";
+  input_field.append(button);
+
+  const span = document.createElement("span");
+  span.innerText = 5;
+  span.classList.add("chances");
+
+  const p2 = document.createElement("p");
+  p2.innerText = "Arvauksia jäljellä ";
+  p2.append(span)
+  wrapper.append(p2);
+  const input = document.querySelector("input"),
+  guess = document.querySelector(".guess"),
+  checkButton = document.querySelector("button"),
+  remainChances = document.querySelector(".chances");
+
+// Set the focus on input field
+input.focus();
+
+let randomNum = Math.floor(Math.random() * 20);
+let chance = 5;
+
+// Listen for the click event on the check button
+checkButton.addEventListener("click", () => {
+  // Decrement the chance variable on every click
+  chance--;
+  // Get the value from the input field
+  let inputValue = input.value;
+  // Check if the input value is equal to the random number
+  if (inputValue == randomNum) {
+    // Update guessed number, disable input, check button text and color.
+    console.log("Voitit minipelin.")
+      dialog.innerHTML = "";
+      dialog.style.width = "400px";
+      dialog.style.height = "200px";
+
+      const h1 = document.createElement("h1");
+      h1.innerHTML = "Voitit minipelin"
+      h1.style.textAlign = "center";
+      dialog.append(h1);
+
+      const button_div = document.createElement("div");
+      button_div.classList.add("Button-div");
+      dialog.append(button_div);
+    
+      const button = document.createElement("button");
+      button.setAttribute("id", "close");
+      button.innerText = "Sulje minipeli";
+      button_div.append(button);
+      let game_results = "True";
+
+      const closeBtn = document.getElementById("close");
+
+      treasure(
+        "http://127.0.0.1:3000/drawtreasure/" + game_results + "/" + tchance
+      );
+      closeBtn.style.display = "block";
+      closeBtn.addEventListener("click", () => {
+        current_marker.bindPopup(`Olet täällä <b>${current_airport}</b>`);
+        dialog.close();
+      });
+    //Check if input value is > random number and within 1-99 range.
+  } else if (inputValue > randomNum && inputValue < 100) {
+    // Update the guess text and remaining chances
+    [guess.textContent, remainChances.textContent] = ["Arvauksesi on liian korkea", chance];
+    guess.style.color = "#333";
+    //Check if input value is < random number and within 1-99 range.
+  } else if (inputValue < randomNum && inputValue > 0) {
+    // Update the guessed number text and remaining chances
+    [guess.textContent, remainChances.textContent] = ["Arvauksesi on liian matala", chance];
+    guess.style.color = "#333";
+    // If the input value is not within the range of 1 to 99
+  } else {
+    // Update the guessed number text, color and remaining chances
+    [guess.textContent, remainChances.textContent] = ["Syötä ainoastaan numero", chance];
+    guess.style.color = "#DE0611";
+  }
+  // Check if the chance is zero
+  if (chance == 0) {
+    //Update check button, disable input, and clear input value.
+    // Update guessed number text and color to indicate user loss.
+    console.log("Hävisit pelin minipelin.")
+    dialog.innerHTML = "";
+    dialog.style.width = "400px";
+    dialog.style.height = "200px";
+
+    const h1 = document.createElement("h1");
+    h1.innerHTML = "Hävisit minipelin"
+    h1.style.textAlign = "center";
+    dialog.append(h1);
+
+    const button_div = document.createElement("div");
+    button_div.classList.add("Button-div");
+    dialog.append(button_div);
+  
+    const button = document.createElement("button");
+    button.setAttribute("id", "close");
+    button.innerText = "Sulje minipeli";
+    button_div.append(button);
+
+    const closeBtn = document.getElementById("close");
+
+    let game_results = "False";
+    tchance = "0";
+    treasure(
+      "http://127.0.0.1:3000/drawtreasure/" + game_results + "/" + tchance
+    );
+    closeBtn.style.display = "block";
+    closeBtn.addEventListener("click", () => {
+      current_marker.bindPopup(`Olet täällä <b>${current_airport}</b>`);
+      dialog.close();
+    });
+  }
+  if (chance < 0) {
+    window.location.reload();
+  }
+});
 }
