@@ -194,8 +194,9 @@ function minigame(tchance, current_marker, current_airport) {
   const dialog = document.getElementById("Game-Dialog");
   dialog.innerHTML = "";
   dialog.showModal();
+
   const random_number = Math.floor(Math.random() * 3) + 1;
-  console.log(random_number)
+
   if (random_number === 1) {
     dialog.style.width = "500px";
     dialog.style.height = "400px";

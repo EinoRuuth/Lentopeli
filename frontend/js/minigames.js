@@ -440,6 +440,8 @@ export function guess_number(tchance, current_marker, current_airport) {
 
   const input2 = document.createElement("input");
   input2.setAttribute("type", "number");
+  input2.setAttribute("min", "0");
+  input2.setAttribute("max", "20");
   input_field.append(input2);
 
   const button = document.createElement("button");
@@ -465,7 +467,7 @@ export function guess_number(tchance, current_marker, current_airport) {
 
   let randomNum = Math.floor(Math.random() * 20);
   let chance = 5;
-
+  console.log(randomNum)
   // Listen for the click event on the check button
   checkButton.addEventListener("click", () => {
     // Decrement the chance variable on every click
@@ -506,7 +508,7 @@ export function guess_number(tchance, current_marker, current_airport) {
         dialog.close();
       });
       //Check if input value is > random number and within 1-99 range.
-    } else if (inputValue > randomNum && inputValue < 100) {
+    } else if (inputValue > randomNum && inputValue < 20) {
       // Update the guess text and remaining chances
       [guess.textContent, remainChances.textContent] = [
         "Arvauksesi on liian korkea",
@@ -525,13 +527,13 @@ export function guess_number(tchance, current_marker, current_airport) {
     } else {
       // Update the guessed number text, color and remaining chances
       [guess.textContent, remainChances.textContent] = [
-        "Syötä ainoastaan numero",
+        "Syötä numero 1-20 väliltä",
         chance,
       ];
       guess.style.color = "#DE0611";
     }
     // Check if the chance is zero
-    if (chance == 0) {
+    if (chance == 0 && inputValue != randomNum) {
       //Update check button, disable input, and clear input value.
       // Update guessed number text and color to indicate user loss.
       console.log("Hävisit pelin minipelin.");
