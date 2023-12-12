@@ -26,15 +26,6 @@ export function tic_tac_toe(tchance, current_marker, current_airport) {
   wrap.classList.add("wrap");
   game_container.append(wrap);
 
-  const button_div = document.createElement("div");
-  button_div.classList.add("Button-div");
-  container_div.append(button_div);
-
-  const button = document.createElement("button");
-  button.setAttribute("id", "close");
-  button.innerText = "Sulje minipeli";
-  button_div.append(button);
-
   let i = 0;
   while (i < 9) {
     const section = document.createElement("section");
@@ -45,9 +36,6 @@ export function tic_tac_toe(tchance, current_marker, current_airport) {
   }
 
   const allBox = document.querySelectorAll(".box");
-  const resultContainer = document.getElementById("result");
-  const closeBtn = document.getElementById("close");
-
   const checkList = [];
   let currentPlayer = "CROSS";
   let winStatus = false;
@@ -114,8 +102,28 @@ export function tic_tac_toe(tchance, current_marker, current_airport) {
     if (len >= 3 && isWin()) {
       winStatus = true;
       if (currentPlayer == "CROSS") {
-        resultContainer.innerText = "Voitit minipelin.";
+        console.log("Voitit minipelin.");
+        dialog.innerHTML = "";
+        dialog.style.width = "400px";
+        dialog.style.height = "200px";
+
+        const h1 = document.createElement("h1");
+        h1.innerHTML = "Voitit minipelin";
+        h1.style.textAlign = "center";
+        dialog.append(h1);
+
+        const button_div = document.createElement("div");
+        button_div.classList.add("Button-div");
+        dialog.append(button_div);
+
+        const button = document.createElement("button");
+        button.setAttribute("id", "close");
+        button.innerText = "Sulje minipeli";
+        button_div.append(button);
         let game_results = "True";
+
+        const closeBtn = document.getElementById("close");
+
         treasure(
           "http://127.0.0.1:3000/drawtreasure/" + game_results + "/" + tchance
         );
@@ -125,13 +133,32 @@ export function tic_tac_toe(tchance, current_marker, current_airport) {
           dialog.close();
         });
       } else {
-        resultContainer.innerText = "Hävisit minipelin.";
+        console.log("Hävisit pelin minipelin.");
+        dialog.innerHTML = "";
+        dialog.style.width = "400px";
+        dialog.style.height = "200px";
+
+        const h1 = document.createElement("h1");
+        h1.innerHTML = "Hävisit minipelin";
+        h1.style.textAlign = "center";
+        dialog.append(h1);
+
+        const button_div = document.createElement("div");
+        button_div.classList.add("Button-div");
+        dialog.append(button_div);
+
+        const button = document.createElement("button");
+        button.setAttribute("id", "close");
+        button.innerText = "Sulje minipeli";
+        button_div.append(button);
+
+        const closeBtn = document.getElementById("close");
+
         let game_results = "False";
         tchance = "0";
         treasure(
           "http://127.0.0.1:3000/drawtreasure/" + game_results + "/" + tchance
         );
-
         closeBtn.style.display = "block";
         closeBtn.addEventListener("click", () => {
           current_marker.bindPopup(`Olet täällä <b>${current_airport}</b>`);
@@ -140,13 +167,32 @@ export function tic_tac_toe(tchance, current_marker, current_airport) {
       }
     } else if (len == 8) {
       winStatus = true;
-      resultContainer.innerText = "Tasapeli";
+      console.log("Tasapeli");
+      dialog.innerHTML = "";
+      dialog.style.width = "400px";
+      dialog.style.height = "200px";
+
+      const h1 = document.createElement("h1");
+      h1.innerHTML = "Tasapeli";
+      h1.style.textAlign = "center";
+      dialog.append(h1);
+
+      const button_div = document.createElement("div");
+      button_div.classList.add("Button-div");
+      dialog.append(button_div);
+
+      const button = document.createElement("button");
+      button.setAttribute("id", "close");
+      button.innerText = "Sulje minipeli";
+      button_div.append(button);
+
+      const closeBtn = document.getElementById("close");
+
       let game_results = "False";
       tchance = "0";
       treasure(
         "http://127.0.0.1:3000/drawtreasure/" + game_results + "/" + tchance
       );
-
       closeBtn.style.display = "block";
       closeBtn.addEventListener("click", () => {
         current_marker.bindPopup(`Olet täällä <b>${current_airport}</b>`);
@@ -274,30 +320,28 @@ export function rock_paper(tchance, current_marker, current_airport) {
     const computerSelection = randomSelection();
     const yourWinner = isWinner(selection, computerSelection);
     const computerWinner = isWinner(computerSelection, selection);
-    let player_game_score = yourScoreSpan.innerText
-    let computer_game_score = computerScoreSpan.innerText
+    let player_game_score = yourScoreSpan.innerText;
+    let computer_game_score = computerScoreSpan.innerText;
 
     if (computer_game_score === "2") {
-      console.log("Hävisit pelin minipelin.")
+      console.log("Hävisit pelin minipelin.");
       dialog.innerHTML = "";
       dialog.style.width = "400px";
       dialog.style.height = "200px";
 
       const h1 = document.createElement("h1");
-      h1.innerHTML = "Hävisit minipelin"
+      h1.innerHTML = "Hävisit minipelin";
       h1.style.textAlign = "center";
       dialog.append(h1);
 
       const button_div = document.createElement("div");
       button_div.classList.add("Button-div");
       dialog.append(button_div);
-    
+
       const button = document.createElement("button");
       button.setAttribute("id", "close");
       button.innerText = "Sulje minipeli";
       button_div.append(button);
-
-
 
       const closeBtn = document.getElementById("close");
 
@@ -311,22 +355,21 @@ export function rock_paper(tchance, current_marker, current_airport) {
         current_marker.bindPopup(`Olet täällä <b>${current_airport}</b>`);
         dialog.close();
       });
-    }
-    else if (player_game_score === "2") {
-      console.log("Voitit minipelin.")
+    } else if (player_game_score === "2") {
+      console.log("Voitit minipelin.");
       dialog.innerHTML = "";
       dialog.style.width = "400px";
       dialog.style.height = "200px";
 
       const h1 = document.createElement("h1");
-      h1.innerHTML = "Voitit minipelin"
+      h1.innerHTML = "Voitit minipelin";
       h1.style.textAlign = "center";
       dialog.append(h1);
 
       const button_div = document.createElement("div");
       button_div.classList.add("Button-div");
       dialog.append(button_div);
-    
+
       const button = document.createElement("button");
       button.setAttribute("id", "close");
       button.innerText = "Sulje minipeli";
@@ -379,7 +422,6 @@ export function guess_number(tchance, current_marker, current_airport) {
   wrappaaja.classList.add("wrappaaja");
   dialog.append(wrappaaja);
 
-
   const wrapper = document.createElement("div");
   wrapper.classList.add("wrapper");
   wrappaaja.append(wrapper);
@@ -411,42 +453,42 @@ export function guess_number(tchance, current_marker, current_airport) {
 
   const p2 = document.createElement("p");
   p2.innerText = "Arvauksia jäljellä ";
-  p2.append(span)
+  p2.append(span);
   wrapper.append(p2);
   const input = document.querySelector("input"),
-  guess = document.querySelector(".guess"),
-  checkButton = document.querySelector("button"),
-  remainChances = document.querySelector(".chances");
+    guess = document.querySelector(".guess"),
+    checkButton = document.querySelector("button"),
+    remainChances = document.querySelector(".chances");
 
-// Set the focus on input field
-input.focus();
+  // Set the focus on input field
+  input.focus();
 
-let randomNum = Math.floor(Math.random() * 20);
-let chance = 5;
+  let randomNum = Math.floor(Math.random() * 20);
+  let chance = 5;
 
-// Listen for the click event on the check button
-checkButton.addEventListener("click", () => {
-  // Decrement the chance variable on every click
-  chance--;
-  // Get the value from the input field
-  let inputValue = input.value;
-  // Check if the input value is equal to the random number
-  if (inputValue == randomNum) {
-    // Update guessed number, disable input, check button text and color.
-    console.log("Voitit minipelin.")
+  // Listen for the click event on the check button
+  checkButton.addEventListener("click", () => {
+    // Decrement the chance variable on every click
+    chance--;
+    // Get the value from the input field
+    let inputValue = input.value;
+    // Check if the input value is equal to the random number
+    if (inputValue == randomNum) {
+      // Update guessed number, disable input, check button text and color.
+      console.log("Voitit minipelin.");
       dialog.innerHTML = "";
       dialog.style.width = "400px";
       dialog.style.height = "200px";
 
       const h1 = document.createElement("h1");
-      h1.innerHTML = "Voitit minipelin"
+      h1.innerHTML = "Voitit minipelin";
       h1.style.textAlign = "center";
       dialog.append(h1);
 
       const button_div = document.createElement("div");
       button_div.classList.add("Button-div");
       dialog.append(button_div);
-    
+
       const button = document.createElement("button");
       button.setAttribute("id", "close");
       button.innerText = "Sulje minipeli";
@@ -463,60 +505,69 @@ checkButton.addEventListener("click", () => {
         current_marker.bindPopup(`Olet täällä <b>${current_airport}</b>`);
         dialog.close();
       });
-    //Check if input value is > random number and within 1-99 range.
-  } else if (inputValue > randomNum && inputValue < 100) {
-    // Update the guess text and remaining chances
-    [guess.textContent, remainChances.textContent] = ["Arvauksesi on liian korkea", chance];
-    guess.style.color = "#333";
-    //Check if input value is < random number and within 1-99 range.
-  } else if (inputValue < randomNum && inputValue > 0) {
-    // Update the guessed number text and remaining chances
-    [guess.textContent, remainChances.textContent] = ["Arvauksesi on liian matala", chance];
-    guess.style.color = "#333";
-    // If the input value is not within the range of 1 to 99
-  } else {
-    // Update the guessed number text, color and remaining chances
-    [guess.textContent, remainChances.textContent] = ["Syötä ainoastaan numero", chance];
-    guess.style.color = "#DE0611";
-  }
-  // Check if the chance is zero
-  if (chance == 0) {
-    //Update check button, disable input, and clear input value.
-    // Update guessed number text and color to indicate user loss.
-    console.log("Hävisit pelin minipelin.")
-    dialog.innerHTML = "";
-    dialog.style.width = "400px";
-    dialog.style.height = "200px";
+      //Check if input value is > random number and within 1-99 range.
+    } else if (inputValue > randomNum && inputValue < 100) {
+      // Update the guess text and remaining chances
+      [guess.textContent, remainChances.textContent] = [
+        "Arvauksesi on liian korkea",
+        chance,
+      ];
+      guess.style.color = "#333";
+      //Check if input value is < random number and within 1-99 range.
+    } else if (inputValue < randomNum && inputValue > 0) {
+      // Update the guessed number text and remaining chances
+      [guess.textContent, remainChances.textContent] = [
+        "Arvauksesi on liian matala",
+        chance,
+      ];
+      guess.style.color = "#333";
+      // If the input value is not within the range of 1 to 99
+    } else {
+      // Update the guessed number text, color and remaining chances
+      [guess.textContent, remainChances.textContent] = [
+        "Syötä ainoastaan numero",
+        chance,
+      ];
+      guess.style.color = "#DE0611";
+    }
+    // Check if the chance is zero
+    if (chance == 0) {
+      //Update check button, disable input, and clear input value.
+      // Update guessed number text and color to indicate user loss.
+      console.log("Hävisit pelin minipelin.");
+      dialog.innerHTML = "";
+      dialog.style.width = "400px";
+      dialog.style.height = "200px";
 
-    const h1 = document.createElement("h1");
-    h1.innerHTML = "Hävisit minipelin"
-    h1.style.textAlign = "center";
-    dialog.append(h1);
+      const h1 = document.createElement("h1");
+      h1.innerHTML = "Hävisit minipelin";
+      h1.style.textAlign = "center";
+      dialog.append(h1);
 
-    const button_div = document.createElement("div");
-    button_div.classList.add("Button-div");
-    dialog.append(button_div);
-  
-    const button = document.createElement("button");
-    button.setAttribute("id", "close");
-    button.innerText = "Sulje minipeli";
-    button_div.append(button);
+      const button_div = document.createElement("div");
+      button_div.classList.add("Button-div");
+      dialog.append(button_div);
 
-    const closeBtn = document.getElementById("close");
+      const button = document.createElement("button");
+      button.setAttribute("id", "close");
+      button.innerText = "Sulje minipeli";
+      button_div.append(button);
 
-    let game_results = "False";
-    tchance = "0";
-    treasure(
-      "http://127.0.0.1:3000/drawtreasure/" + game_results + "/" + tchance
-    );
-    closeBtn.style.display = "block";
-    closeBtn.addEventListener("click", () => {
-      current_marker.bindPopup(`Olet täällä <b>${current_airport}</b>`);
-      dialog.close();
-    });
-  }
-  if (chance < 0) {
-    window.location.reload();
-  }
-});
+      const closeBtn = document.getElementById("close");
+
+      let game_results = "False";
+      tchance = "0";
+      treasure(
+        "http://127.0.0.1:3000/drawtreasure/" + game_results + "/" + tchance
+      );
+      closeBtn.style.display = "block";
+      closeBtn.addEventListener("click", () => {
+        current_marker.bindPopup(`Olet täällä <b>${current_airport}</b>`);
+        dialog.close();
+      });
+    }
+    if (chance < 0) {
+      window.location.reload();
+    }
+  });
 }

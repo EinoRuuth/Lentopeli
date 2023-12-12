@@ -197,18 +197,18 @@ function minigame(tchance, current_marker, current_airport) {
   const random_number = Math.floor(Math.random() * 3) + 1;
   console.log(random_number)
   if (random_number === 1) {
-    dialog.style.width = "600px";
-    dialog.style.height = "450px";
+    dialog.style.width = "500px";
+    dialog.style.height = "400px";
     tic_tac_toe(tchance, current_marker, current_airport);
   }
   else if (random_number === 2) {
-    dialog.style.width = "600px";
-    dialog.style.height = "450px";
+    dialog.style.width = "500px";
+    dialog.style.height = "400px";
     rock_paper(tchance, current_marker, current_airport);
   }
   else if (random_number === 3) {
-    dialog.style.width = "600px";
-    dialog.style.height = "250px";
+    dialog.style.width = "500px";
+    dialog.style.height = "300px";
     guess_number(tchance, current_marker, current_airport);
   }
 }
