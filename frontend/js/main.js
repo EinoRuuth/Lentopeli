@@ -91,8 +91,10 @@ export async function treasure(url) {
   await fetch(url)
     .then((response) => response.json())
     .then((treasure_Data) => {
+      console.log(treasure_Data)
       let found = treasure_Data[0].data.found;
       let win = treasure_Data[0].data.won;
+      let win_message = treasure_Data[0].data.data;
       let loss = treasure_Data[0].data.loss;
       let fuel_end_reason = treasure_Data[0].data.data;
 
@@ -154,7 +156,7 @@ export async function treasure(url) {
 
         const p1 = document.createElement("p");
         p1.classList.add("Reason");
-        p1.innerText = "Löysit kaikki 5 aarretta. Voitit pelin. Aikaa kului " + time;
+        p1.innerText = win_message + " Voitit pelin. Aikaa kului " + time;
         dialog.append(p1);
 
         const button_div = document.createElement("div");
