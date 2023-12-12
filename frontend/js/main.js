@@ -82,7 +82,7 @@ const greenIcon = L.divIcon({
 });
 const grayIcon = L.divIcon({
   className: ["gray_icon"],
-  iconSize: [16, 16],
+  iconSize: [16.5, 16.5],
   iconAnchor: [7.5, 37.5],
   popupAnchor: [1, -34],
 });
