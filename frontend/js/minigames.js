@@ -427,7 +427,7 @@ export function guess_number(tchance, current_marker, current_airport) {
   wrappaaja.append(wrapper);
 
   const h1 = document.createElement("h1");
-  h1.innerText = "Arvaa numero 1 ja 20 välillä";
+  h1.innerText = "Arvaa numero 0 ja 20 välillä";
   wrapper.append(h1);
 
   const p = document.createElement("p");
