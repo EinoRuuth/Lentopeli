@@ -51,7 +51,6 @@ function startStopwatch() {
 function stopStopwatch() {
   clearInterval(stopwatchInterval); // stop the interval
   elapsedPausedTime = new Date().getTime() - startTime; // calculate elapsed paused time
-  stopwatchInterval = null; // reset the interval variable
 }
 
 function updateStopwatch() {
@@ -84,8 +83,8 @@ const greenIcon = L.divIcon({
 });
 const grayIcon = L.divIcon({
   className: ["gray_icon"],
-  iconSize: [15, 15],
-  iconAnchor: [7, 37],
+  iconSize: [16, 16],
+  iconAnchor: [7.5, 37.5],
   popupAnchor: [1, -34],
 });
 export async function treasure(url) {
@@ -95,7 +94,6 @@ export async function treasure(url) {
     .then((treasure_Data) => {
       let found = treasure_Data[0].data.found;
       let win = treasure_Data[0].data.won;
-      let win_reason = treasure_Data[0].message;
       let loss = treasure_Data[0].data.loss;
       let fuel_end_reason = treasure_Data[0].data.data;
 
@@ -109,28 +107,30 @@ export async function treasure(url) {
       }
       playerSetup("http://127.0.0.1:3000/playerdata", playerName);
       if (loss === "true") {
+        stopStopwatch()
         const dialog = document.getElementById("Game-Dialog");
         dialog.innerHTML = "";
-
-        const p1 = document.createElement("p");
-        p1.classList.add("Reason");
-        p1.innerText = fuel_end_reason;
-        dialog.append(p1);
+        dialog.style.width = "400px";
+        dialog.style.height = "200px";
 
         const p2 = document.createElement("p");
         p2.classList.add("Move-Fuelcost");
-        p2.innerText = "Hävisit pelin";
+        p2.innerText = fuel_end_reason + ". Hävisit pelin";
         dialog.append(p2);
   
+        const button_div = document.createElement("div");
+        button_div.classList.add("Button-div");
+        dialog.append(button_div);
+
         const button1 = document.createElement("button");
         button1.setAttribute("id", "Game-end");
         button1.innerText = "Lopeta peli";
-        dialog.append(button1);  
+        button_div.append(button1);  
         
         const button2 = document.createElement("button");
         button2.setAttribute("id", "Game-again");
         button2.innerText = "Pelaa uudelleen";
-        dialog.append(button2);
+        button_div.append(button2);
   
         //Kutsutaan move funktiota
         button1.style.display = "block";
@@ -140,28 +140,31 @@ export async function treasure(url) {
         });
       }
       if(win === true) {
+        stopStopwatch()
         const dialog = document.getElementById("Game-Dialog");
         dialog.innerHTML = "";
+        dialog.style.width = "400px";
+        dialog.style.height = "200px";
+        const time = document.getElementById("stopwatch").innerHTML;
 
         const p1 = document.createElement("p");
         p1.classList.add("Reason");
-        p1.innerText = "Löysit kaikki 5 aarretta";
+        p1.innerText = "Löysit kaikki 5 aarretta. Voitit pelin. Aikaa kului " + time;
         dialog.append(p1);
 
-        const p2 = document.createElement("p");
-        p2.classList.add("Move-Fuelcost");
-        p2.innerText = "Voitit pelin";
-        dialog.append(p2);
-  
+        const button_div = document.createElement("div");
+        button_div.classList.add("Button-div");
+        dialog.append(button_div);
+
         const button1 = document.createElement("button");
         button1.setAttribute("id", "Game-end");
         button1.innerText = "Lopeta peli";
-        dialog.append(button1);  
+        button_div.append(button1);  
         
         const button2 = document.createElement("button");
         button2.setAttribute("id", "Game-again");
         button2.innerText = "Pelaa uudelleen";
-        dialog.append(button2);
+        button_div.append(button2);
   
         //Kutsutaan move funktiota
         button1.style.display = "block";
@@ -177,15 +180,17 @@ export async function treasure(url) {
 function minigame(tchance, current_marker) {
   const dialog = document.getElementById("Game-Dialog");
   dialog.innerHTML = "";
+  dialog.style.width = "600px";
+  dialog.style.height = "450px";
   dialog.showModal();
   let random_number = 1;
-  if ((random_number = 1)) {
+  if (random_number = 1) {
     tic_tac_toe(tchance, current_marker);
   }
 }
 
 //Liikkumis funktio toiselle kentälle
-async function move(move_url, current_marker, tchance, old_marker, player_latitude, player_longitude) {
+async function move(move_url, current_marker, tchance, player_latitude, player_longitude) {
   //Haetaan lentokenttien tiedot
   await fetch(move_url)
     .then((response) => response.json())
@@ -199,12 +204,10 @@ async function move(move_url, current_marker, tchance, old_marker, player_latitu
       //Katsotaan onko moved true eli onko lentokentälle liikkuminen onnistunut
       //Ja muutetaan nappuloiden popup tekstiä ja väriä.
       if (moved === true) {
-        map.removeLayer(old_marker)
         const new_marker = L.marker([
           player_latitude,
           player_longitude,
         ]).addTo(map);
-        console.log(current_marker)
         new_marker.setIcon(grayIcon);
         new_marker.bindPopup(`Olet käynyt tällä lentokentällä`);
         playerSetup(
@@ -216,13 +219,12 @@ async function move(move_url, current_marker, tchance, old_marker, player_latitu
         current_marker.setIcon(greenIcon);
         minigame(tchance, current_marker);
 
-        //Kutsuun playersetup funktiota päivitetyillä tidoilla tietokannassa
       }
     });
 }
 
 //Polttoaineen laskenta funktio
-export async function fuel(fuel_url, current_airport, marker, tchance, player_location, old_marker, player_latitude, player_longitude) {
+export async function fuel(fuel_url, current_airport, marker, tchance, player_latitude, player_longitude) {
   //Haetaan lentokenttien tiedot
   await fetch(fuel_url)
     .then((response) => response.json())
@@ -233,36 +235,40 @@ export async function fuel(fuel_url, current_airport, marker, tchance, player_lo
       let fuel_distance = fuel_data[0].data.pituus;
       let current_marker = marker;
       const dialog = document.getElementById("Game-Dialog");
+      dialog.style.width = "400px";
+      dialog.style.height = "230px";
+
       dialog.innerHTML = "";
       dialog.showModal();
-      console.log(player_location)
+
       const h2 = document.createElement("h2");
       h2.classList.add("Move-Header");
       h2.innerText = current_airport;
-
       dialog.append(h2);
     
       const p1 = document.createElement("p");
       p1.classList.add("Move-Fuelcost");
       p1.innerText = "Matkan hinta on " + fuel_cost + " Polttoainetta";
-
       dialog.append(p1);
 
       const p2 = document.createElement("p");
       p2.classList.add("Move-Distance");
       p2.innerText = "Matkan pituus on " + fuel_distance + " Kilometriä";
-
       dialog.append(p2);
+
+      const button_div = document.createElement("div");
+      button_div.classList.add("Button-div");
+      dialog.append(button_div);
 
       const button1 = document.createElement("button");
       button1.setAttribute("id", "Move-Dontfly");
       button1.innerText = "Älä lennä";
-      dialog.append(button1);  
+      button_div.append(button1);  
       
       const button2 = document.createElement("button");
       button2.setAttribute("id", "Move-Fly");
-      button2.innerText = "Lennä " + current_airport;
-      dialog.append(button2);
+      button2.innerText = "Lennä kohteeseen";
+      button_div.append(button2);
 
       //Kutsutaan move funktiota
       button1.style.display = "block";
@@ -272,10 +278,16 @@ export async function fuel(fuel_url, current_airport, marker, tchance, player_lo
 
       button2.style.display = "block";
       button2.addEventListener("click", () => {
+        const old_marker = L.marker([
+          player_latitude,
+          player_longitude
+        ]);
+
+        old_marker.remove()
         let move_url =
         "http://127.0.0.1:3000/moveplayer/" + current_airport + "/" + fuel_cost;
         let move_url_2 = move_url.replaceAll(" ", "_");
-        move(move_url_2, current_marker, tchance, old_marker, player_latitude, player_longitude);
+        move(move_url_2, current_marker, tchance, player_latitude, player_longitude);
 
       });
 
@@ -334,6 +346,7 @@ async function gameSetup(url) {
 
           marker.bindPopup(popupContent);
           goButton.addEventListener("click", function () {
+        
             playerSetup("http://127.0.0.1:3000/playerdata", playerName, undefined, undefined, airports[i].name, airports[i].treasurechance, marker);
 
           });

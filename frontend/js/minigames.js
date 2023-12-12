@@ -3,11 +3,6 @@ import { treasure } from "./main.js";
 export function tic_tac_toe(tchance, current_marker) {
   const dialog = document.getElementById("Game-Dialog");
 
-  const button = document.createElement("button");
-  button.setAttribute("id", "close");
-  button.innerText = "Sulje minipeli";
-  dialog.append(button);
-
   const container_div = document.createElement("div");
   container_div.classList.add("container");
   dialog.append(container_div);
@@ -31,6 +26,15 @@ export function tic_tac_toe(tchance, current_marker) {
   wrap.classList.add("wrap");
   game_container.append(wrap);
 
+  const button_div = document.createElement("div");
+  button_div.classList.add("Button-div");
+  container_div.append(button_div);
+
+  const button = document.createElement("button");
+  button.setAttribute("id", "close");
+  button.innerText = "Sulje minipeli";
+  button_div.append(button);
+  
   let i = 0;
   while (i < 9) {
     const section = document.createElement("section");
@@ -110,26 +114,26 @@ export function tic_tac_toe(tchance, current_marker) {
       if (len >= 3 && isWin()) {
         winStatus = true;
         if (currentPlayer == "CROSS") {
-          resultContainer.innerText = "X Won the Match.";
+          resultContainer.innerText = "Voitit minipelin.";
           let game_results = "True";
           treasure(
             "http://127.0.0.1:3000/drawtreasure/" + game_results + "/" + tchance
           );
-          closeBtn.style.display = "flex";
+          closeBtn.style.display = "block";
           closeBtn.addEventListener("click", () => {
             current_marker.bindPopup(`Olet täällä`);
             dialog.close();
 
           });
         } else {
-          resultContainer.innerText = "O Won the Match.";
+          resultContainer.innerText = "Hävisit minipelin.";
           let game_results = "False";
           tchance = "0";
           treasure(
             "http://127.0.0.1:3000/drawtreasure/" + game_results + "/" + tchance
           );
 
-          closeBtn.style.display = "flex";
+          closeBtn.style.display = "block";
           closeBtn.addEventListener("click", () => {
             current_marker.bindPopup(`Olet täällä`);
             dialog.close();
@@ -138,14 +142,14 @@ export function tic_tac_toe(tchance, current_marker) {
         }
       } else if (len == 8) {
         winStatus = true;
-        resultContainer.innerText = "= Match Draw.";
+        resultContainer.innerText = "Tasapeli";
         let game_results = "False";
         tchance = "0";
         treasure(
           "http://127.0.0.1:3000/drawtreasure/" + game_results + "/" + tchance
         );
 
-        closeBtn.style.display = "flex";
+        closeBtn.style.display = "block";
         closeBtn.addEventListener("click", () => {
           current_marker.bindPopup(`Olet täällä`);
           dialog.close();
