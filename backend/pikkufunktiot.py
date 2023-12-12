@@ -27,7 +27,7 @@ def wincheck(kursori):
         return True, f"Löysit kaikki {difficulty[0]} rahtia"
     sql = f"UPDATE players SET treasures='{playerdata+1}' WHERE id='1'"
     kursori.execute(sql)
-    return False
+    return False, ''
 
 def losecheck(kursori):
     sql = "SELECT fuel_left FROM players WHERE id='1'"
