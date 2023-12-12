@@ -1,4 +1,4 @@
-import { tic_tac_toe } from "./minigames.js";
+import { tic_tac_toe, rock_paper } from "./minigames.js";
 import { playerSetup } from "./player.js";
 //Loading screen karttaa varten
 const loader = document.getElementById("loader");
@@ -196,9 +196,13 @@ function minigame(tchance, current_marker, current_airport) {
   dialog.style.width = "600px";
   dialog.style.height = "450px";
   dialog.showModal();
-  let random_number = 1;
-  if (random_number = 1) {
+  const random_number = Math.floor(Math.random() * 2) + 1;
+  console.log(random_number)
+  if (random_number === 1) {
     tic_tac_toe(tchance, current_marker, current_airport);
+  }
+  else if (random_number === 2) {
+    rock_paper(tchance, current_marker, current_airport);
   }
 }
 
