@@ -268,6 +268,10 @@ export function rock_paper(tchance, current_marker, current_airport) {
   const random_div = document.createElement("div");
   results.append(random_div);
 
+  const p3 = document.createElement("p");
+  p3.innerHTML = "Sinun pisteesi";
+  random_div.append(p3);
+
   const span = document.createElement("span");
   span.classList.add("result-score");
   span.setAttribute("data-your-score", "");
@@ -278,11 +282,17 @@ export function rock_paper(tchance, current_marker, current_airport) {
   random_div2.setAttribute("data-final-column", "");
   results.append(random_div2);
 
+  const p4 = document.createElement("p");
+  p4.innerHTML = "Tietokoneen pisteet";
+  random_div2.append(p4);
+  
   const span2 = document.createElement("span");
   span2.classList.add("result-score");
   span2.setAttribute("data-computer-score", "");
   span2.innerHTML = 0;
   random_div2.append(span2);
+
+
 
   const selectionButtons = document.querySelectorAll("[data-selection]");
   const finalColumn = document.querySelector("[data-final-column]");
