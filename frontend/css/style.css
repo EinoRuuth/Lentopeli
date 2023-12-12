@@ -72,6 +72,21 @@
 .About-game{
   text-decoration: none;
 }
+.About-text{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  padding-left: 40px;
+  padding-top: 15px;
+  padding-right: 40px;
+  padding-bottom: 40px;
+}
+.About-header {
+  padding-top: 60px;
+  padding-left: 40px;
+  color: #fff;
+}
 .Menu-Button:hover {
   text-decoration: none;
   background-color: rgb(26, 26, 26);
