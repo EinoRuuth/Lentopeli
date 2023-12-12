@@ -408,6 +408,13 @@ dialog[open]::backdrop {
   background-color: #ffffff;
   padding: 20px;
 }
+#Resources {
+  display: flex;
+  flex-wrap: wrap;
+}
+.item-resource {
+  padding-right: 10px;
+}
 .Other-Info {
   display: flex;
   border-radius: 5px;

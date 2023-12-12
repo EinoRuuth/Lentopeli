@@ -102,7 +102,6 @@ export function tic_tac_toe(tchance, current_marker, current_airport) {
     if (len >= 3 && isWin()) {
       winStatus = true;
       if (currentPlayer == "CROSS") {
-        console.log("Voitit minipelin.");
         dialog.innerHTML = "";
         dialog.style.width = "400px";
         dialog.style.height = "200px";
@@ -133,7 +132,6 @@ export function tic_tac_toe(tchance, current_marker, current_airport) {
           dialog.close();
         });
       } else {
-        console.log("Hävisit pelin minipelin.");
         dialog.innerHTML = "";
         dialog.style.width = "400px";
         dialog.style.height = "200px";
@@ -167,7 +165,6 @@ export function tic_tac_toe(tchance, current_marker, current_airport) {
       }
     } else if (len == 8) {
       winStatus = true;
-      console.log("Tasapeli");
       dialog.innerHTML = "";
       dialog.style.width = "400px";
       dialog.style.height = "200px";
@@ -334,7 +331,6 @@ export function rock_paper(tchance, current_marker, current_airport) {
     let computer_game_score = computerScoreSpan.innerText;
 
     if (computer_game_score === "2") {
-      console.log("Hävisit pelin minipelin.");
       dialog.innerHTML = "";
       dialog.style.width = "400px";
       dialog.style.height = "200px";
@@ -366,7 +362,6 @@ export function rock_paper(tchance, current_marker, current_airport) {
         dialog.close();
       });
     } else if (player_game_score === "2") {
-      console.log("Voitit minipelin.");
       dialog.innerHTML = "";
       dialog.style.width = "400px";
       dialog.style.height = "200px";
@@ -487,7 +482,6 @@ export function guess_number(tchance, current_marker, current_airport) {
     // Check if the input value is equal to the random number
     if (inputValue == randomNum) {
       // Update guessed number, disable input, check button text and color.
-      console.log("Voitit minipelin.");
       dialog.innerHTML = "";
       dialog.style.width = "400px";
       dialog.style.height = "200px";
@@ -546,7 +540,6 @@ export function guess_number(tchance, current_marker, current_airport) {
     if (chance == 0 && inputValue != randomNum) {
       //Update check button, disable input, and clear input value.
       // Update guessed number text and color to indicate user loss.
-      console.log("Hävisit pelin minipelin.");
       dialog.innerHTML = "";
       dialog.style.width = "400px";
       dialog.style.height = "200px";

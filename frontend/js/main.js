@@ -86,12 +86,13 @@ const grayIcon = L.divIcon({
   iconAnchor: [7.5, 37.5],
   popupAnchor: [1, -34],
 });
+var item_numero = 1
+
 export async function treasure(url) {
   //Haetaan pelaajan tiedot
   await fetch(url)
     .then((response) => response.json())
     .then((treasure_Data) => {
-      console.log(treasure_Data)
       let found = treasure_Data[0].data.found;
       let win = treasure_Data[0].data.won;
       let win_message = treasure_Data[0].data.data;
@@ -101,9 +102,11 @@ export async function treasure(url) {
       if(found != undefined) {
         if (found = true) {
           const inventory = document.getElementById("Resources");
-          const p = document.createElement("p");
-          p.innerText = treasure_Data[0].data.item;
-          inventory.append(p);
+          const div = document.createElement("div");
+          div.classList.add("item-resource")
+          div.innerText = item_numero + ": " + treasure_Data[0].data.item;
+          inventory.append(div);
+          item_numero++
         }
       }
       playerSetup("http://127.0.0.1:3000/playerdata", playerName);
@@ -196,7 +199,7 @@ function minigame(tchance, current_marker, current_airport) {
   dialog.showModal();
 
   const random_number = Math.floor(Math.random() * 3) + 1;
-
+  console.log(random_number)
   if (random_number === 1) {
     dialog.style.width = "500px";
     dialog.style.height = "400px";
