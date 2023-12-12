@@ -285,7 +285,7 @@ export function rock_paper(tchance, current_marker, current_airport) {
   const p4 = document.createElement("p");
   p4.innerHTML = "Tietokoneen pisteet";
   random_div2.append(p4);
-  
+
   const span2 = document.createElement("span");
   span2.classList.add("result-score");
   span2.setAttribute("data-computer-score", "");
@@ -437,7 +437,7 @@ export function guess_number(tchance, current_marker, current_airport) {
   wrappaaja.append(wrapper);
 
   const h1 = document.createElement("h1");
-  h1.innerText = "Arvaa numero 0 ja 20 välillä";
+  h1.innerText = "Arvaa numero 1 ja 20 välillä";
   wrapper.append(h1);
 
   const p = document.createElement("p");
@@ -450,7 +450,7 @@ export function guess_number(tchance, current_marker, current_airport) {
 
   const input2 = document.createElement("input");
   input2.setAttribute("type", "number");
-  input2.setAttribute("min", "0");
+  input2.setAttribute("min", "1");
   input2.setAttribute("max", "20");
   input_field.append(input2);
 
@@ -475,7 +475,7 @@ export function guess_number(tchance, current_marker, current_airport) {
   // Set the focus on input field
   input.focus();
 
-  let randomNum = Math.floor(Math.random() * 20);
+  let randomNum = Math.floor(Math.random() * 20) + 1
   let chance = 5;
   console.log(randomNum)
   // Listen for the click event on the check button
