@@ -33,8 +33,7 @@ map.zoomControl.remove();
 // Quit button
 const quitbutton = document.getElementById("Quit");
 quitbutton.addEventListener("click", async function () {
-  const response = await fetch("http://127.0.0.1:3000/cleardata");
-  const data = await response.json();
+  await fetch("http://127.0.0.1:3000/cleardata");
 });
 
 var startTime; // to keep track of the start time
@@ -138,6 +137,12 @@ export async function treasure(url) {
           dialog.close();
           location.href = "menu.html";
         });
+        button2.style.display = "block";
+        button2.addEventListener("click", async function () {
+          dialog.close();
+          await fetch("http://127.0.0.1:3000/cleardata");
+          location.href = "game.html";
+        });
       }
       if(win === true) {
         stopStopwatch()
@@ -172,12 +177,18 @@ export async function treasure(url) {
           dialog.close();
           location.href = "menu.html";
         });
+        button2.style.display = "block";
+        button2.addEventListener("click", async function () {
+          dialog.close();
+          await fetch("http://127.0.0.1:3000/cleardata");
+          location.href = "game.html";
+        });
       }
     });
 }
 
 //minigame
-function minigame(tchance, current_marker) {
+function minigame(tchance, current_marker, current_airport) {
   const dialog = document.getElementById("Game-Dialog");
   dialog.innerHTML = "";
   dialog.style.width = "600px";
@@ -185,12 +196,12 @@ function minigame(tchance, current_marker) {
   dialog.showModal();
   let random_number = 1;
   if (random_number = 1) {
-    tic_tac_toe(tchance, current_marker);
+    tic_tac_toe(tchance, current_marker, current_airport);
   }
 }
 
 //Liikkumis funktio toiselle kentälle
-async function move(move_url, current_marker, tchance, player_latitude, player_longitude) {
+async function move(move_url, current_marker, tchance, player_latitude, player_longitude, current_airport) {
   //Haetaan lentokenttien tiedot
   await fetch(move_url)
     .then((response) => response.json())
@@ -217,7 +228,7 @@ async function move(move_url, current_marker, tchance, player_latitude, player_l
           current_airport
         );
         current_marker.setIcon(greenIcon);
-        minigame(tchance, current_marker);
+        minigame(tchance, current_marker, current_airport);
 
       }
     });
@@ -287,7 +298,7 @@ export async function fuel(fuel_url, current_airport, marker, tchance, player_la
         let move_url =
         "http://127.0.0.1:3000/moveplayer/" + current_airport + "/" + fuel_cost;
         let move_url_2 = move_url.replaceAll(" ", "_");
-        move(move_url_2, current_marker, tchance, player_latitude, player_longitude);
+        move(move_url_2, current_marker, tchance, player_latitude, player_longitude, current_airport);
 
       });
 

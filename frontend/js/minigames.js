@@ -1,6 +1,6 @@
 import { treasure } from "./main.js";
 
-export function tic_tac_toe(tchance, current_marker) {
+export function tic_tac_toe(tchance, current_marker, current_airport) {
   const dialog = document.getElementById("Game-Dialog");
 
   const container_div = document.createElement("div");
@@ -121,7 +121,7 @@ export function tic_tac_toe(tchance, current_marker) {
           );
           closeBtn.style.display = "block";
           closeBtn.addEventListener("click", () => {
-            current_marker.bindPopup(`Olet täällä`);
+            current_marker.bindPopup(`Olet täällä <b>${current_airport}</b>`);
             dialog.close();
 
           });
@@ -135,7 +135,7 @@ export function tic_tac_toe(tchance, current_marker) {
 
           closeBtn.style.display = "block";
           closeBtn.addEventListener("click", () => {
-            current_marker.bindPopup(`Olet täällä`);
+            current_marker.bindPopup(`Olet täällä <b>${current_airport}</b>`);
             dialog.close();
 
           });
@@ -151,7 +151,7 @@ export function tic_tac_toe(tchance, current_marker) {
 
         closeBtn.style.display = "block";
         closeBtn.addEventListener("click", () => {
-          current_marker.bindPopup(`Olet täällä`);
+          current_marker.bindPopup(`Olet täällä <b>${current_airport}</b>`);
           dialog.close();
 
         });
