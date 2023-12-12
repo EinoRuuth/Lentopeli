@@ -69,7 +69,11 @@
   color: rgb(19, 19, 19);
   list-style-type: none;
 }
+.About-game{
+  text-decoration: none;
+}
 .Menu-Button:hover {
+  text-decoration: none;
   background-color: rgb(26, 26, 26);
   color: #ffffff;
 }

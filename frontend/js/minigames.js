@@ -518,7 +518,7 @@ export function guess_number(tchance, current_marker, current_airport) {
         dialog.close();
       });
       //Check if input value is > random number and within 1-99 range.
-    } else if (inputValue > randomNum && inputValue < 20) {
+    } else if (inputValue > randomNum && inputValue < 21) {
       // Update the guess text and remaining chances
       [guess.textContent, remainChances.textContent] = [
         "Arvauksesi on liian korkea",
