@@ -36,6 +36,7 @@ quitbutton.addEventListener("click", async function () {
   await fetch("http://127.0.0.1:3000/cleardata");
 });
 
+// Ajastin
 var startTime; // to keep track of the start time
 var stopwatchInterval; // to keep track of the interval
 var elapsedPausedTime = 0; // to keep track of the elapsed time while stopped
@@ -94,12 +95,13 @@ export async function treasure(url) {
     .then((response) => response.json())
     .then((treasure_Data) => {
       console.log(treasure_Data)
+      //Asetetaan muuttujat ja nille arvot treasure datasta
       let found = treasure_Data[0].data.found;
       let win = treasure_Data[0].data.won;
       let win_message = treasure_Data[0].data.data;
       let loss = treasure_Data[0].data.loss;
       let fuel_end_reason = treasure_Data[0].data.data;
-
+      //Katotaan löytyykö resurssi
       if(found != undefined && found != false) {
         if (found === true) {
           const inventory = document.getElementById("Resources");
@@ -111,6 +113,7 @@ export async function treasure(url) {
         }
       }
       playerSetup("http://127.0.0.1:3000/playerdata", playerName);
+      //Katsotaan jos pelaaja häviää
       if (loss === "true") {
         stopStopwatch()
         const dialog = document.getElementById("Game-Dialog");
@@ -150,6 +153,7 @@ export async function treasure(url) {
           location.href = "game.html";
         });
       }
+      //Katsotaan jos pelaaja voittaa
       if(win === true) {
         stopStopwatch()
         const dialog = document.getElementById("Game-Dialog");
@@ -198,7 +202,7 @@ function minigame(tchance, current_marker, current_airport) {
   const dialog = document.getElementById("Game-Dialog");
   dialog.innerHTML = "";
   dialog.showModal();
-
+  //Arvotaan minipelin 1-3
   const random_number = Math.floor(Math.random() * 3) + 1;
   console.log(random_number)
   if (random_number === 1) {
@@ -263,6 +267,7 @@ export async function fuel(fuel_url, current_airport, marker, tchance, player_la
       let fuel_cost = fuel_data[0].data.fuel;
       let fuel_distance = fuel_data[0].data.pituus;
       let current_marker = marker;
+      //Luodaan popup bensan hinnalle ja lentokentän matkalle
       const dialog = document.getElementById("Game-Dialog");
       dialog.style.width = "400px";
       dialog.style.height = "230px";
