@@ -93,14 +93,15 @@ export async function treasure(url) {
   await fetch(url)
     .then((response) => response.json())
     .then((treasure_Data) => {
+      console.log(treasure_Data)
       let found = treasure_Data[0].data.found;
       let win = treasure_Data[0].data.won;
       let win_message = treasure_Data[0].data.data;
       let loss = treasure_Data[0].data.loss;
       let fuel_end_reason = treasure_Data[0].data.data;
 
-      if(found != undefined) {
-        if (found = true) {
+      if(found != undefined && found != false) {
+        if (found === true) {
           const inventory = document.getElementById("Resources");
           const div = document.createElement("div");
           div.classList.add("item-resource")
