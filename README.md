@@ -8,7 +8,6 @@ Kuva pelistä
 
 
 Tietokannan luomis sql koodit
-
 --------------------------------------------------------------------
 ALTER TABLE game RENAME COLUMN co2_consumed TO fuel_consumed;
 
