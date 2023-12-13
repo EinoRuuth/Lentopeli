@@ -8,7 +8,7 @@ Kuva pelistä
 
 
 Tietokannan luomis sql koodit
-<p>
+
 --------------------------------------------------------------------
 ALTER TABLE game RENAME COLUMN co2_consumed TO fuel_consumed;
 
@@ -38,4 +38,4 @@ ALTER TABLE game CHANGE id id int(11) NOT NULL:
 
 ALTER TABLE players MODIFY COLUMN location VARCHAR(255);
 
--------------------------------------------------------------------- </p>
+--------------------------------------------------------------------
