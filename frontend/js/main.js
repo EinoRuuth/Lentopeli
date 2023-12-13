@@ -142,8 +142,9 @@ export async function treasure(url) {
   
         //Kutsutaan move funktiota
         button1.style.display = "block";
-        button1.addEventListener("click", () => {
+        button1.addEventListener("click", async function () {
           dialog.close();
+          await fetch("http://127.0.0.1:3000/cleardata");
           location.href = "menu.html";
         });
         button2.style.display = "block";
@@ -183,8 +184,9 @@ export async function treasure(url) {
   
         //Kutsutaan move funktiota
         button1.style.display = "block";
-        button1.addEventListener("click", () => {
+        button1.addEventListener("click", async function () {
           dialog.close();
+          await fetch("http://127.0.0.1:3000/cleardata");
           location.href = "menu.html";
         });
         button2.style.display = "block";
