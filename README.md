@@ -1,9 +1,12 @@
 # Lentopeli
 
 Kuva pelin Menusta
+
 <img width="920" alt="image" src="https://github.com/EinoRuuth/Lentopeli/assets/121025519/5a1b24d3-62bc-4057-989a-17890a7d8f0e">
 
+
 Kuva pelistä
+
 <img width="921" alt="image" src="https://github.com/EinoRuuth/Lentopeli/assets/121025519/ddf7080d-1050-4f92-81db-d288eac7ede0">
 
 
